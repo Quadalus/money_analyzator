@@ -1,18 +1,19 @@
 package ru.bikkul.parser.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
-@Table(name = "codes")
+@Table(name = "codes", uniqueConstraints = {
+        @UniqueConstraint(name = "name_unique", columnNames = "name")
+})
 @NoArgsConstructor
 @AllArgsConstructor
 public class Code {
@@ -20,6 +21,9 @@ public class Code {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "id")
+    @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "code")
+    private List<Price> prices;
 }
