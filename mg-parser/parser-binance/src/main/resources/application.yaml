@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:binanceTest
+    username: quadalus
+    password: pollka78
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+binance:
+  api:
+    key: wvErOOsXHh3W3MXH9fDpVmHf0oxxKw2OqCUKENxU7InUXlMjbCQre5r8Kbh4EvJJ
+    secret: ZupmdECgPFktUEvwgvJ18qu84paxJhHubpAw2LsSEV8CuL5KNc99U13GEEK6bbyt

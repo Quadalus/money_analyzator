@@ -38,7 +38,7 @@
         <spring.boot.version>3.0.6</spring.boot.version>
         <postgresql.verison>42.6.0</postgresql.verison>
         <jsoup.version>1.10.2</jsoup.version>
-        <binance.version>1.0.0</binance.version>
+        <binance.version>1.0.1</binance.version>
         <h2.version>2.1.214</h2.version>
     </properties>
 
@@ -108,13 +108,6 @@
             </dependency>
 
             <dependency>
-                <groupId>com.binance.api</groupId>
-                <artifactId>binance-api-client</artifactId>
-                <version>1.0.3</version>
-                <scope>compile</scope>
-            </dependency>
-
-            <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
                 <version>${jsoup.version}</version>
@@ -125,6 +118,12 @@
                 <artifactId>h2</artifactId>
                 <version>${h2.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.binance.api</groupId>
+                <artifactId>binance-api-client</artifactId>
+                <version>${binance.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
