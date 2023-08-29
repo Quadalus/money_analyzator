@@ -4,13 +4,7 @@ import com.binance.api.client.domain.account.*;
 import com.binance.api.client.domain.account.request.*;
 import com.binance.api.client.domain.general.ExchangeInfo;
 import com.binance.api.client.domain.general.Asset;
-import com.binance.api.client.domain.market.AggTrade;
-import com.binance.api.client.domain.market.BookTicker;
-import com.binance.api.client.domain.market.Candlestick;
-import com.binance.api.client.domain.market.CandlestickInterval;
-import com.binance.api.client.domain.market.OrderBook;
-import com.binance.api.client.domain.market.TickerPrice;
-import com.binance.api.client.domain.market.TickerStatistics;
+import com.binance.api.client.domain.market.*;
 
 import java.util.List;
 
@@ -111,6 +105,13 @@ public interface BinanceApiRestClient {
    * @see #getCandlestickBars(String, CandlestickInterval, Integer, Long, Long)
    */
   List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval);
+
+  /**
+   * Get current avg price.
+   *
+   * @param symbol ticker symbol (e.g. ETHBTC)
+   */
+  AvgPrice getAvgPrice(String symbol);
 
   /**
    * Get 24 hour price change statistics.
