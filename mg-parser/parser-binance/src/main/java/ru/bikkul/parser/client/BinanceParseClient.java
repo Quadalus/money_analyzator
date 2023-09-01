@@ -16,7 +16,7 @@ import static ru.bikkul.parser.utils.Pairs.*;
 @EnableScheduling
 @RequiredArgsConstructor
 public class BinanceParseClient {
-    private static final long RATE_DELAY = 60000;
+    private static final long RATE_DELAY = 300000;
     private final BinanceOrderBookService binanceOrderBookService;
     private final BinanceApiRestClient restClient;
 
@@ -39,5 +39,19 @@ public class BinanceParseClient {
         String pair = MATIC_USDT;
         OrderBook orderBook = restClient.getOrderBook(pair, 100);
         binanceOrderBookService.parse(orderBook, pair);
+    }
+
+    @Scheduled(fixedRate = RATE_DELAY)
+    private void get24hStatistics() {
+        String ethUsdt = ETH_USDT;
+        String priceChangePercentETH_USDT = restClient.get24HrPriceStatistics(ethUsdt).getPriceChangePercent();
+        String maticUsdt = MATIC_USDT;
+        String priceChangePercentMATIC_USDT = restClient.get24HrPriceStatistics(maticUsdt).getPriceChangePercent();
+        String maticEth = MATIC_ETH;
+        String priceChangePercentMATIC_ETH = restClient.get24HrPriceStatistics(maticEth).getPriceChangePercent();
+
+        binanceOrderBookService.getPriceChangePercent(priceChangePercentETH_USDT, ethUsdt);
+        binanceOrderBookService.getPriceChangePercent(priceChangePercentMATIC_USDT, maticUsdt);
+        binanceOrderBookService.getPriceChangePercent(priceChangePercentMATIC_ETH, maticEth);
     }
 }

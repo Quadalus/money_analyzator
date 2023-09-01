@@ -10,4 +10,6 @@ public interface BinanceOrderBookService {
     void sendToParse();
 
     void parse(OrderBook orderBook, String pair);
+
+    void getPriceChangePercent(String percent, String pair);
 }

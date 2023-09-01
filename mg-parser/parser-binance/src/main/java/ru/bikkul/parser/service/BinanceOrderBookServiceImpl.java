@@ -7,7 +7,9 @@ import ru.bikkul.parser.model.Ask;
 import ru.bikkul.parser.model.Bid;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,10 +32,14 @@ public class BinanceOrderBookServiceImpl implements BinanceOrderBookService {
 
     @Override
     public void parse(OrderBook orderBook, String pair) {
-        List<OrderBookEntry> bids = orderBook.getBids();
-        List<OrderBookEntry> asks = orderBook.getAsks();
-        System.out.println("BIDS:\n" + parseBids(bids, pair));
-        System.out.println("ASKS:\n" + parseAsks(asks, pair));
+        Map<String, Object> book = new HashMap<>();
+        List<Bid> bids = parseBids(orderBook.getBids(), pair);
+        List<Ask> asks = parseAsks(orderBook.getAsks(), pair);
+    }
+
+    @Override
+    public void getPriceChangePercent(String percent, String pair) {
+
     }
 
     private List<Bid> parseBids(List<OrderBookEntry> bids, String pair) {
