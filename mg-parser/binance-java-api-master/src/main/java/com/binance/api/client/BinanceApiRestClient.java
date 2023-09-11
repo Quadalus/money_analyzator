@@ -106,6 +106,8 @@ public interface BinanceApiRestClient {
    */
   List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval);
 
+  List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval, Integer limit);
+
   /**
    * Get current avg price.
    *

@@ -2,7 +2,9 @@ package ru.bikkul.parser.service;
 
 import com.binance.api.client.domain.market.OrderBook;
 
-public interface BinanceOrderBookService {
+public interface BinanceParserService {
+
+    void getAllDate();
     void collect();
 
     void save();

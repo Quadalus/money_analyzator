@@ -2,7 +2,9 @@ package ru.bikkul.parser.service;
 
 import com.binance.api.client.domain.market.OrderBook;
 import com.binance.api.client.domain.market.OrderBookEntry;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.bikkul.parser.client.BinanceParserClient;
 import ru.bikkul.parser.model.Ask;
 import ru.bikkul.parser.model.Bid;
 
@@ -13,7 +15,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class BinanceOrderBookServiceImpl implements BinanceOrderBookService {
+@RequiredArgsConstructor
+public class BinanceParserServiceImpl implements BinanceParserService {
+    private BinanceParserClient binanceParseClient;
+
+    @Override
+    public void getAllDate() {
+
+    }
 
     @Override
     public void collect() {

@@ -90,6 +90,11 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
 	}
 
 	@Override
+	public List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval, Integer limit) {
+		return getCandlestickBars(symbol, interval, limit, null, null);
+	}
+
+	@Override
 	public TickerStatistics get24HrPriceStatistics(String symbol) {
 		return executeSync(binanceApiService.get24HrPriceStatistics(symbol));
 	}
