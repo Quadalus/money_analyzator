@@ -7,12 +7,12 @@ spring:
       ddl-auto: none
     show-sql: true
   datasource:
-    url: 
+    url:
     username:
-    password: 
+    password:
     driver-class-name: org.postgresql.Driver
 
 binance:
   api:
-    key: 
-    secret: 
+    key:
+    secret:
