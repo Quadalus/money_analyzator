@@ -46,7 +46,6 @@ public class BinanceParserClient {
         } catch (Exception e) {
             log.error("exception on getting kline, exception:{}", e.getMessage());
         }
-        System.out.println(candlesticks);
         return candlesticks;
     }
 }
