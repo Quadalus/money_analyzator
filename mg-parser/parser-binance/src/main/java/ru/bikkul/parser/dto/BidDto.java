@@ -1,4 +1,4 @@
-package ru.bikkul.parser.model;
+package ru.bikkul.parser.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,23 +11,12 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bid {
+public class BidDto {
     private String market = "binance";
     private String pair;
     private String price;
     private String quantity;
     private LocalDateTime time;
-
-    @Override
-    public String toString() {
-        return """
-                market: %s
-                pair: %s
-                price: %s
-                quantity: %s
-                time: %s
-                """.formatted(market, pair, price, quantity, time);
-    }
 }
 
 

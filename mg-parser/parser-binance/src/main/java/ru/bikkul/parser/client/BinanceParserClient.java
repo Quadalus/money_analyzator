@@ -5,22 +5,16 @@ import com.binance.api.client.domain.market.Candlestick;
 import com.binance.api.client.domain.market.CandlestickInterval;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
-import ru.bikkul.parser.service.BinanceParserService;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
-
-import static ru.bikkul.parser.utils.Pairs.*;
 
 @Slf4j
 @Component
-@EnableScheduling
 @RequiredArgsConstructor
 public class BinanceParserClient {
-    private static final long RATE_DELAY = 300000;
-    private final BinanceParserService binanceOrderBookService;
     private final BinanceApiRestClient restClient;
 
     /*public void getMaticUsdtOrders() {
@@ -41,13 +35,18 @@ public class BinanceParserClient {
         binanceOrderBookService.parse(orderBook, pair);
     }*/
 
-    public void getCandlesForFiveMin() {
-        Long start = Instant.now().minusSeconds(300).toEpochMilli();
+    public  List<Candlestick> getKlineForFiveMin(String pair) {
+        List<Candlestick> candlesticks = new ArrayList<>();
+        Long start = Instant.now().minusSeconds(360).toEpochMilli();
         Long end = Instant.now().toEpochMilli();
-        Integer limit = 15;
-        List<String> pairs = List.of(MATIC_ETH, ETH_USDT, MATIC_USDT);
-        for (String pair : pairs) {
-            List<Candlestick> candlestickBars = restClient.getCandlestickBars(pair, CandlestickInterval.ONE_MINUTE, limit, start, end);
+        Integer limit = 5;
+
+        try {
+            candlesticks = restClient.getCandlestickBars(pair, CandlestickInterval.ONE_MINUTE, limit, start, end);
+        } catch (Exception e) {
+            log.error("exception on getting kline, exception:{}", e.getMessage());
         }
+        System.out.println(candlesticks);
+        return candlesticks;
     }
 }

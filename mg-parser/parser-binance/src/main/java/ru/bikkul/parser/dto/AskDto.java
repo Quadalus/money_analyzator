@@ -1,4 +1,4 @@
-package ru.bikkul.parser.model;
+package ru.bikkul.parser.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ask {
+public class AskDto {
     private String market = "binance";
     private String pair;
     private String price;

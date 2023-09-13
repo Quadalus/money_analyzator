@@ -1,4 +1,4 @@
-package ru.bikkul.parser.model;
+package ru.bikkul.parser.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-public class Candle {
+public class KlineDto {
     private String close;
     private String volume;
 }
