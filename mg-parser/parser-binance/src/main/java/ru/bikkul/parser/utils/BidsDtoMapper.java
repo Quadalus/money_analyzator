@@ -1,9 +1,7 @@
 package ru.bikkul.parser.utils;
 
-import com.binance.api.client.domain.market.Candlestick;
 import com.binance.api.client.domain.market.OrderBookEntry;
 import ru.bikkul.parser.dto.BidDto;
-import ru.bikkul.parser.dto.KlineDto;
 
 import java.time.LocalDateTime;
 
