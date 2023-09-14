@@ -15,8 +15,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>parser-server</module>
+        <module>parser-main</module>
         <module>parser-client</module>
         <module>parser-binance</module>
+        <module>parser-mexc</module>
     </modules>
 </project>

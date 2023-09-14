@@ -7,7 +7,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>parser-server</artifactId>
+    <artifactId>parser-main</artifactId>
     <packaging>jar</packaging>
 
     <name>parser-server</name>

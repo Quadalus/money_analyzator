@@ -43,7 +43,6 @@ public class BinanceParserClient {
 
         try {
             candlesticks = restClient.getCandlestickBars(pair, CandlestickInterval.ONE_MINUTE, limit, start, end);
-            System.out.println(candlesticks);
         } catch (Exception e) {
             log.error("exception on getting kline, exception:{}", e.getMessage());
         }

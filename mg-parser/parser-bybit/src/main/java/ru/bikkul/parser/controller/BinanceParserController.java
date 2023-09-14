@@ -13,7 +13,7 @@ import java.util.Set;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/binance/parser")
+@RequestMapping("/binance/parse")
 public class BinanceParserController {
     private final BinanceParserService binanceParserService;
 

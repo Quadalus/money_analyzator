@@ -1,3 +1,4 @@
 /mg-parser/parser-binance/target/
 /mg-parser/parser-binance/src/main/resources/application.yaml
 /mg-parser/parser-binance/target/classes/
+/mg-parser/parser-mexc/src/main/resources/application.yaml

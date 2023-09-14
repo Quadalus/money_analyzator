@@ -19,6 +19,7 @@ import ru.bikkul.parser.utils.KlineDtoMapper;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BinanceParserServiceImpl implements BinanceParserService {

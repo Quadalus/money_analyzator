@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class AvgWeightedKlineDto {
-    private String marketName = "binance";
+    private String marketName = "mexc";
     private String marketType = "cex";
 
     @NotEmpty
@@ -24,7 +24,7 @@ public class AvgWeightedKlineDto {
     @NotEmpty
     @PositiveOrZero
     private BigDecimal avgVolume;
-    private String fee = "0.1";
+    private String fee = "0.0";
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time = LocalDateTime.now();
