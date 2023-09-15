@@ -5,3 +5,4 @@
 /mg-parser/parser-bybit/src/main/resources/application.yaml
 /mg-parser/parser-bybit/target/
 /mg-parser/parser-mexc/target/
+/mg-parser/parser-okx/src/main/resources/application.yaml

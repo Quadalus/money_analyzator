@@ -20,5 +20,6 @@
         <module>parser-binance</module>
         <module>parser-mexc</module>
         <module>parser-bybit</module>
+        <module>parser-okx</module>
     </modules>
 </project>

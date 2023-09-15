@@ -17,7 +17,7 @@ import java.util.Set;
 public class BinanceParserController {
     private final BinanceParserService binanceParserService;
 
-    @GetMapping("/kline")
+    @GetMapping("/klines")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, KlineFullDataDto> parseKline(@RequestParam Set<String> pairs) {
         Map<String, KlineFullDataDto> binanceKline = binanceParserService.getKlineForFiveMin(pairs);

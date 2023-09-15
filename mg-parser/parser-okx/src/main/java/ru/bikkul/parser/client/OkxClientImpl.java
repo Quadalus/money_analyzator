@@ -7,29 +7,30 @@ import org.springframework.web.reactive.function.client.WebClient;
 import ru.bikkul.parser.domain.market.KlineFull;
 
 @Service
-public class BybitClientImpl implements BybitClient {
-    @Value("${bybit.api.key}")
+public class OkxClientImpl implements OkxClient {
+    @Value("${okx.api.key}")
     public String API_KEY;
 
     private final WebClient webClient;
-    private static final String API_HEADER = "X-BAPI-API-KEY";
-    private static final String API_TIMESTAMP = "X-BAPI-TIMESTAMP";
-    private static final String API_SIGNATURE = "X-BAPI-SIGN";
+    private static final String API_HEADER = "OK-ACCESS-KEY";
+    private static final String API_TIMESTAMP = "OK-ACCESS-TIMESTAMP";
+    private static final String API_SIGNATURE = "OK-ACCESS-SIGN";
+    private static final String API_PASSPHRASE = "OK-ACCESS-PASSPHRASE";
 
-    public BybitClientImpl(@Value("${bybit.api.base_url}") String url) {
+    public OkxClientImpl(@Value("${okx.api.base_url}") String url) {
         this.webClient = WebClient.create(url);
     }
 
     public KlineFull getKline(String symbol, String interval, Integer limit, long startTime, long endTime) {
         return webClient
                 .get()
-                .uri(uriBuilder -> uriBuilder.path("/v5/market/kline")
-                        .queryParam("category", "spot")
-                        .queryParam("symbol", symbol)
-                        .queryParam("interval", interval)
+                .uri(uriBuilder -> uriBuilder.path("/api/v5/market/candles")
+                        .queryParam("instType", "SPOT".toUpperCase())
+                        .queryParam("instId", symbol)
+                        .queryParam("bar", interval)
                         .queryParam("limit", limit)
-                        .queryParam("start", startTime)
-                        .queryParam("end", endTime)
+                        .queryParam("before", startTime)
+                        .queryParam("after", endTime)
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
