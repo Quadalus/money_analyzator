@@ -8,12 +8,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public enum KlineInterval {
-  ONE_MINUTE("1m"),
-  THREE_MINUTES("3m"),
-  FIVE_MINUTES("5m"),
-  FIFTEEN_MINUTES("15m"),
-  HALF_HOURLY("30m"),
-  HOURLY("1h");
+  ONE_MINUTE("1"),
+  THREE_MINUTES("3"),
+  FIVE_MINUTES("5"),
+  FIFTEEN_MINUTES("15"),
+  HALF_HOURLY("30"),
+  HOURLY("60");
 
   private final String intervalId;
 

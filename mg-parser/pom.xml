@@ -19,5 +19,6 @@
         <module>parser-client</module>
         <module>parser-binance</module>
         <module>parser-mexc</module>
+        <module>parser-bybit</module>
     </modules>
 </project>

@@ -4,19 +4,21 @@ import com.binance.api.client.domain.market.Candlestick;
 import com.binance.api.client.domain.market.OrderBook;
 import com.binance.api.client.domain.market.OrderBookEntry;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.bikkul.parser.client.BinanceParserClient;
 import ru.bikkul.parser.dto.AskDto;
-import ru.bikkul.parser.dto.AvgWeightedKlineDto;
 import ru.bikkul.parser.dto.BidDto;
 import ru.bikkul.parser.dto.KlineDto;
+import ru.bikkul.parser.dto.KlineFullDataDto;
 import ru.bikkul.parser.utils.AskDtoMapper;
-import ru.bikkul.parser.utils.AvgWeightedKlineDtoMapper;
 import ru.bikkul.parser.utils.BidsDtoMapper;
 import ru.bikkul.parser.utils.KlineDtoMapper;
+import ru.bikkul.parser.utils.KlineFullDataDtoMapper;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,12 +27,12 @@ public class BinanceParserServiceImpl implements BinanceParserService {
     private final BinanceParserClient binanceParseClient;
 
     @Override
-    public Map<String, AvgWeightedKlineDto> getKlineForFiveMin(Set<String> pairs) {
-        Map<String, AvgWeightedKlineDto> klines = new HashMap<>();
+    public Map<String, KlineFullDataDto> getKlineForFiveMin(Set<String> pairs) {
+        Map<String, KlineFullDataDto> klines = new HashMap<>();
 
         for (String pair: pairs) {
             List<KlineDto> klineForFiveMin = getKline(binanceParseClient.getKlineForFiveMin(pair));
-            klines.put(pair, AvgWeightedKlineDtoMapper.toAvgWeightedKlineDto(klineForFiveMin));
+            klines.put(pair, KlineFullDataDtoMapper.toAvgWeightedKlineDto(klineForFiveMin));
         }
         return klines;
     }
