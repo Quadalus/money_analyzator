@@ -1,6 +1,5 @@
 package ru.bikkul.parser.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -11,7 +10,7 @@ import ru.bikkul.parser.domain.market.Kline;
 import java.util.List;
 
 @Service
-public class MexcClientImpl {
+public class MexcClientImpl implements MexcClient{
     @Value("${mexc.api.key}")
     public String API_KEY;
 
@@ -31,7 +30,6 @@ public class MexcClientImpl {
     }
 
     public List<Kline> getKline(String symbol, String interval, Integer limit, long startTime, long endTime) {
-        ObjectMapper objectMapper = new ObjectMapper();
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder.path("/api/v3/klines")
