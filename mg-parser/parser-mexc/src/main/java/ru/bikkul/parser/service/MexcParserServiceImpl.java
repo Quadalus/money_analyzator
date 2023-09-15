@@ -7,7 +7,7 @@ import ru.bikkul.parser.domain.market.Kline;
 import ru.bikkul.parser.domain.market.KlineInterval;
 import ru.bikkul.parser.dto.KlineFullDataDto;
 import ru.bikkul.parser.dto.KlineDto;
-import ru.bikkul.parser.utils.FullKlineDtoMapperDtoMapper;
+import ru.bikkul.parser.utils.KlineFullDataDtoMapper;
 import ru.bikkul.parser.utils.KlineDtoMapper;
 
 import java.time.Instant;
@@ -32,7 +32,7 @@ public class MexcParserServiceImpl implements MexcParserService {
 
         for (String pair : pairs) {
             List<KlineDto> klineForFiveMin = getKline(mexcClient.getKline(pair, interval, limit, start, end));
-            klines.put(pair, FullKlineDtoMapperDtoMapper.toAvgWeightedKlineDto(klineForFiveMin));
+            klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klineForFiveMin));
         }
         return klines;
     }

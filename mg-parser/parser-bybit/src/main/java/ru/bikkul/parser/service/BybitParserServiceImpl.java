@@ -8,7 +8,7 @@ import ru.bikkul.parser.domain.market.KlineFull;
 import ru.bikkul.parser.domain.market.KlineInterval;
 import ru.bikkul.parser.dto.KlineFullDataDTO;
 import ru.bikkul.parser.dto.KlineDto;
-import ru.bikkul.parser.utils.AvgWeightedKlineDtoMapper;
+import ru.bikkul.parser.utils.KlineFullDataDtoMapper;
 import ru.bikkul.parser.utils.KlineDtoMapper;
 
 import java.time.Instant;
@@ -35,7 +35,7 @@ public class BybitParserServiceImpl implements BybitParserService {
         for (String pair : pairs) {
             try {
                 List<KlineDto> klinesDto = getKline(bybitClient.getKline(pair, interval, limit, start, end));
-                klines.put(pair, AvgWeightedKlineDtoMapper.toAvgWeightedKlineDto(klinesDto));
+                klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
                 log.error("error from parse kline, error: {}", e.getMessage());
             }

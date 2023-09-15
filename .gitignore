@@ -3,6 +3,10 @@
 /mg-parser/parser-binance/target/classes/
 /mg-parser/parser-mexc/src/main/resources/application.yaml
 /mg-parser/parser-bybit/src/main/resources/application.yaml
-/mg-parser/parser-bybit/target/
+**/target/
 /mg-parser/parser-mexc/target/
 /mg-parser/parser-okx/src/main/resources/application.yaml
+/mg-parser/parser-okx/target/
+/mg-parser/parser-kucoin/target/
+/mg-parser/parser-kucoin/src/main/resources/application.yaml
+./application.yaml

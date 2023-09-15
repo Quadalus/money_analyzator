@@ -32,7 +32,7 @@ public class BinanceParserServiceImpl implements BinanceParserService {
 
         for (String pair: pairs) {
             List<KlineDto> klineForFiveMin = getKline(binanceParseClient.getKlineForFiveMin(pair));
-            klines.put(pair, KlineFullDataDtoMapper.toAvgWeightedKlineDto(klineForFiveMin));
+            klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klineForFiveMin));
         }
         return klines;
     }

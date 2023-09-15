@@ -3,7 +3,8 @@ package ru.bikkul.parser.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.bikkul.parser.client.OkxClientImpl;
+import ru.bikkul.parser.client.KucoinClientImpl;
+import ru.bikkul.parser.domain.market.Kline;
 import ru.bikkul.parser.domain.market.KlineFull;
 import ru.bikkul.parser.domain.market.KlineInterval;
 import ru.bikkul.parser.dto.KlineFullDataDTO;
@@ -21,20 +22,21 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OkxParserServiceImpl implements OkxParserService {
-    private final OkxClientImpl okxClient;
+public class KucoinParserServiceImpl implements KucoinParserService {
+    private final KucoinClientImpl okxClient;
 
     @Override
     public Map<String, KlineFullDataDTO> getKlineForFiveMin(Set<String> pairs) {
         Map<String, KlineFullDataDTO> klines = new HashMap<>();
-        long start = Instant.now().minusSeconds(360).toEpochMilli();
-        long end = Instant.now().toEpochMilli();
+        long start = Instant.now().minusSeconds(360).toEpochMilli() / 1000;
+        long end = Instant.now().toEpochMilli() / 1000;
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
         Integer limit = 10;
 
         for (String pair : pairs) {
             try {
                 KlineFull kline = okxClient.getKline(pair, interval, limit, start, end);
+                System.out.println(kline);
                 List<KlineDto> klinesDto = getKline(kline);
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
@@ -44,8 +46,8 @@ public class OkxParserServiceImpl implements OkxParserService {
         return klines;
     }
 
-    private List<KlineDto> getKline(KlineFull fullKline) {
-        return fullKline.getData().stream()
+    private List<KlineDto> getKline(KlineFull klineFull) {
+        return klineFull.getData().stream()
                 .map(KlineDtoMapper::toKlineDto)
                 .collect(Collectors.toList());
     }

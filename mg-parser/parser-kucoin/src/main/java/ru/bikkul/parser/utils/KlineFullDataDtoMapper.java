@@ -7,11 +7,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-public class AvgWeightedKlineDtoMapper {
-    private AvgWeightedKlineDtoMapper() {
+public class KlineFullDataDtoMapper {
+    private KlineFullDataDtoMapper() {
     }
 
-    public static KlineFullDataDTO toAvgWeightedKlineDto(List<KlineDto> klineDto) {
+    public static KlineFullDataDTO toKlineFullDataDto(List<KlineDto> klineDto) {
         KlineFullDataDTO avgWeightedKlineDto = new KlineFullDataDTO();
         BigDecimal avgVolume = getAvgVolume(klineDto);
         BigDecimal expVolume = getExpVolume(klineDto);

@@ -1,18 +1,18 @@
 package ru.bikkul.parser.utils;
 
-import ru.bikkul.parser.dto.KlineFullDataDto;
+import ru.bikkul.parser.dto.KlineFullDataDTO;
 import ru.bikkul.parser.dto.KlineDto;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-public class FullKlineDtoMapperDtoMapper {
-    private FullKlineDtoMapperDtoMapper() {
+public class KlineFullDataDtoMapper {
+    private KlineFullDataDtoMapper() {
     }
 
-    public static KlineFullDataDto toAvgWeightedKlineDto(List<KlineDto> klineDto) {
-        KlineFullDataDto avgWeightedKlineDto = new KlineFullDataDto();
+    public static KlineFullDataDTO toKlineFullDataDto(List<KlineDto> klineDto) {
+        KlineFullDataDTO avgWeightedKlineDto = new KlineFullDataDTO();
         BigDecimal avgVolume = getAvgVolume(klineDto);
         BigDecimal expVolume = getExpVolume(klineDto);
 
