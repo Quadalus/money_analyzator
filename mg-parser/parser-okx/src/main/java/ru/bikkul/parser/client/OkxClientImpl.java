@@ -8,14 +8,7 @@ import ru.bikkul.parser.domain.market.KlineFull;
 
 @Service
 public class OkxClientImpl implements OkxClient {
-    @Value("${okx.api.key}")
-    public String API_KEY;
-
     private final WebClient webClient;
-    private static final String API_HEADER = "OK-ACCESS-KEY";
-    private static final String API_TIMESTAMP = "OK-ACCESS-TIMESTAMP";
-    private static final String API_SIGNATURE = "OK-ACCESS-SIGN";
-    private static final String API_PASSPHRASE = "OK-ACCESS-PASSPHRASE";
 
     public OkxClientImpl(@Value("${okx.api.base_url}") String url) {
         this.webClient = WebClient.create(url);

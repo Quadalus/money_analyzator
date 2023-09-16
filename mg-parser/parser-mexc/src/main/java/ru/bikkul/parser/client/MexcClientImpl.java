@@ -10,13 +10,8 @@ import ru.bikkul.parser.domain.market.Kline;
 import java.util.List;
 
 @Service
-public class MexcClientImpl implements MexcClient{
-    @Value("${mexc.api.key}")
-    public String API_KEY;
-
+public class MexcClientImpl implements MexcClient {
     private final WebClient webClient;
-    private static final String API_HEADER = "X-MEXC-APIKEY";
-    private static final String CONTENT_TYPE = "Content-Type";
 
     public MexcClientImpl(@Value("${mexc.api.base_url}") String url) {
         this.webClient = WebClient.create(url);

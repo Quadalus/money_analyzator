@@ -1,0 +1,6 @@
+server:
+  port: 8084
+
+kucoin:
+  api:
+    base_url: https://api.kucoin.com

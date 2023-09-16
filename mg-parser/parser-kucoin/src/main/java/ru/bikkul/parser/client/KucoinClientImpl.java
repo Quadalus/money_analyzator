@@ -8,15 +8,7 @@ import ru.bikkul.parser.domain.market.KlineFull;
 
 @Service
 public class KucoinClientImpl implements KucoinClient {
-    @Value("${kucoin.api.key}")
-    public String API_KEY;
-
     private final WebClient webClient;
-    private static final String API_HEADER = "KC-API-KEY";
-    private static final String API_TIMESTAMP = "KC-API-TIMESTAMP";
-    private static final String API_SIGNATURE = "KC-API-SIGN";
-    private static final String API_PASSPHRASE = "KC-API-PASSPHRASE";
-    private static final String API_VERSION = "KC-API-KEY-VERSION";
 
     public KucoinClientImpl(@Value("${kucoin.api.base_url}") String url) {
         this.webClient = WebClient.create(url);

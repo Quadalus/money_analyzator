@@ -1,0 +1,6 @@
+server:
+  port: 8086
+
+phemex:
+  api:
+    base_url: https://api.phemex.com
