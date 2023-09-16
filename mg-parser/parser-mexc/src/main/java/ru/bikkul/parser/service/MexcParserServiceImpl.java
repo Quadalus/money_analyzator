@@ -28,7 +28,7 @@ public class MexcParserServiceImpl implements MexcParserService {
         long start = Instant.now().minusSeconds(360).toEpochMilli();
         long end = Instant.now().toEpochMilli();
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
-        Integer limit = 10;
+        Integer limit = 5;
 
         for (String pair : pairs) {
             List<KlineDto> klineForFiveMin = getKline(mexcClient.getKline(pair, interval, limit, start, end));

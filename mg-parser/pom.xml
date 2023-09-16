@@ -22,5 +22,7 @@
         <module>parser-bybit</module>
         <module>parser-okx</module>
         <module>parser-kucoin</module>
+        <module>parser-huobi</module>
+        <module>parser-phemex</module>
     </modules>
 </project>

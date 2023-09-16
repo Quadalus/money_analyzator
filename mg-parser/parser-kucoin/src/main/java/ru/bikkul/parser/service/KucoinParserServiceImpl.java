@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.bikkul.parser.client.KucoinClientImpl;
-import ru.bikkul.parser.domain.market.Kline;
 import ru.bikkul.parser.domain.market.KlineFull;
 import ru.bikkul.parser.domain.market.KlineInterval;
 import ru.bikkul.parser.dto.KlineFullDataDTO;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class KucoinParserServiceImpl implements KucoinParserService {
-    private final KucoinClientImpl okxClient;
+    private final KucoinClientImpl kucoinClient;
 
     @Override
     public Map<String, KlineFullDataDTO> getKlineForFiveMin(Set<String> pairs) {
@@ -31,12 +30,11 @@ public class KucoinParserServiceImpl implements KucoinParserService {
         long start = Instant.now().minusSeconds(360).toEpochMilli() / 1000;
         long end = Instant.now().toEpochMilli() / 1000;
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
-        Integer limit = 10;
+        Integer limit = 5;
 
         for (String pair : pairs) {
             try {
-                KlineFull kline = okxClient.getKline(pair, interval, limit, start, end);
-                System.out.println(kline);
+                KlineFull kline = kucoinClient.getKline(pair, interval, limit, start, end);
                 List<KlineDto> klinesDto = getKline(kline);
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
