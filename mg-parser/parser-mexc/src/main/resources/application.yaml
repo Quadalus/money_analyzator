@@ -1,0 +1,6 @@
+server:
+  port: 8081
+
+mexc:
+  api:
+    base_url: https://api.mexc.com

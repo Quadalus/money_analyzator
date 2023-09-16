@@ -12,21 +12,20 @@
 
     <artifactId>mg-parser</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>parser-main</module>
+        <module>parser-client</module>
+        <module>parser-binance</module>
+        <module>parser-mexc</module>
+        <module>parser-bybit</module>
+        <module>parser-okx</module>
+        <module>parser-kucoin</module>
+        <module>parser-huobi</module>
+        <module>parser-phemex</module>
+        <module>parser-bingx</module>
+        <module>parser-lbank</module>
+        <module>parser-gate</module>
+    </modules>
 </project>

@@ -1,0 +1,6 @@
+server:
+  port: 8085
+
+huobi:
+  api:
+    base_url: https://api.huobi.pro
