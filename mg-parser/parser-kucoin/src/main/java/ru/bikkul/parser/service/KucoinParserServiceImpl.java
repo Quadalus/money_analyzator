@@ -30,7 +30,7 @@ public class KucoinParserServiceImpl implements KucoinParserService {
         long start = Instant.now().minusSeconds(360).toEpochMilli() / 1000;
         long end = Instant.now().toEpochMilli() / 1000;
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
-        Integer limit = 5;
+        Integer limit = 6;
 
         for (String pair : pairs) {
             try {

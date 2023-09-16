@@ -27,7 +27,7 @@ public class HuobiParserServiceImpl implements HuobiParserService {
     public Map<String, KlineFullDataDTO> getKlineForFiveMin(Set<String> pairs) {
         Map<String, KlineFullDataDTO> klines = new HashMap<>();
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
-        Integer limit = 5;
+        Integer limit = 6;
 
         for (String pair : pairs) {
             try {

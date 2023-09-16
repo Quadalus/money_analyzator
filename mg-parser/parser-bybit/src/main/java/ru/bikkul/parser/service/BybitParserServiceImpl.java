@@ -30,7 +30,7 @@ public class BybitParserServiceImpl implements BybitParserService {
         long start = Instant.now().minusSeconds(360).toEpochMilli();
         long end = Instant.now().toEpochMilli();
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
-        Integer limit = 5;
+        Integer limit = 6;
 
         for (String pair : pairs) {
             try {
