@@ -25,5 +25,6 @@
         <module>parser-huobi</module>
         <module>parser-phemex</module>
         <module>parser-bingx</module>
+        <module>parser-lbank</module>
     </modules>
 </project>
