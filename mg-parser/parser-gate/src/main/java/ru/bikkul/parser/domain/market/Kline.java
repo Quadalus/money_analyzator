@@ -23,7 +23,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Kline {
-
     private Long openTime;
     private String quoteAssetVolume;
     private String close;
