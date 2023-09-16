@@ -26,5 +26,6 @@
         <module>parser-phemex</module>
         <module>parser-bingx</module>
         <module>parser-lbank</module>
+        <module>parser-gate</module>
     </modules>
 </project>
