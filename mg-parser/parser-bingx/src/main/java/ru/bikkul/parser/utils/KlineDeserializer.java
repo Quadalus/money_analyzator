@@ -9,18 +9,22 @@ import ru.bikkul.parser.domain.market.Kline;
 
 import java.io.IOException;
 
+/**
+ * Custom deserializer for an OrderBookEntry, since the API returns an array in the format [ price, qty, [] ].
+ */
 public class KlineDeserializer extends JsonDeserializer<Kline> {
 
     @Override
     public Kline deserialize(JsonParser jp, DeserializationContext ctx) throws IOException {
         ObjectCodec oc = jp.getCodec();
         JsonNode node = oc.readTree(jp);
-        final Long openTime = node.get("id").asLong();
+        final Long openTime = node.get("ts").asLong();
         final String open = node.get("open").asText();
-        final String close = node.get("close").asText();
         final String high = node.get("high").asText();
         final String low = node.get("low").asText();
-        final String volume = node.get("amount").asText();
+        final String close = node.get("close").asText();
+        final String volume = node.get("volume").asText();
+
 
         Kline kline = new Kline();
         kline.setOpenTime(openTime);

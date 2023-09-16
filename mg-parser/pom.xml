@@ -24,5 +24,6 @@
         <module>parser-kucoin</module>
         <module>parser-huobi</module>
         <module>parser-phemex</module>
+        <module>parser-bingx</module>
     </modules>
 </project>
