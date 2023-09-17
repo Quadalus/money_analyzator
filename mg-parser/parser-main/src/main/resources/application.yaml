@@ -4,33 +4,25 @@ server:
 
 parsers:
   api:
-      binance:
-        port: 8080
-        uri:
-      bybit:
-        port: 8082
-        uri:
-      bingx:
-        port: 8087
-        uri:
-      mexc:
-        port: 8081
-        uri:
-      okx:
-        port: 8083
-        uri:
-      huobi:
-        port: 8085
-        uri:
-      kucoin:
-        port: 8084
-        uri:
-      phemex:
-        port: 8086
-        uri:
-      gate:
-        port: 8089
-        uri:
-      lbank:
-        port: 8088
-        uri:
+    base:
+      url: http:localhost
+    binance:
+      port: 8080
+    bybit:
+      port: 8082
+    bingx:
+      port: 8087
+    mexc:
+      port: 8081
+    okx:
+      port: 8083
+    huobi:
+      port: 8085
+    kucoin:
+      port: 8084
+    phemex:
+      port: 8086
+    gate:
+      port: 8089
+    lbank:
+      port: 8088
