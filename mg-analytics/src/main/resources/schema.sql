@@ -8,5 +8,6 @@ CREATE TABLE IF NOT EXISTS market_spread
     market_quote_name VARCHAR(50) NOT NULL,
     market_quote_price  NUMERIC NOT NULL,
     market_quote_volume NUMERIC NOT NULL,
-    spread NUMERIC NOT NULL
+    spread NUMERIC NOT NULL,
+    time  TIMESTAMP WITHOUT TIME ZONE
 );
