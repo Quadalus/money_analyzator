@@ -1,2 +1,6 @@
 server:
   port: 8080
+
+binance:
+  api:
+    prefix: /api/v1

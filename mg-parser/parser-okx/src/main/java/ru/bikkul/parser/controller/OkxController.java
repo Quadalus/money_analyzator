@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/okx/parser")
+@RequestMapping("${okx.api.prefix}" + "/parser")
 @RequiredArgsConstructor
 public class OkxController {
     private final OkxParserService parserService;

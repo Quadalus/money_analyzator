@@ -8,13 +8,14 @@ import ru.bikkul.parser.domain.market.KlineFull;
 
 @Service
 public class LbankClientImpl implements LbankClient {
-    @Value("${lbank.api.kline_uri}")
-    public String KLINE_URI;
+    private final String KLINE_URI;
 
     private final WebClient webClient;
 
-    public LbankClientImpl(@Value("${lbank.api.base_url}") String url) {
+    public LbankClientImpl(@Value("${lbank.api.base_url}") String url,
+                           @Value("${lbank.api.kline_uri}") String klineUri) {
         this.webClient = WebClient.create(url);
+        this.KLINE_URI = klineUri;
     }
 
     public void testConnection() {
