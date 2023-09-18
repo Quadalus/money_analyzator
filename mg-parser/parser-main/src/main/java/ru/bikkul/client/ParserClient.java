@@ -7,5 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 public interface ParserClient {
-    Map<String, List<KlineData>> getKlineFromMarket(String port, Set<String> pairs);
+    Map<String, KlineData> getKlineFromMarket(String port, Set<String> pairs);
+
+    void sendKlinesDataToAnalyzer(Map<String, List<KlineData>> klines);
 }

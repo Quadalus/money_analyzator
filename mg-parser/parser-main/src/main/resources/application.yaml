@@ -1,29 +1,10 @@
 server:
   port: 8090
 
-parsers:
+parser:
   api:
     base:
       prefix: /api/v1
       url: http:localhost
       kline_uri: /parser/klines
-    binance:
-      port: 8080
-    bybit:
-      port: 8082
-    bingx:
-      port: 8087
-    mexc:
-      port: 8081
-    okx:
-      port: 8083
-    huobi:
-      port: 8085
-    kucoin:
-      port: 8084
-    phemex:
-      port: 8086
-    gate:
-      port: 8089
-    lbank:
-      port: 8088
+      analyzer_uri: /analyzer/klines
