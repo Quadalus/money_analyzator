@@ -5,3 +5,4 @@ lbank:
   api:
     base_url: https://api.lbkex.com
     kline_uri: /v2/kline.do
+    prefix: /api/v1

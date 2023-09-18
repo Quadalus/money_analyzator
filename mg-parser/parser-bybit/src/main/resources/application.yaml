@@ -4,3 +4,5 @@ server:
 bybit:
   api:
     base_url: https://api.bybit.com
+    kline_uri: /v5/market/kline
+    prefix: /api/v1

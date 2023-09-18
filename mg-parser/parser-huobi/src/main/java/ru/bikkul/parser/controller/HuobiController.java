@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/huobi/parser")
+@RequestMapping("${huobi.api.prefix}" + "/parser")
 @RequiredArgsConstructor
 public class HuobiController {
     private final HuobiParserService parserService;

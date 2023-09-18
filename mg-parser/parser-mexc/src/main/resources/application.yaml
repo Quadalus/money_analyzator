@@ -4,3 +4,5 @@ server:
 mexc:
   api:
     base_url: https://api.mexc.com
+    kline_uri: /api/v3/klines
+    prefix: /api/v1

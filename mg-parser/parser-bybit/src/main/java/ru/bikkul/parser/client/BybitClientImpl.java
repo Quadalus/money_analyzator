@@ -9,15 +9,18 @@ import ru.bikkul.parser.domain.market.KlineFull;
 @Service
 public class BybitClientImpl implements BybitClient {
     private final WebClient webClient;
+    private final String KLINE_URI;
 
-    public BybitClientImpl(@Value("${bybit.api.base_url}") String url) {
+    public BybitClientImpl(@Value("${bybit.api.base_url}") String url,
+                           @Value("${bybit.api.kline_uri}") String klineUri) {
         this.webClient = WebClient.create(url);
+        this.KLINE_URI = klineUri;
     }
 
     public KlineFull getKline(String symbol, String interval, Integer limit, long startTime, long endTime) {
         return webClient
                 .get()
-                .uri(uriBuilder -> uriBuilder.path("/v5/market/kline")
+                .uri(uriBuilder -> uriBuilder.path(KLINE_URI)
                         .queryParam("category", "spot")
                         .queryParam("symbol", symbol)
                         .queryParam("interval", interval)

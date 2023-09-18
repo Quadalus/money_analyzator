@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/lbank/parser")
+@RequestMapping("${lbank.api.prefix}" + "/parser")
 @RequiredArgsConstructor
 public class LbankController {
     private final LbankParserService parserService;

@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/bybit/parser")
+@RequestMapping("${bybit.api.prefix}" + "/parser")
 @RequiredArgsConstructor
 public class BybitController {
     private final BybitParserService parserService;

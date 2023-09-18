@@ -4,3 +4,5 @@ server:
 kucoin:
   api:
     base_url: https://api.kucoin.com
+    kline_uri: /api/v1/market/candles
+    prefix: /api/v1

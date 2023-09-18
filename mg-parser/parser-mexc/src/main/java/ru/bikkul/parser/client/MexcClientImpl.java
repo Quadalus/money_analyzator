@@ -12,9 +12,12 @@ import java.util.List;
 @Service
 public class MexcClientImpl implements MexcClient {
     private final WebClient webClient;
+    private final String KLINE_URI;
 
-    public MexcClientImpl(@Value("${mexc.api.base_url}") String url) {
+    public MexcClientImpl(@Value("${mexc.api.base_url}") String url,
+                          @Value("${mexc.api.kline_uri}") String klineUri) {
         this.webClient = WebClient.create(url);
+        this.KLINE_URI = klineUri;
     }
 
     public void testConnection() {
@@ -27,7 +30,7 @@ public class MexcClientImpl implements MexcClient {
     public List<Kline> getKline(String symbol, String interval, Integer limit, long startTime, long endTime) {
         return webClient
                 .get()
-                .uri(uriBuilder -> uriBuilder.path("/api/v3/klines")
+                .uri(uriBuilder -> uriBuilder.path(KLINE_URI)
                         .queryParam("symbol", symbol)
                         .queryParam("interval", interval)
                         .queryParam("limit", limit)

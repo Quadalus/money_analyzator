@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/kucoin/parser")
+@RequestMapping("${kucoin.api.prefix}" + "/parser")
 @RequiredArgsConstructor
 public class KucoinController {
     private final KucoinParserService parserService;

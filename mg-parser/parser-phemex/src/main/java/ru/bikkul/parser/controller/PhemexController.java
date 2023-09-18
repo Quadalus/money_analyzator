@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/phemex/parser")
+@RequestMapping("${phemex.api.prefix}" + "/parser")
 @RequiredArgsConstructor
 public class PhemexController {
     private final PhemexParserService parserService;

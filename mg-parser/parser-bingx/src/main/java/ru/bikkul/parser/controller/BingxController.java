@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/bingx/parser")
+@RequestMapping("${bingx.api.prefix}" + "/parser")
 @RequiredArgsConstructor
 public class BingxController {
     private final BingxParserService parserService;

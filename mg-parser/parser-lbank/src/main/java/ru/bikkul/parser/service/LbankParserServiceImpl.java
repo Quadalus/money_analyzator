@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class LbankParserServiceImpl implements LbankParserService {
-    private final LbankClientImpl mexcClient;
+    private final LbankClientImpl lbankClient;
 
     @Override
     public Map<String, KlineFullDataDto> getKlineForFiveMin(Set<String> pairs) {
@@ -30,7 +30,8 @@ public class LbankParserServiceImpl implements LbankParserService {
         Integer limit = 6;
 
         for (String pair : pairs) {
-            List<KlineDto> klineForFiveMin = getKline(mexcClient.getKline(pair, interval, limit, start));
+            String rightFormattedPair = formatPair(pair);
+            List<KlineDto> klineForFiveMin = getKline(lbankClient.getKline(rightFormattedPair, interval, limit, start));
             klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klineForFiveMin));
         }
         return klines;
@@ -40,5 +41,11 @@ public class LbankParserServiceImpl implements LbankParserService {
         return klineFull.getData().stream()
                 .map(KlineDtoMapper::toKlineDto)
                 .collect(Collectors.toList());
+    }
+
+    private String formatPair(String pair) {
+        String[] coin = pair.split("-");
+        String separator = "_";
+        return String.format("%s%s%s", coin[0], separator, coin[1]).toLowerCase();
     }
 }

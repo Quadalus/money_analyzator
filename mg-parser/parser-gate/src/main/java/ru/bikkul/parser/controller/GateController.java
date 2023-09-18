@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/gate/parser")
+@RequestMapping("${gate.api.prefix}" + "/parser")
 @RequiredArgsConstructor
 public class GateController {
     private final GateParserService parserService;

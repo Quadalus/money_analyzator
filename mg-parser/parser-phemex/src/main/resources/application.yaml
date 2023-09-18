@@ -4,3 +4,5 @@ server:
 phemex:
   api:
     base_url: https://api.phemex.com
+    kline_uri: /exchange/public/md/v2/kline/last
+    prefix: /api/v1

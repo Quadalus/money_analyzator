@@ -9,15 +9,18 @@ import ru.bikkul.parser.domain.market.KlineFull;
 @Service
 public class OkxClientImpl implements OkxClient {
     private final WebClient webClient;
+    private final String KLINE_URI;
 
-    public OkxClientImpl(@Value("${okx.api.base_url}") String url) {
+    public OkxClientImpl(@Value("${okx.api.base_url}") String url,
+                         @Value("${okx.api.kline_uri}") String klineUri) {
         this.webClient = WebClient.create(url);
+        this.KLINE_URI = klineUri;
     }
 
     public KlineFull getKline(String symbol, String interval, Integer limit, long startTime, long endTime) {
         return webClient
                 .get()
-                .uri(uriBuilder -> uriBuilder.path("/api/v5/market/candles")
+                .uri(uriBuilder -> uriBuilder.path(KLINE_URI)
                         .queryParam("instType", "SPOT".toUpperCase())
                         .queryParam("instId", symbol)
                         .queryParam("bar", interval)

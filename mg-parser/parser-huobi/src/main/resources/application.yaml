@@ -4,3 +4,5 @@ server:
 huobi:
   api:
     base_url: https://api.huobi.pro
+    kline_uri: /market/history/kline
+    prefix: /api/v1

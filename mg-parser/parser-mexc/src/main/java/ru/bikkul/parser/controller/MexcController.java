@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/mexc/parser")
+@RequestMapping("${mexc.api.prefix}" + "/parser")
 @RequiredArgsConstructor
 public class MexcController {
     private final MexcParserService parserService;

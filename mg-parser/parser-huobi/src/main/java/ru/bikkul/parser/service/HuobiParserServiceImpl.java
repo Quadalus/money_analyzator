@@ -31,7 +31,8 @@ public class HuobiParserServiceImpl implements HuobiParserService {
 
         for (String pair : pairs) {
             try {
-                KlineFull kline = huobiClient.getKline(pair, interval, limit);
+                String rightFormattedPair = formatPair(pair);
+                KlineFull kline = huobiClient.getKline(rightFormattedPair, interval, limit);
                 List<KlineDto> klinesDto = getKline(kline);
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
@@ -45,5 +46,10 @@ public class HuobiParserServiceImpl implements HuobiParserService {
         return klineFull.getData().stream()
                 .map(KlineDtoMapper::toKlineDto)
                 .collect(Collectors.toList());
+    }
+
+    private String formatPair(String pair) {
+        String[] coin = pair.split("-");
+        return String.format("%s%s", coin[0], coin[1]).toLowerCase();
     }
 }

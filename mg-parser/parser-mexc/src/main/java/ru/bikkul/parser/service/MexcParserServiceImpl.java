@@ -31,7 +31,8 @@ public class MexcParserServiceImpl implements MexcParserService {
         Integer limit = 6;
 
         for (String pair : pairs) {
-            List<KlineDto> klineForFiveMin = getKline(mexcClient.getKline(pair, interval, limit, start, end));
+            String rightFormattedPair = formatPair(pair);
+            List<KlineDto> klineForFiveMin = getKline(mexcClient.getKline(rightFormattedPair, interval, limit, start, end));
             klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klineForFiveMin));
         }
         return klines;
@@ -41,5 +42,10 @@ public class MexcParserServiceImpl implements MexcParserService {
         return klines.stream()
                 .map(KlineDtoMapper::toKlineDto)
                 .collect(Collectors.toList());
+    }
+
+    private String formatPair(String pair) {
+        String[] coin = pair.split("-");
+        return String.format("%s%s", coin[0], coin[1]).toUpperCase();
     }
 }

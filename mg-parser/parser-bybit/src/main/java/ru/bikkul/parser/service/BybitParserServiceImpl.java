@@ -34,7 +34,8 @@ public class BybitParserServiceImpl implements BybitParserService {
 
         for (String pair : pairs) {
             try {
-                List<KlineDto> klinesDto = getKline(bybitClient.getKline(pair, interval, limit, start, end));
+                String rightFormattedPair = formatPair(pair);
+                List<KlineDto> klinesDto = getKline(bybitClient.getKline(rightFormattedPair, interval, limit, start, end));
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
                 log.error("error from parse kline, error: {}", e.getMessage());
@@ -47,5 +48,10 @@ public class BybitParserServiceImpl implements BybitParserService {
         return fullKline.getResult().getList().stream()
                 .map(KlineDtoMapper::toKlineDto)
                 .collect(Collectors.toList());
+    }
+
+    private String formatPair(String pair) {
+        String[] coin = pair.split("-");
+        return String.format("%s%s", coin[0], coin[1]).toUpperCase();
     }
 }

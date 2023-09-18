@@ -32,7 +32,8 @@ public class GateParserServiceImpl implements GateParserService {
         Integer limit = 6;
 
         for (String pair : pairs) {
-            List<KlineDto> klineForFiveMin = getKline(mexcClient.getKline(pair, interval, limit, start, end));
+            String rightFormattedPair = formatPair(pair);
+            List<KlineDto> klineForFiveMin = getKline(mexcClient.getKline(rightFormattedPair, interval, limit, start, end));
             klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klineForFiveMin));
         }
         return klines;
@@ -42,5 +43,11 @@ public class GateParserServiceImpl implements GateParserService {
         return klines.stream()
                 .map(KlineDtoMapper::toKlineDto)
                 .collect(Collectors.toList());
+    }
+
+    private String formatPair(String pair) {
+        String[] coin = pair.split("-");
+        String separator = "_";
+        return String.format("%s%s%s", coin[0], separator ,coin[1]).toUpperCase();
     }
 }
