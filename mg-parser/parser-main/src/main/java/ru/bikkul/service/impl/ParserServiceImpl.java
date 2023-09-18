@@ -25,6 +25,14 @@ public class ParserServiceImpl implements ParserService {
         this.parserClient = parserClient;
         this.marketKlines = new HashMap<>();
         pairs.add("ADA-USDT");
+        pairs.add("TRX-USDT");
+        pairs.add("PERP-USDT");
+        pairs.add("DOT-USDT");
+        pairs.add("SOL-USDT");
+        pairs.add("BTC-USDT");
+        pairs.add("WAVES-USTD");
+        pairs.add("LTC-USDT");
+        pairs.add("SFP-USDT");
     }
 
     @Override
