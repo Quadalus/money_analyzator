@@ -39,6 +39,7 @@ public class ParserServiceImpl implements ParserService {
     private void sendKlinesDataToAnalyzer() {
         try {
             parserClient.sendKlinesDataToAnalyzer(marketKlines);
+            log.info("klines date send to analyzer");
             Thread.sleep(3000);
             clearKlinesData();
         } catch (Exception e) {
@@ -49,6 +50,7 @@ public class ParserServiceImpl implements ParserService {
     private void getKlineDataFromMarket(Ports port) {
         try {
             Map<String, KlineData> klineFromMarket = parserClient.getKlineFromMarket(port.getPort(), pairs);
+            log.info("klines data from market has been got");
             addPairKlineData(klineFromMarket);
         } catch (Exception e) {
             log.error("error from getting kline data, exception msg:{}", e.getMessage());
@@ -83,6 +85,7 @@ public class ParserServiceImpl implements ParserService {
     @Override
     public void clearKlinesData() {
         marketKlines.clear();
+        log.info("klines data has been clear");
     }
 
     @Override
