@@ -31,7 +31,7 @@ public class BinanceParserServiceImpl implements BinanceParserService {
         Map<String, KlineFullDataDto> klines = new HashMap<>();
 
         for (String pair: pairs) {
-            List<KlineDto> klineForFiveMin = getKline(binanceParseClient.getKlineForFiveMin(pair));
+            List<KlineDto> klineForFiveMin = getKline(binanceParseClient.getKlineForFiveMin(formatPair(pair)));
             klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klineForFiveMin));
         }
         return klines;
@@ -60,5 +60,10 @@ public class BinanceParserServiceImpl implements BinanceParserService {
         return candlesticks.stream()
                 .map(KlineDtoMapper::toKlineDto)
                 .collect(Collectors.toList());
+    }
+
+    private String formatPair(String pair) {
+        String[] coin = pair.split("-");
+        return String.format("%s%s", coin[0], coin[1]).toUpperCase();
     }
 }

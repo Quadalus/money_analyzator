@@ -24,12 +24,15 @@ public class ParserServiceImpl implements ParserService {
     public ParserServiceImpl(ParserClient parserClient) {
         this.parserClient = parserClient;
         this.marketKlines = new HashMap<>();
-        pairs.add("ETH-USDT");
+        pairs.add("ADA-USDT");
     }
 
     @Override
-    @Scheduled(fixedRate = 300000)
+    @Scheduled(fixedRate = 30000)
     public void initParser() {
+        if (pairs.isEmpty()) {
+            return;
+        }
         for (Ports port : Ports.values()) {
             getKlineDataFromMarket(port);
         }
@@ -50,7 +53,7 @@ public class ParserServiceImpl implements ParserService {
     private void getKlineDataFromMarket(Ports port) {
         try {
             Map<String, KlineData> klineFromMarket = parserClient.getKlineFromMarket(port.getPort(), pairs);
-            log.info("klines data from market has been got");
+            log.info("klines data from market has been got, klinesFromMarket:{}", klineFromMarket);
             addPairKlineData(klineFromMarket);
         } catch (Exception e) {
             log.error("error from getting kline data, exception msg:{}", e.getMessage());

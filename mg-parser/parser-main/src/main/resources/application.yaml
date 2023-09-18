@@ -5,6 +5,7 @@ parser:
   api:
     base:
       prefix: /api/v1
-      url: http:localhost
+      url: http://127.0.0.1
       kline_uri: /parser/klines
+      analyzer_port: 8091
       analyzer_uri: /analyzer/klines

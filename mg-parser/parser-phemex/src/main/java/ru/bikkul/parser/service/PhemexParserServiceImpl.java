@@ -27,11 +27,12 @@ public class PhemexParserServiceImpl implements PhemexParserService {
     public Map<String, KlineFullDataDTO> getKlineForFiveMin(Set<String> pairs) {
         Map<String, KlineFullDataDTO> klines = new HashMap<>();
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
-        Integer limit = 6;
+        Integer limit = 5;
 
         for (String pair : pairs) {
             try {
-                List<KlineDto> klinesDto = getKline(phemexClient.getKline(pair, interval, limit));
+                String rightFormattedPair = formatPair(pair);
+                List<KlineDto> klinesDto = getKline(phemexClient.getKline(rightFormattedPair, interval, limit));
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
                 log.error("error from parse kline, error: {}", e.getMessage());
@@ -44,5 +45,10 @@ public class PhemexParserServiceImpl implements PhemexParserService {
         return fullKline.getData().getRows().stream()
                 .map(KlineDtoMapper::toKlineDto)
                 .collect(Collectors.toList());
+    }
+
+    private String formatPair(String pair) {
+        String[] coin = pair.split("-");
+        return String.format("%s%s", coin[0], coin[1]).toUpperCase();
     }
 }
