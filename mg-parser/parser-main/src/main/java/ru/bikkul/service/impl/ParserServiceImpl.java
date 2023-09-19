@@ -33,6 +33,7 @@ public class ParserServiceImpl implements ParserService {
         pairs.add("WAVES-USDT");
         pairs.add("LTC-USDT");
         pairs.add("SFP-USDT");
+        pairs.add("MLN-USDT");
     }
 
     @Override

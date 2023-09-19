@@ -67,7 +67,7 @@ public class KlineDataDtoMapper {
                     }
                     //формула: 100 * ((sellPrice/buyPrice) - 1)
                     BigDecimal buyMarketVolume = marketData.getAvgVolume();
-                    BigDecimal sellMarketVolume = marketData.getAvgVolume();
+                    BigDecimal sellMarketVolume = valuePairMarketData.get(i).getAvgVolume();
                     BigDecimal buyMarketFee = new BigDecimal(marketData.getFee());
                     BigDecimal sellMarketFee = new BigDecimal(valuePairMarketData.get(i).getFee());
                     BigDecimal spread = (sellPriceFromMarket
