@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface KlineSpreadRepository extends JpaRepository<KlineSpread, Long> {
     //AndStartIsBeforeAndEndIsAfter
-    List<KlineSpread> searchKlineSpreadBySpreadAndTimeIsBefore(BigDecimal targetSpread, LocalDateTime start);
+    List<KlineSpread> searchKlineSpreadBySpreadIsGreaterThanAndTimeIsAfter(BigDecimal targetSpread, LocalDateTime start);
 }

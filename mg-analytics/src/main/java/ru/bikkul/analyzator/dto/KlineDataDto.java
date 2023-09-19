@@ -1,7 +1,6 @@
 package ru.bikkul.analyzator.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 

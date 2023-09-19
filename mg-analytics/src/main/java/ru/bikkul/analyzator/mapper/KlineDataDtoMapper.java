@@ -71,13 +71,13 @@ public class KlineDataDtoMapper {
                     BigDecimal buyMarketFee = new BigDecimal(marketData.getFee());
                     BigDecimal sellMarketFee = new BigDecimal(valuePairMarketData.get(i).getFee());
                     BigDecimal spread = (sellPriceFromMarket
-                            .divide(buyPriceFromMarket, 15, RoundingMode.FLOOR))
+                            .divide(buyPriceFromMarket, 9, RoundingMode.FLOOR))
                             .subtract(new BigDecimal(1))
                             .multiply(new BigDecimal(100))
                             .subtract(buyMarketFee)
                             .subtract(sellMarketFee)
                             .stripTrailingZeros();
-                    klineDataDtos.add(new KlineDataDto(pair, marketName, quoteMarketName, buyMarketFee, sellMarketFee, buyMarketVolume, sellMarketVolume, spread, LocalDateTime.now()));
+                    klineDataDtos.add(new KlineDataDto(pair, marketName, quoteMarketName, buyPriceFromMarket, sellPriceFromMarket, buyMarketVolume, sellMarketVolume, spread, LocalDateTime.now()));
                 }
             }
         }

@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,14 +25,15 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AnalyzerServiceFileImpl implements AnalyzerService {
     private final KlineSpreadRepository klineSpreadRepository;
-    private BigDecimal spreadTarget = new BigDecimal("0.01");
+    private BigDecimal spreadTarget = new BigDecimal("0.1");
 
     @Override
     public List<KlineDataDto> saveKlinesData(Map<String, List<KlineDataRequestDto>> klinesData) {
         List<KlineDataDto> klinesDataDto = KlineDataDtoMapper.toKlinesDataDto(klinesData);
         List<KlineSpread> klineSpreads = KlineDataDtoMapper.toKlineSpread(klinesDataDto);
         List<KlineSpread> savedKlineSpreads = klineSpreadRepository.saveAll(klineSpreads);
-        printKlineSpeads(KlineDataDtoMapper.toKlinesDataResponseDto(savedKlineSpreads));
+        LocalDateTime start = LocalDateTime.now().minusMinutes(3);
+        printKlineSpeads(KlineDataDtoMapper.toKlinesDataResponseDto(klineSpreadRepository.searchKlineSpreadBySpreadIsGreaterThanAndTimeIsAfter(spreadTarget, start)));
         return KlineDataDtoMapper.toKlinesDataDto(savedKlineSpreads);
     }
 
@@ -47,11 +49,11 @@ public class AnalyzerServiceFileImpl implements AnalyzerService {
     }
 
     private void printKlineSpeads(List<KlineDataResponseDto> savedKlineSpreads) {
-        Path path = Path.of("src\\main\\resources\\speads.txt");
+        Path path = Path.of(".\\speads.txt");
         List<String> spreads = klinesToString(savedKlineSpreads);
 
         try {
-            Files.write(path, spreads, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
+            Files.write(path, spreads, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -62,7 +64,7 @@ public class AnalyzerServiceFileImpl implements AnalyzerService {
 
         for (KlineDataResponseDto kline : savedKlineSpreads) {
             String text = String
-                    .format("%s | %s (buy) price=%s volume=%s(%s) --> %s (buy) price=%s volume=%s(%s) | spread=%s | time=%s",
+                    .format("%s | %s (buy) price=%s volume=%s(%s) --> %s (sell) price=%s volume=%s(%s) | spread=%s | time=%s",
                             kline.getPair(), kline.getMarketBaseName(), kline.getBasePrice(), kline.getBaseVolume(), kline.getBaseVolume25Percent(),
                             kline.getMarketQuoteName(), kline.getQuotePrice(), kline.getQuoteVolume(), kline.getQuoteVolume25Percent(),
                             kline.getSpread(), kline.getTime());

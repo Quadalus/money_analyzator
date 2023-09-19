@@ -30,13 +30,13 @@ public class ParserServiceImpl implements ParserService {
         pairs.add("DOT-USDT");
         pairs.add("SOL-USDT");
         pairs.add("BTC-USDT");
-        pairs.add("WAVES-USTD");
+        pairs.add("WAVES-USDT");
         pairs.add("LTC-USDT");
         pairs.add("SFP-USDT");
     }
 
     @Override
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedRate = 300000)
     public void initParser() {
         if (pairs.isEmpty()) {
             return;
