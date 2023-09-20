@@ -24,7 +24,7 @@ public class KlineFullDataDTO {
     @NotEmpty
     @PositiveOrZero
     private BigDecimal avgVolume;
-    private String fee = "0.045";
+    private String fee = "0.1";
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time = LocalDateTime.now();

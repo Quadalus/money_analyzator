@@ -25,10 +25,20 @@ public class ParserServiceImpl implements ParserService {
         this.parserClient = parserClient;
         this.marketKlines = new HashMap<>();
         pairs.add("ADA-USDT");
+        pairs.add("TRX-USDT");
+        pairs.add("PERP-USDT");
+        pairs.add("DOT-USDT");
+        pairs.add("SOL-USDT");
+        pairs.add("BTC-USDT");
+        pairs.add("WAVES-USDT");
+        pairs.add("LTC-USDT");
+        pairs.add("SFP-USDT");
+        pairs.add("MLN-USDT");
+        pairs.add("BTM-USDT");
     }
 
     @Override
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedDelay = 90000)
     public void initParser() {
         if (pairs.isEmpty()) {
             return;
@@ -43,7 +53,6 @@ public class ParserServiceImpl implements ParserService {
         try {
             parserClient.sendKlinesDataToAnalyzer(marketKlines);
             log.info("klines date send to analyzer");
-            Thread.sleep(3000);
             clearKlinesData();
         } catch (Exception e) {
             log.error("error from sending klinesData to analyzer, exception msg:{}", e.getMessage());

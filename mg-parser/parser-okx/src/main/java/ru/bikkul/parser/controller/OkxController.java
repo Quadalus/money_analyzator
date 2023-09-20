@@ -20,6 +20,8 @@ public class OkxController {
     @GetMapping("/klines")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, KlineFullDataDTO> getKline(@RequestParam Set<String> pairs) {
-        return parserService.getKlineForFiveMin(pairs);
+        Map<String, KlineFullDataDTO> klineForFourMin = parserService.getKlineForFourMin(pairs);
+        log.info("klines for four min has been got, klines pair:{}", klineForFourMin.keySet());
+        return klineForFourMin;
     }
 }

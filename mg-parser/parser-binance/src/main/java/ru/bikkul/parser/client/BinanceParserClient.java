@@ -37,13 +37,12 @@ public class BinanceParserClient {
 
     public  List<Candlestick> getKlineForFiveMin(String pair) {
         List<Candlestick> candlesticks = new ArrayList<>();
-        Long start = Instant.now().minusSeconds(360).toEpochMilli();
+        Long start = Instant.now().minusSeconds(300).toEpochMilli();
         Long end = Instant.now().toEpochMilli();
         Integer limit = 5;
 
         try {
             candlesticks = restClient.getCandlestickBars(pair, CandlestickInterval.ONE_MINUTE, limit, start, end);
-            System.out.println(candlesticks);
         } catch (Exception e) {
             log.error("exception on getting kline, exception:{}", e.getMessage());
         }

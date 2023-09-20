@@ -20,6 +20,8 @@ public class BybitController {
     @GetMapping("/klines")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, KlineFullDataDTO> getKline(@RequestParam Set<String> pairs) {
-        return parserService.getKlineForFiveMin(pairs);
+        Map<String, KlineFullDataDTO> klineForFourMin = parserService.getKlineForFiveMin(pairs);
+        log.info("klines for four min has been got, klines pair:{}", klineForFourMin.keySet());
+        return klineForFourMin;
     }
 }

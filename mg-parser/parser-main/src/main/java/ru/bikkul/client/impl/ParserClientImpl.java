@@ -57,8 +57,7 @@ public class ParserClientImpl implements ParserClient {
                         .build())
                 .bodyValue(klines)
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, KlineData>>() {
-                })
+                .bodyToMono(String.class)
                 .block();
     }
 }

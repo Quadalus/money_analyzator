@@ -27,15 +27,18 @@ public class BybitParserServiceImpl implements BybitParserService {
     @Override
     public Map<String, KlineFullDataDTO> getKlineForFiveMin(Set<String> pairs) {
         Map<String, KlineFullDataDTO> klines = new HashMap<>();
-        long start = Instant.now().minusSeconds(360).toEpochMilli();
+        long start = Instant.now().minusSeconds(290).toEpochMilli();
         long end = Instant.now().toEpochMilli();
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
-        Integer limit = 6;
+        Integer limit = 4;
 
         for (String pair : pairs) {
             try {
                 String rightFormattedPair = formatPair(pair);
                 List<KlineDto> klinesDto = getKline(bybitClient.getKline(rightFormattedPair, interval, limit, start, end));
+                if (klinesDto.isEmpty()) {
+                    continue;
+                }
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
                 log.error("error from parse kline, error: {}", e.getMessage());
