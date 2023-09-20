@@ -11,5 +11,5 @@ public interface KlineSpreadRepository extends JpaRepository<KlineSpread, Long> 
     //AndStartIsBeforeAndEndIsAfter
     List<KlineSpread> searchKlineSpreadBySpreadIsGreaterThanAndTimeIsAfter(BigDecimal targetSpread, LocalDateTime start);
 
-    void deleteKlineSpreadByTimeBefore(LocalDateTime time);
+    void deleteAllByTimeIsBefore(LocalDateTime time);
 }

@@ -38,7 +38,7 @@ public class ParserServiceImpl implements ParserService {
     }
 
     @Override
-    @Scheduled(fixedDelay = 900000)
+    @Scheduled(fixedDelay = 90000)
     public void initParser() {
         if (pairs.isEmpty()) {
             return;

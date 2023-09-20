@@ -57,13 +57,14 @@ public class AnalyzerServiceFileImpl implements AnalyzerService {
         return this.spreadTarget;
     }
 
-    @Scheduled(fixedRate = 3600000)
+    @Scheduled(fixedDelay = 3600000)
     private void clearDB() {
         LocalDateTime oneHourBeforeNow = LocalDateTime.now().minusMinutes(3600);
-        klineSpreadRepository.deleteKlineSpreadByTimeBefore(oneHourBeforeNow);
+        klineSpreadRepository.deleteAllByTimeIsBefore(oneHourBeforeNow);
+        log.info("db clear for one hour");
     }
 
-    @Scheduled(fixedRate = 900000)
+    @Scheduled(fixedDelay = 900000)
     private void clearFile() {
         Path path = Path.of(".\\speads.txt");
         try {
