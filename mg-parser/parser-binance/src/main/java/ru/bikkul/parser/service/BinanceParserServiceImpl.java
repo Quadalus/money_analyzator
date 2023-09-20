@@ -4,6 +4,7 @@ import com.binance.api.client.domain.market.Candlestick;
 import com.binance.api.client.domain.market.OrderBook;
 import com.binance.api.client.domain.market.OrderBookEntry;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.bikkul.parser.client.BinanceParserClient;
 import ru.bikkul.parser.dto.AskDto;
@@ -21,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BinanceParserServiceImpl implements BinanceParserService {
@@ -30,9 +32,17 @@ public class BinanceParserServiceImpl implements BinanceParserService {
     public Map<String, KlineFullDataDto> getKlineForFiveMin(Set<String> pairs) {
         Map<String, KlineFullDataDto> klines = new HashMap<>();
 
-        for (String pair: pairs) {
-            List<KlineDto> klineForFiveMin = getKline(binanceParseClient.getKlineForFiveMin(formatPair(pair)));
-            klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klineForFiveMin));
+        for (String pair : pairs) {
+            try {
+                List<KlineDto> klineForFiveMin = getKline(binanceParseClient.getKlineForFiveMin(formatPair(pair)));
+
+                if (klineForFiveMin.isEmpty()) {
+                    continue;
+                }
+                klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klineForFiveMin));
+            } catch (Exception e) {
+                log.error("error from parse kline, exception msg:{}", e.getMessage());
+            }
         }
         return klines;
     }

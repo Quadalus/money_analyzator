@@ -25,7 +25,6 @@ public class KlineDeserializer extends JsonDeserializer<Kline> {
         final String close = node.get("close").asText();
         final String volume = node.get("volume").asText();
 
-
         Kline kline = new Kline();
         kline.setOpenTime(openTime);
         kline.setOpen(open);

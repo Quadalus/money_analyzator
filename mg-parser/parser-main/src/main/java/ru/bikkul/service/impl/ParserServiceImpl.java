@@ -34,10 +34,11 @@ public class ParserServiceImpl implements ParserService {
         pairs.add("LTC-USDT");
         pairs.add("SFP-USDT");
         pairs.add("MLN-USDT");
+        pairs.add("BTM-USDT");
     }
 
     @Override
-    @Scheduled(fixedRate = 300000)
+    @Scheduled(fixedDelay = 900000)
     public void initParser() {
         if (pairs.isEmpty()) {
             return;
@@ -52,7 +53,6 @@ public class ParserServiceImpl implements ParserService {
         try {
             parserClient.sendKlinesDataToAnalyzer(marketKlines);
             log.info("klines date send to analyzer");
-            Thread.sleep(3000);
             clearKlinesData();
         } catch (Exception e) {
             log.error("error from sending klinesData to analyzer, exception msg:{}", e.getMessage());

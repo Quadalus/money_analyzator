@@ -20,6 +20,8 @@ public class BingxController {
     @GetMapping("/klines")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, KlineFullDataDTO> getKline(@RequestParam Set<String> pairs) {
-        return parserService.getKlineForFiveMin(pairs);
+        Map<String, KlineFullDataDTO> klineForFiveMin = parserService.getKlineForFourMin(pairs);
+        log.info("kline for five minutes has been got:{}", klineForFiveMin.keySet());
+        return klineForFiveMin;
     }
 }

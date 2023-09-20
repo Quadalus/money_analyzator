@@ -71,7 +71,7 @@ public class KlineDataDtoMapper {
                     BigDecimal buyMarketFee = new BigDecimal(marketData.getFee());
                     BigDecimal sellMarketFee = new BigDecimal(valuePairMarketData.get(i).getFee());
                     BigDecimal spread = (sellPriceFromMarket
-                            .divide(buyPriceFromMarket, 9, RoundingMode.FLOOR))
+                            .divide(buyPriceFromMarket, 6, RoundingMode.HALF_UP))
                             .subtract(new BigDecimal(1))
                             .multiply(new BigDecimal(100))
                             .subtract(buyMarketFee)

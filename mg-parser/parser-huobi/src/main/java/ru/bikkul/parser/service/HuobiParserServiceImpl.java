@@ -24,15 +24,18 @@ public class HuobiParserServiceImpl implements HuobiParserService {
     private final HuobiClientImpl huobiClient;
 
     @Override
-    public Map<String, KlineFullDataDTO> getKlineForFiveMin(Set<String> pairs) {
+    public Map<String, KlineFullDataDTO> getKlineForFourMin(Set<String> pairs) {
         Map<String, KlineFullDataDTO> klines = new HashMap<>();
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
-        Integer limit = 6;
+        Integer limit = 4;
 
         for (String pair : pairs) {
             try {
                 String rightFormattedPair = formatPair(pair);
                 KlineFull kline = huobiClient.getKline(rightFormattedPair, interval, limit);
+                if (kline.getData().isEmpty()) {
+                    continue;
+                }
                 List<KlineDto> klinesDto = getKline(kline);
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {

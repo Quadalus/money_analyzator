@@ -28,4 +28,5 @@ public class BingxClientImpl implements BingxClient {
                 .bodyToMono(String.class)
                 .block();
     }
+
 }

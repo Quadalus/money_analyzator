@@ -24,7 +24,7 @@ public class PhemexParserServiceImpl implements PhemexParserService {
     private final PhemexClientImpl phemexClient;
 
     @Override
-    public Map<String, KlineFullDataDTO> getKlineForFiveMin(Set<String> pairs) {
+    public Map<String, KlineFullDataDTO> getKlineForFourMin(Set<String> pairs) {
         Map<String, KlineFullDataDTO> klines = new HashMap<>();
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
         Integer limit = 5;
@@ -33,6 +33,9 @@ public class PhemexParserServiceImpl implements PhemexParserService {
             try {
                 String rightFormattedPair = formatPair(pair);
                 List<KlineDto> klinesDto = getKline(phemexClient.getKline(rightFormattedPair, interval, limit));
+                if (klinesDto.isEmpty()) {
+                    continue;
+                }
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
                 log.error("error from parse kline, error: {}", e.getMessage());

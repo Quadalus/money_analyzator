@@ -6,5 +6,5 @@ import java.util.Map;
 import java.util.Set;
 
 public interface HuobiParserService {
-    Map<String, KlineFullDataDTO> getKlineForFiveMin(Set<String> pairs);
+    Map<String, KlineFullDataDTO> getKlineForFourMin(Set<String> pairs);
 }

@@ -26,18 +26,23 @@ public class BingxParserServiceImpl implements BingxParserService {
     private final BingxClientImpl bingx;
 
     @Override
-    public Map<java.lang.String, KlineFullDataDTO> getKlineForFiveMin(Set<java.lang.String> pairs) {
+    public Map<java.lang.String, KlineFullDataDTO> getKlineForFourMin(Set<String> pairs) {
         Map<java.lang.String, KlineFullDataDTO> klines = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
-        long start = Instant.now().minusSeconds(360).toEpochMilli();
+        long start = Instant.now().minusSeconds(300).toEpochMilli();
         long end = Instant.now().toEpochMilli();
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
 
-        for (java.lang.String pair : pairs) {
+        for (String pair : pairs) {
             try {
                 String kline = bingx.getKline(pair, interval, start, end);
                 KlineFull klineFull = objectMapper.readValue(kline, KlineFull.class);
+                System.out.println(klineFull);
                 List<KlineDto> klinesDto = getKline(klineFull);
+
+                if (klinesDto.isEmpty()) {
+                    continue;
+                }
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
                 log.error("error from parse kline, error: {}", e.getMessage());

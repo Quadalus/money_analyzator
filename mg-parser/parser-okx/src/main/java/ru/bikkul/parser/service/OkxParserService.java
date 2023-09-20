@@ -7,5 +7,5 @@ import java.util.Set;
 
 public interface OkxParserService {
 
-    Map<String, KlineFullDataDTO> getKlineForFiveMin(Set<String> pairs);
+    Map<String, KlineFullDataDTO> getKlineForFourMin(Set<String> pairs);
 }

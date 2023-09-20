@@ -7,5 +7,5 @@ import java.util.Set;
 
 public interface GateParserService {
 
-    Map<String, KlineFullDataDto> getKlineForFiveMin(Set<String> pairs);
+    Map<String, KlineFullDataDto> getKlineForFourMin(Set<String> pairs);
 }

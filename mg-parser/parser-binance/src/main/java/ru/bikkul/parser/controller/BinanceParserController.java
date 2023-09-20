@@ -21,7 +21,7 @@ public class BinanceParserController {
     @ResponseStatus(HttpStatus.OK)
     public Map<String, KlineFullDataDto> parseKline(@RequestParam Set<String> pairs) {
         Map<String, KlineFullDataDto> binanceKline = binanceParserService.getKlineForFiveMin(pairs);
-        log.info("kline for five minutes has been got:{}", binanceKline);
+        log.info("kline for four minutes has been got:{}", binanceKline);
         return binanceKline;
     }
 

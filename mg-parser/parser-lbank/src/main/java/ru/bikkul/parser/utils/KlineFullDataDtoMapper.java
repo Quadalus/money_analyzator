@@ -29,7 +29,7 @@ public class KlineFullDataDtoMapper {
             BigDecimal price = new BigDecimal(klineDto.getClose());
             avgWeightedPrice = avgWeightedPrice.add(price.multiply(volume));
         }
-        avgWeightedPrice = avgWeightedPrice.divide(expVolume, 10, RoundingMode.HALF_UP)
+        avgWeightedPrice = avgWeightedPrice.divide(expVolume, 6, RoundingMode.HALF_UP)
                 .stripTrailingZeros();
         return avgWeightedPrice;
     }
@@ -41,7 +41,7 @@ public class KlineFullDataDtoMapper {
             volume = new BigDecimal(klineDto.getVolume());
             avgVolume = avgVolume.add(volume);
         }
-        avgVolume = avgVolume.divide(new BigDecimal(kline.size()), 10, RoundingMode.HALF_UP);
+        avgVolume = avgVolume.divide(new BigDecimal(kline.size()), 6, RoundingMode.HALF_UP);
         return avgVolume;
     }
 
