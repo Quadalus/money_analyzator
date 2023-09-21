@@ -8,8 +8,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface KlineSpreadRepository extends JpaRepository<KlineSpread, Long> {
-    //AndStartIsBeforeAndEndIsAfter
     List<KlineSpread> searchKlineSpreadBySpreadIsGreaterThanAndTimeIsAfter(BigDecimal targetSpread, LocalDateTime start);
-
-    void deleteAllByTimeIsBefore(LocalDateTime time);
 }

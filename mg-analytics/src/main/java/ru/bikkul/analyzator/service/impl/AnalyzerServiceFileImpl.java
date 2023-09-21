@@ -57,23 +57,16 @@ public class AnalyzerServiceFileImpl implements AnalyzerService {
         return this.spreadTarget;
     }
 
-    @Scheduled(fixedDelay = 3600000)
-    private void clearDB() {
-        LocalDateTime oneHourBeforeNow = LocalDateTime.now().minusMinutes(3600);
-        klineSpreadRepository.deleteAllByTimeIsBefore(oneHourBeforeNow);
-        log.info("db clear for one hour");
-    }
-
     @Scheduled(fixedDelay = 900000)
     private void clearFile() {
         Path path = Path.of(".\\speads.txt");
         try {
             FileWriter fw = new FileWriter(path.toFile(), false);
-            fw.write("==========================================");
+            fw.write("");
             fw.close();
             log.info("file clear");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage());
         }
     }
 
@@ -90,7 +83,7 @@ public class AnalyzerServiceFileImpl implements AnalyzerService {
         try {
             Files.write(path, spreads, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
