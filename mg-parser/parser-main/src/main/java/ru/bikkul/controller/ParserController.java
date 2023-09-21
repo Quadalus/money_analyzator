@@ -15,6 +15,14 @@ import java.util.Set;
 public class ParserController {
     private final ParserService parserService;
 
+    @GetMapping("/pairs")
+    @ResponseStatus(HttpStatus.OK)
+    public Set<String> getPairs() {
+        Set<String> pairs = parserService.getPairs();
+        log.info("pairs has been got, pairs:{}", pairs);
+        return pairs;
+    }
+
     @PostMapping("/pair")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public String addPair(@RequestParam String pair) {
@@ -38,12 +46,14 @@ public class ParserController {
     }
 
     @DeleteMapping("/pairs")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePairs(@RequestParam Set<String> pairs) {
         parserService.deletePairs(pairs);
         log.info("delete pairs from parser, pairs:{}", pairs);
     }
 
     @DeleteMapping("/pairs/all")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAllPairs() {
         parserService.deleteAllPairs();
         log.info("delete all pairs from parser");

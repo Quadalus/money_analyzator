@@ -1,9 +1,5 @@
 package ru.bikkul.service;
 
-import ru.bikkul.model.KlineData;
-
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public interface ParserService {
@@ -17,9 +13,9 @@ public interface ParserService {
 
     void deleteAllPairs();
 
-    Map<String, List<KlineData>> getAllKlinesData();
-
     void clearKlinesData();
 
     void initParser();
+
+    Set<String> getPairs();
 }

@@ -33,8 +33,6 @@ public class ParserServiceImpl implements ParserService {
         pairs.add("WAVES-USDT");
         pairs.add("LTC-USDT");
         pairs.add("SFP-USDT");
-        pairs.add("MLN-USDT");
-        pairs.add("BTM-USDT");
     }
 
     @Override
@@ -47,6 +45,11 @@ public class ParserServiceImpl implements ParserService {
             getKlineDataFromMarket(port);
         }
         sendKlinesDataToAnalyzer();
+    }
+
+    @Override
+    public Set<String> getPairs() {
+        return pairs;
     }
 
     private void sendKlinesDataToAnalyzer() {
@@ -87,11 +90,6 @@ public class ParserServiceImpl implements ParserService {
     @Override
     public void deletePair(String pair) {
         this.pairs.remove(pair);
-    }
-
-    @Override
-    public Map<String, List<KlineData>> getAllKlinesData() {
-        return null;
     }
 
     @Override
