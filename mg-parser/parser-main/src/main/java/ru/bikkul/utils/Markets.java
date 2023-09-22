@@ -10,7 +10,10 @@ public enum Markets {
     PHEMEX("8086"),
     BINGX("8087"),
     LBANK("8088"),
-    GATE("8089");
+    GATE("8089"),
+    KRAKEN("8070"),
+    BITGET("8071"),
+    ASCENDEX("8072");
 
     private final String port;
 
