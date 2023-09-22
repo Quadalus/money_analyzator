@@ -14,7 +14,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("${bingx.api.prefix}" + "/parser")
 @RequiredArgsConstructor
-public class BingxController {
+public class KrakenController {
     private final KrakenParserService parserService;
 
     @GetMapping("/klines")

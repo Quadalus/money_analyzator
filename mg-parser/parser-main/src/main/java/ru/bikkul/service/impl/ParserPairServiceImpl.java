@@ -20,7 +20,6 @@ public class ParserPairServiceImpl implements ParserPairService {
         pairs.add("ARB-USDT");
         pairs.add("IMX-USDT");
         pairs.add("SOL-USDT");
-        pairs.add("RPL-USDT");
         pairs.add("COMP-USDT");
         pairs.add("DASH-USDT");
     }
