@@ -2,7 +2,7 @@ package ru.bikkul.service;
 
 import java.util.Set;
 
-public interface ParserService {
+public interface ParserPairService {
     void setPairs(Set<String> pairs);
 
     void addPair(String pair);
@@ -12,10 +12,6 @@ public interface ParserService {
     void deletePair(String pair);
 
     void deleteAllPairs();
-
-    void clearKlinesData();
-
-    void initParser();
 
     Set<String> getPairs();
 }

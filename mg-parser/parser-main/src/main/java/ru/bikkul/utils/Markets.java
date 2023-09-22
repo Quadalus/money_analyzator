@@ -1,6 +1,6 @@
 package ru.bikkul.utils;
 
-public enum Ports {
+public enum Markets {
     BINANCE("8080"),
     MEXC("8081"),
     BYBIT("8082"),
@@ -14,7 +14,7 @@ public enum Ports {
 
     private final String port;
 
-    Ports(String port) {
+    Markets(String port) {
         this.port = port;
     }
 
