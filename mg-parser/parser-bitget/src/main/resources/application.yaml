@@ -1,0 +1,8 @@
+server:
+  port: 8071
+
+bitget:
+  api:
+    base_url: https://api.bitget.com
+    kline_uri: /api/mix/v1/market/candles
+    prefix: /api/v1
