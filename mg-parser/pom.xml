@@ -26,5 +26,6 @@
         <module>parser-bingx</module>
         <module>parser-lbank</module>
         <module>parser-gate</module>
+        <module>parser-kraken</module>
     </modules>
 </project>

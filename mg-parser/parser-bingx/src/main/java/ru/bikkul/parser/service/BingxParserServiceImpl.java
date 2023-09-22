@@ -37,7 +37,6 @@ public class BingxParserServiceImpl implements BingxParserService {
             try {
                 String kline = bingx.getKline(pair, interval, start, end);
                 KlineFull klineFull = objectMapper.readValue(kline, KlineFull.class);
-                System.out.println(klineFull);
                 List<KlineDto> klinesDto = getKline(klineFull);
 
                 if (klinesDto.isEmpty()) {

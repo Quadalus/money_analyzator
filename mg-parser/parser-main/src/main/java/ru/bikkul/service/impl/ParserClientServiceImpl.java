@@ -1,50 +1,40 @@
 package ru.bikkul.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.bikkul.client.ParserClient;
 import ru.bikkul.model.KlineData;
-import ru.bikkul.service.ParserService;
-import ru.bikkul.utils.Ports;
+import ru.bikkul.service.ParserClientService;
+import ru.bikkul.service.ParserMarketService;
+import ru.bikkul.service.ParserPairService;
+import ru.bikkul.utils.Markets;
 
 import java.util.*;
 
 @Slf4j
 @Service
 @EnableScheduling
-public class ParserServiceImpl implements ParserService {
+@RequiredArgsConstructor
+public class ParserClientServiceImpl implements ParserClientService {
+    private final Map<String, List<KlineData>> marketKlines = new HashMap<>();
+    private final ParserMarketService parserMarketService;
+    private final ParserPairService parserPairService;
     private final ParserClient parserClient;
-    private final Set<String> pairs = new HashSet<>();
-    private final Map<String, List<KlineData>> marketKlines;
-
-    @Autowired
-    public ParserServiceImpl(ParserClient parserClient) {
-        this.parserClient = parserClient;
-        this.marketKlines = new HashMap<>();
-        pairs.add("ADA-USDT");
-        pairs.add("TRX-USDT");
-        pairs.add("PERP-USDT");
-        pairs.add("DOT-USDT");
-        pairs.add("SOL-USDT");
-        pairs.add("BTC-USDT");
-        pairs.add("WAVES-USDT");
-        pairs.add("LTC-USDT");
-        pairs.add("SFP-USDT");
-        pairs.add("MLN-USDT");
-        pairs.add("BTM-USDT");
-    }
 
     @Override
     @Scheduled(fixedDelay = 90000)
     public void initParser() {
+        Set<String> pairs = parserPairService.getPairs();
+        Set<Markets> trackingMarkets = parserMarketService.getTrackingMarkets();
+
         if (pairs.isEmpty()) {
             return;
         }
-        for (Ports port : Ports.values()) {
-            getKlineDataFromMarket(port);
+        for (Markets port : trackingMarkets) {
+            getKlineDataFromMarket(port, pairs);
         }
         sendKlinesDataToAnalyzer();
     }
@@ -59,7 +49,7 @@ public class ParserServiceImpl implements ParserService {
         }
     }
 
-    private void getKlineDataFromMarket(Ports port) {
+    private void getKlineDataFromMarket(Markets port, Set<String> pairs) {
         try {
             Map<String, KlineData> klineFromMarket = parserClient.getKlineFromMarket(port.getPort(), pairs);
             log.info("klines data from market has been got, klinesFromMarket:{}", klineFromMarket);
@@ -67,42 +57,6 @@ public class ParserServiceImpl implements ParserService {
         } catch (Exception e) {
             log.error("error from getting kline data, exception msg:{}", e.getMessage());
         }
-    }
-
-    @Override
-    public void setPairs(Set<String> pairs) {
-        this.pairs.addAll(pairs);
-    }
-
-    @Override
-    public void addPair(String pair) {
-        this.pairs.add(pair);
-    }
-
-    @Override
-    public void deletePairs(Set<String> pairs) {
-        this.pairs.removeAll(pairs);
-    }
-
-    @Override
-    public void deletePair(String pair) {
-        this.pairs.remove(pair);
-    }
-
-    @Override
-    public Map<String, List<KlineData>> getAllKlinesData() {
-        return null;
-    }
-
-    @Override
-    public void clearKlinesData() {
-        marketKlines.clear();
-        log.info("klines data has been clear");
-    }
-
-    @Override
-    public void deleteAllPairs() {
-        pairs.clear();
     }
 
     private void addPairKlineData(Map<String, KlineData> marketKline) {
@@ -115,5 +69,9 @@ public class ParserServiceImpl implements ParserService {
             }
             marketKlines.get(pair).add(klineData);
         }
+    }
+
+    private void clearKlinesData() {
+        marketKlines.clear();
     }
 }
