@@ -13,7 +13,9 @@ public enum Markets {
     GATE("8089"),
     KRAKEN("8070"),
     BITGET("8071"),
-    ASCENDEX("8072");
+    ASCENDEX("8072"),
+    PROBIT("8073"),
+    WOOX("8074");
 
     private final String port;
 
