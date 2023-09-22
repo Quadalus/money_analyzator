@@ -1,0 +1,8 @@
+server:
+  port: 8072
+
+ascendex:
+  api:
+    base_url: https://ascendex.com
+    kline_uri: /api/pro/v1/barhist
+    prefix: /api/v1
