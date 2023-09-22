@@ -21,16 +21,17 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class BybitParserServiceImpl implements BybitParserService {
+public class
+BybitParserServiceImpl implements BybitParserService {
     private final BybitClientImpl bybitClient;
 
     @Override
     public Map<String, KlineFullDataDTO> getKlineForFiveMin(Set<String> pairs) {
         Map<String, KlineFullDataDTO> klines = new HashMap<>();
-        long start = Instant.now().minusSeconds(290).toEpochMilli();
+        long start = Instant.now().minusSeconds(300).toEpochMilli();
         long end = Instant.now().toEpochMilli();
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
-        Integer limit = 4;
+        Integer limit = 5;
 
         for (String pair : pairs) {
             try {
