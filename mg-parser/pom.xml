@@ -31,6 +31,6 @@
         <module>parser-kraken</module>
         <module>parser-ascendex</module>
         <module>parser-probit</module>
-<!--        <module>parser-woox</module>-->
+        <module>parser-woox</module>
     </modules>
 </project>
