@@ -1,0 +1,8 @@
+server:
+  port: 8073
+
+probit:
+  api:
+    base_url: https://api.probit.com/
+    kline_uri: api/exchange/v1/candle
+    prefix: /api/v1
