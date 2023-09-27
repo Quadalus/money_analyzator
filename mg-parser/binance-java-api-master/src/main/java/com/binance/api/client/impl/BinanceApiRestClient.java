@@ -1,6 +1,5 @@
 package com.binance.api.client.impl;
 
-import com.binance.api.client.BinanceApiRestClient;
 import com.binance.api.client.config.BinanceApiConfig;
 import com.binance.api.client.constant.BinanceApiConstants;
 import com.binance.api.client.domain.account.*;
@@ -19,11 +18,11 @@ import static com.binance.api.client.impl.BinanceApiServiceGenerator.executeSync
  * Implementation of Binance's REST API using Retrofit with synchronous/blocking
  * method calls.
  */
-public class BinanceApiRestClientImpl implements BinanceApiRestClient {
+public class BinanceApiRestClient implements com.binance.api.client.BinanceApiRestClient {
 
 	private final BinanceApiService binanceApiService;
 
-	public BinanceApiRestClientImpl(String apiKey, String secret) {
+	public BinanceApiRestClient(String apiKey, String secret) {
 		binanceApiService = createService(BinanceApiService.class, apiKey, secret);
 	}
 

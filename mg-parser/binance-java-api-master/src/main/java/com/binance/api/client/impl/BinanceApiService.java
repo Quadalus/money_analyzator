@@ -23,8 +23,7 @@ import java.util.List;
  */
 public interface BinanceApiService {
 
-    // General endpoints
-
+    // General endpoint
     @GET("/api/v1/ping")
     Call<Void> ping();
 

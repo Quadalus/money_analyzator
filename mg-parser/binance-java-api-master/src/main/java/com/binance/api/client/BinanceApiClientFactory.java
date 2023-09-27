@@ -98,7 +98,7 @@ public class BinanceApiClientFactory {
    * Creates a new synchronous/blocking REST client.
    */
   public BinanceApiRestClient newRestClient() {
-    return new BinanceApiRestClientImpl(apiKey, secret);
+    return new com.binance.api.client.impl.BinanceApiRestClient(apiKey, secret);
   }
 
   /**

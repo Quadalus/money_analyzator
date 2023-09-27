@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class BinanceRestConfig {
+    private final BinanceApiProvider binanceApiProvider;
+
     @Bean
     public BinanceApiRestClient binanceApiRestClient() {
-        return BinanceApiClientFactory.newInstance(null, null).newRestClient();
+        return BinanceApiClientFactory.newInstance(binanceApiProvider.getApiKey(), binanceApiProvider.getApiSecret()).newRestClient();
     }
 }

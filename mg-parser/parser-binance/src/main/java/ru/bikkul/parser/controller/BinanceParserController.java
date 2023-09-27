@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.bikkul.parser.domain.coin.CoinInfo;
 import ru.bikkul.parser.dto.KlineFullDataDto;
 import ru.bikkul.parser.service.BinanceParserService;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,8 +27,11 @@ public class BinanceParserController {
         return binanceKline;
     }
 
-    /*@GetMapping("/spot")
-    public Map<String, AvgWeightedKlinePriceDto> parseSpot(@RequestParam Set<String> pairs) {
-        return binanceParserService.getKlineForFiveMin(pairs);
-    }*/
+    @GetMapping("/coin/info")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CoinInfo> getCoinsInfo() {
+        List<CoinInfo> coinsInformation = binanceParserService.getCoinsInformation();
+        log.info("coin's info has been got, coin info size:{}", coinsInformation.size());
+        return coinsInformation;
+    }
 }
