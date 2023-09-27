@@ -11,20 +11,12 @@ import ru.bikkul.parser.utils.json.NetworkInfoSerializer;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NetworkInfo {
     private String coin;
-    private Boolean depositEnable;
     private String name;
     private String network;
+    private Boolean depositEnable;
     private Boolean withdrawEnable;
 
     public NetworkInfo() {
-    }
-
-    public NetworkInfo(String coin, Boolean depositEnable, String name, String network, Boolean withdrawEnable) {
-        this.coin = coin;
-        this.depositEnable = depositEnable;
-        this.name = name;
-        this.network = network;
-        this.withdrawEnable = withdrawEnable;
     }
 
     public String getCoin() {

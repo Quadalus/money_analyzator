@@ -9,13 +9,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 import ru.bikkul.parser.client.BinanceParserClient;
 import ru.bikkul.parser.config.BinanceApiProvider;
 import ru.bikkul.parser.domain.coin.CoinInfo;
+import ru.bikkul.parser.utils.SignatureGenerator;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Component("webClient")
 public class BinanceParserWebClientImpl implements BinanceParserClient {
     private final WebClient webClient;
     private final BinanceApiProvider provider;
+    private final String API_HEADER_NAME = "X-MBX-APIKEY";
 
     @Value("${binance.api.kline_uri}")
     private String KLINE_URI;
@@ -45,8 +49,12 @@ public class BinanceParserWebClientImpl implements BinanceParserClient {
     }
 
     @Override
-    public List<CoinInfo> getCoinsInformation(Long timestamp, String signature) {
-        String API_HEADER_NAME = "X-MBX-APIKEY";
+    public List<CoinInfo> getCoinsInformation(Long timestamp) {
+        Map<String, String> parameters = new TreeMap<>();
+        parameters.put("timestamp", timestamp.toString());
+        String query = SignatureGenerator.getMessageToDigest(parameters);
+        String signature = SignatureGenerator.generateHmac256(query, provider.getApiSecret());
+
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder

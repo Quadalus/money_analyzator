@@ -1,4 +1,4 @@
-package ru.bikkul.model;
+package ru.bikkul.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class KlineData {
+@EqualsAndHashCode
+public class KlineDataDto {
     private String marketName;
     private String marketType;
     private BigDecimal avgWeighedPrice;

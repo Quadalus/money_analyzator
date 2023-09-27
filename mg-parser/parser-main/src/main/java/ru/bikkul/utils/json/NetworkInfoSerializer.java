@@ -1,14 +1,15 @@
-package ru.bikkul.model;
+package ru.bikkul.utils.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import ru.bikkul.dto.NetworkInfoDto;
 
 import java.io.IOException;
 
-public class NetworkInfoSerializer extends JsonSerializer<NetworkInfo> {
+public class NetworkInfoSerializer extends JsonSerializer<NetworkInfoDto> {
     @Override
-    public void serialize(NetworkInfo networkInfo, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+    public void serialize(NetworkInfoDto networkInfo, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartArray();
         gen.writeString(networkInfo.getCoin());
         gen.writeString(networkInfo.getName());

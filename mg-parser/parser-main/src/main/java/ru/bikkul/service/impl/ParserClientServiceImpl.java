@@ -3,75 +3,48 @@ package ru.bikkul.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.bikkul.client.ParserClient;
-import ru.bikkul.model.KlineData;
+import ru.bikkul.dto.CoinInfoDto;
 import ru.bikkul.service.ParserClientService;
 import ru.bikkul.service.ParserMarketService;
 import ru.bikkul.service.ParserPairService;
 import ru.bikkul.utils.Markets;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @Service
 @EnableScheduling
 @RequiredArgsConstructor
 public class ParserClientServiceImpl implements ParserClientService {
-    private final Map<String, List<KlineData>> marketKlines = new HashMap<>();
     private final ParserMarketService parserMarketService;
     private final ParserPairService parserPairService;
     private final ParserClient parserClient;
 
     @Override
-    @Scheduled(fixedDelay = 90000)
-    public void initParser() {
-        Set<String> pairs = parserPairService.getPairs();
+    public Map<String, List<CoinInfoDto>> getAllCoinInfo() {
         Set<Markets> trackingMarkets = parserMarketService.getTrackingMarkets();
+        Map<String, List<CoinInfoDto>> coins = new HashMap<>();
 
-        if (pairs.isEmpty()) {
-            return;
-        }
         for (Markets port : trackingMarkets) {
-            getKlineDataFromMarket(port, pairs);
+            Map<String, List<CoinInfoDto>> coinInfoFromMarket = getCoinInfoFromMarket(port);
+            coins.putAll(coinInfoFromMarket);
         }
-        sendKlinesDataToAnalyzer();
+        return coins;
     }
 
-    private void sendKlinesDataToAnalyzer() {
-        try {
-            parserClient.sendKlinesDataToAnalyzer(marketKlines);
-            log.info("klines date send to analyzer");
-            clearKlinesData();
-        } catch (Exception e) {
-            log.error("error from sending klinesData to analyzer, exception msg:{}", e.getMessage());
-        }
-    }
 
-    private void getKlineDataFromMarket(Markets port, Set<String> pairs) {
+    private Map<String, List<CoinInfoDto>> getCoinInfoFromMarket(Markets port) {
+        Map<String, List<CoinInfoDto>> coinInfoMarket = new HashMap<>();
         try {
-            Map<String, KlineData> klineFromMarket = parserClient.getKlineFromMarket(port.getPort(), pairs);
-            log.info("klines data from market has been got, klinesFromMarket:{}", klineFromMarket);
-            addPairKlineData(klineFromMarket);
+            coinInfoMarket = parserClient.getCoinInfoFromMarket(port.getPort());
         } catch (Exception e) {
             log.error("error from getting kline data, exception msg:{}", e.getMessage());
         }
-    }
-
-    private void addPairKlineData(Map<String, KlineData> marketKline) {
-        for (Map.Entry<String, KlineData> kline : marketKline.entrySet()) {
-            KlineData klineData = kline.getValue();
-            String pair = kline.getKey();
-
-            if (!marketKlines.containsKey(pair)) {
-                marketKlines.put(pair, new ArrayList<>());
-            }
-            marketKlines.get(pair).add(klineData);
-        }
-    }
-
-    private void clearKlinesData() {
-        marketKlines.clear();
+        return coinInfoMarket;
     }
 }

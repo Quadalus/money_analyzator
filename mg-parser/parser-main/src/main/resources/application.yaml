@@ -1,9 +1,21 @@
 server:
   port: 8090
 
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mg_coin_information
+    username: quadalus
+    password: pollka78
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
 parser:
   api:
     base:
+      coin_uri: /parser/coin/info
       prefix: /api/v1
       url: http://127.0.0.1
       kline_uri: /parser/klines
