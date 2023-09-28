@@ -13,18 +13,11 @@ public class ParserPairServiceImpl implements ParserPairService {
     private final Set<String> pairs = new HashSet<>();
 
     public ParserPairServiceImpl() {
-        pairs.add("XLM-USDT");
-        pairs.add("XMR-USDT");
+        pairs.add("CRV-USDT");
         pairs.add("MATIC-USDT");
-        pairs.add("DOT-USDT");
         pairs.add("ARB-USDT");
         pairs.add("IMX-USDT");
-        pairs.add("COMP-USDT");
         pairs.add("LINK-USDT");
-        pairs.add("DASH-USDT");
-        pairs.add("AVAX-USDT");
-        pairs.add("ATOM-USDT");
-        pairs.add("APT-USDT");
     }
 
     @Override

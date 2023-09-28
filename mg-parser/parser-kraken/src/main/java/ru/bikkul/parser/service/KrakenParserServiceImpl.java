@@ -32,7 +32,7 @@ public class KrakenParserServiceImpl implements KrakenParserService {
     @Override
     public Map<String, KlineFullDataDTO> getKlineForFourMin(Set<String> pairs) {
         Map<String, KlineFullDataDTO> klines = new HashMap<>();
-        long start = Instant.now().minusSeconds(360).toEpochMilli() / 1000;
+        long start = Instant.now().minusSeconds(300).toEpochMilli() / 1000;
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
 
         for (String pair : pairs) {
@@ -46,7 +46,8 @@ public class KrakenParserServiceImpl implements KrakenParserService {
                 }
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
-                log.error("error from parse kline, error: {}", e.getMessage());
+
+                log.error("error from parse kline {}, error: {}", pair, e.getMessage());
             }
         }
         return klines;
@@ -60,7 +61,8 @@ public class KrakenParserServiceImpl implements KrakenParserService {
 
     private List<Kline> getKlinesData(KlineFull klineFull) throws JsonProcessingException {
         String jsonData = klineFull.getResult().getData();
-        return objectMapper.readValue(jsonData, new TypeReference<List<Kline>>() {});
+        return objectMapper.readValue(jsonData, new TypeReference<List<Kline>>() {
+        });
     }
 
     private List<KlineDto> getKline(List<Kline> klines) {

@@ -21,9 +21,9 @@ public class MarketCoinDtoMapper {
             List<CoinInfoDto> marketCoins = entry.getValue();
 
             for (CoinInfoDto coin : marketCoins) {
-                MarketCoinInfo marketCoinInfo = new MarketCoinInfo();
-                marketCoinInfo.setMarketName(marketName);
                 for (NetworkInfoDto networkInfoDto : coin.getNetworkList()) {
+                    MarketCoinInfo marketCoinInfo = new MarketCoinInfo();
+                    marketCoinInfo.setMarketName(marketName);
                     marketCoinInfo.setCoinName(coin.getCoin());
                     marketCoinInfo.setNetworkName(networkInfoDto.getName());
                     marketCoinInfo.setIsDepositEnable(networkInfoDto.getDepositEnable());
