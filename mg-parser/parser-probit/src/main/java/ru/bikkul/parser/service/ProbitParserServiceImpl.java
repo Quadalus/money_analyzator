@@ -11,6 +11,7 @@ import ru.bikkul.parser.dto.KlineFullDataDTO;
 import ru.bikkul.parser.utils.KlineDtoMapper;
 import ru.bikkul.parser.utils.KlineFullDataDtoMapper;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -30,9 +31,9 @@ public class ProbitParserServiceImpl implements ProbitParserService {
     @Override
     public Map<String, KlineFullDataDTO> getKlineForFourMin(Set<String> pairs) {
         Map<String, KlineFullDataDTO> klines = new HashMap<>();
-        LocalDateTime start = LocalDateTime.now().minusSeconds(300).minusHours(3);
-        String zStart = start.atZone(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS1'Z'"));
-        LocalDateTime end = LocalDateTime.now().minusHours(3);
+        Instant start = Instant.now().minusSeconds(300);
+        String zStart = start.atZone(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        Instant end = Instant.now();
         String zEnd = end.atZone(ZoneId.of("UTC")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
         Integer limit = 5;
@@ -47,7 +48,7 @@ public class ProbitParserServiceImpl implements ProbitParserService {
                 List<KlineDto> klinesDto = getKline(kline);
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
-                log.error("error from parse kline, error: {}", e.getMessage());
+                log.error("error from parse kline pair:{}, error: {}",pair, e.getMessage());
             }
         }
         return klines;

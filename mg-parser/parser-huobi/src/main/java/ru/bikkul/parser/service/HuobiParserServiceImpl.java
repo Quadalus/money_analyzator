@@ -39,7 +39,7 @@ public class HuobiParserServiceImpl implements HuobiParserService {
                 List<KlineDto> klinesDto = getKline(kline);
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
-                log.error("error from parse kline, error: {}", e.getMessage());
+                log.error("error from parse kline pair:{}, error: {}",pair, e.getMessage());
             }
         }
         return klines;
