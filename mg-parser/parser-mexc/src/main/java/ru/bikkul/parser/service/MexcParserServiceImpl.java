@@ -4,18 +4,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.bikkul.parser.client.MexcClientImpl;
+import ru.bikkul.parser.domain.coin.CoinInfo;
 import ru.bikkul.parser.domain.market.Kline;
 import ru.bikkul.parser.domain.market.KlineInterval;
 import ru.bikkul.parser.dto.KlineDto;
 import ru.bikkul.parser.dto.KlineFullDataDto;
-import ru.bikkul.parser.utils.KlineDtoMapper;
-import ru.bikkul.parser.utils.KlineFullDataDtoMapper;
+import ru.bikkul.parser.utils.mapper.KlineDtoMapper;
+import ru.bikkul.parser.utils.mapper.KlineFullDataDtoMapper;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -46,6 +44,17 @@ public class MexcParserServiceImpl implements MexcParserService {
         }
         return klines;
     }
+    @Override
+    public List<CoinInfo> getCoinsInformation() {
+        List<CoinInfo> coinsInformation = new ArrayList<>();
+        try {
+            coinsInformation = mexcClient.getCoinsInformation();
+        } catch (Exception e) {
+            log.error("error from getting coin info, exception msg:{}", e.getMessage());
+        }
+        return coinsInformation;
+    }
+
 
     private List<KlineDto> getKline(List<Kline> klines) {
         return klines.stream()

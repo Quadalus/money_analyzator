@@ -20,14 +20,18 @@ public class BinanceParserWebClientImpl implements BinanceParserClient {
     private final WebClient webClient;
     private final BinanceApiProvider provider;
     private final String API_HEADER_NAME = "X-MBX-APIKEY";
+    private final String COIN_INFO_URI;
 
     @Value("${binance.api.kline_uri}")
     private String KLINE_URI;
 
     @Autowired
-    public BinanceParserWebClientImpl(@Value("${binance.api.base_url}") String baseUrl, BinanceApiProvider provider) {
+    public BinanceParserWebClientImpl(@Value("${binance.api.base_url}") String baseUrl,
+                                      BinanceApiProvider provider,
+                                      @Value("${binance.api.coin_info_uri}") String coinInfoUri) {
         this.provider = provider;
         this.webClient = WebClient.create(baseUrl);
+        this.COIN_INFO_URI = coinInfoUri;
     }
 
     @Override
@@ -58,7 +62,7 @@ public class BinanceParserWebClientImpl implements BinanceParserClient {
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/sapi/v1/capital/config/getall")
+                        .path(COIN_INFO_URI)
                         .queryParam("timestamp", timestamp)
                         .queryParam("signature", signature)
                         .build())

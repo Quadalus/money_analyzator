@@ -29,9 +29,9 @@ public class BinanceParserController {
 
     @GetMapping("/coin/info")
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, List<CoinInfo>> getCoinsInfo() {
+    public List<CoinInfo> getCoinsInfo() {
         List<CoinInfo> coinsInformation = binanceParserService.getCoinsInformation();
         log.info("coin's info has been got, coin info size:{}", coinsInformation.size());
-        return Map.of("binance", coinsInformation);
+        return coinsInformation;
     }
 }

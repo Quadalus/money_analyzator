@@ -12,5 +12,5 @@ public interface ParserClient {
 
     void sendKlinesDataToAnalyzer(Map<String, List<KlineDataDto>> klines);
 
-    Map<String, List<CoinInfoDto>> getCoinInfoFromMarket(String port);
+    List<CoinInfoDto> getCoinInfoFromMarket(String port);
 }

@@ -14,18 +14,20 @@ public class NetworkInfoDeserializer extends JsonDeserializer<NetworkInfoDto> {
     public NetworkInfoDto deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         ObjectCodec oc = jsonParser.getCodec();
         JsonNode node = oc.readTree(jsonParser);
-        final String coinName = node.get(0).asText();
-        final String name = node.get(1).asText();
-        final String network = node.get(2).asText();
+        final String marketName = node.get(0).asText();
+        final String coinName = node.get(1).asText();
+        final String name = node.get(2).asText();
         final Boolean isDepositEnable = node.get(3).asBoolean();
         final Boolean isWithdrawEnable = node.get(4).asBoolean();
+        final String withdrawFee = node.get(5).asText();
 
         NetworkInfoDto networkInfo = new NetworkInfoDto();
-        networkInfo.setNetwork(network);
+        networkInfo.setMarketName(marketName);
         networkInfo.setCoin(coinName);
         networkInfo.setName(name);
         networkInfo.setDepositEnable(isDepositEnable);
         networkInfo.setWithdrawEnable(isWithdrawEnable);
+        networkInfo.setWithdrawFee(withdrawFee);
         return networkInfo;
     }
 }

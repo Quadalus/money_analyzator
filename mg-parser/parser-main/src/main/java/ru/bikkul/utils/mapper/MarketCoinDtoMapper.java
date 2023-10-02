@@ -7,29 +7,24 @@ import ru.bikkul.model.MarketCoinInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MarketCoinDtoMapper {
     private MarketCoinDtoMapper() {
     }
 
-    public static List<MarketCoinInfo> toMarketCoins(Map<String, List<CoinInfoDto>> coinsInfo) {
+    public static List<MarketCoinInfo> toMarketCoins(List<CoinInfoDto> coinsInfo) {
         List<MarketCoinInfo> coins = new ArrayList<>();
 
-        for (Map.Entry<String, List<CoinInfoDto>> entry : coinsInfo.entrySet()) {
-            String marketName = entry.getKey();
-            List<CoinInfoDto> marketCoins = entry.getValue();
-
-            for (CoinInfoDto coin : marketCoins) {
-                for (NetworkInfoDto networkInfoDto : coin.getNetworkList()) {
-                    MarketCoinInfo marketCoinInfo = new MarketCoinInfo();
-                    marketCoinInfo.setMarketName(marketName);
-                    marketCoinInfo.setCoinName(coin.getCoin());
-                    marketCoinInfo.setNetworkName(networkInfoDto.getName());
-                    marketCoinInfo.setIsDepositEnable(networkInfoDto.getDepositEnable());
-                    marketCoinInfo.setIsWithdrawEnable(networkInfoDto.getWithdrawEnable());
-                    coins.add(marketCoinInfo);
-                }
+        for (CoinInfoDto coin : coinsInfo) {
+            for (NetworkInfoDto networkInfoDto : coin.getNetworkList()) {
+                MarketCoinInfo marketCoinInfo = new MarketCoinInfo();
+                marketCoinInfo.setMarketName(networkInfoDto.getMarketName());
+                marketCoinInfo.setCoinName(coin.getCoin());
+                marketCoinInfo.setNetworkName(networkInfoDto.getName());
+                marketCoinInfo.setWithdrawFee(networkInfoDto.getWithdrawFee());
+                marketCoinInfo.setIsDepositEnable(networkInfoDto.getDepositEnable());
+                marketCoinInfo.setIsWithdrawEnable(networkInfoDto.getWithdrawEnable());
+                coins.add(marketCoinInfo);
             }
         }
         return coins;
@@ -50,6 +45,7 @@ public class MarketCoinDtoMapper {
         marketCoinDto.setNetworkName(coinInfo.getNetworkName());
         marketCoinDto.setIsDepositEnable(coinInfo.getIsDepositEnable());
         marketCoinDto.setIsWithdrawEnable(coinInfo.getIsWithdrawEnable());
+        marketCoinDto.setWithdrawFee(coinInfo.getWithdrawFee());
 
         return marketCoinDto;
     }

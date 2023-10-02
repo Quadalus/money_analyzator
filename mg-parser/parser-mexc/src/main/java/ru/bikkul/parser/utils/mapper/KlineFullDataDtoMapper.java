@@ -1,4 +1,4 @@
-package ru.bikkul.parser.utils;
+package ru.bikkul.parser.utils.mapper;
 
 import ru.bikkul.parser.dto.KlineFullDataDto;
 import ru.bikkul.parser.dto.KlineDto;

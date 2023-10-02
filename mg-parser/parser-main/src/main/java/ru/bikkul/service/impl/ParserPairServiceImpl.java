@@ -12,12 +12,33 @@ import java.util.Set;
 public class ParserPairServiceImpl implements ParserPairService {
     private final Set<String> pairs = new HashSet<>();
 
+           /* "GALA-USDT",
+            "CHZ-USDT",
+            "CRV-USDT",
+            "IMX-USDT",
+            "MAGIC-USDT",
+            "ARB-USDT",
+            "DOT-USDT",
+            "LINK-USDT",
+            "1INCH-USDT",
+            "LPT-USDT",
+            "TRB-USDT",
+            "LDO-USDT",
+            "MATIC-USDT",
+            "FET-USDT"*/
     public ParserPairServiceImpl() {
         pairs.add("CRV-USDT");
         pairs.add("MATIC-USDT");
         pairs.add("ARB-USDT");
         pairs.add("IMX-USDT");
         pairs.add("LINK-USDT");
+        pairs.add("FET-USDT");
+        pairs.add("LDO-USDT");
+        pairs.add("TRB-USDT");
+        pairs.add("1INCH-USDT");
+        pairs.add("CHZ-USDT");
+        pairs.add("LPT-USDT");
+        pairs.add("DOT-USDT");
     }
 
     @Override

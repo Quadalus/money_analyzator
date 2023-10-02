@@ -11,7 +11,6 @@ import ru.bikkul.service.ParserCoinInfoService;
 import ru.bikkul.utils.mapper.MarketCoinDtoMapper;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class ParserCoinInfoServiceImpl implements ParserCoinInfoService {
     @Override
     public List<MarketCoinInfoDto> saveAllCoinInfo() {
         coinInfoRepository.deleteAll();
-        Map<String, List<CoinInfoDto>> allCoinInfo = parserClientService.getAllCoinInfo();
+        List<CoinInfoDto> allCoinInfo = parserClientService.getAllCoinInfo();
         List<MarketCoinInfo> coins = MarketCoinDtoMapper.toMarketCoins(allCoinInfo);
         List<MarketCoinInfo> savedCoins = coinInfoRepository.saveAll(coins);
         return MarketCoinDtoMapper.toMarketCoinsDto(savedCoins);

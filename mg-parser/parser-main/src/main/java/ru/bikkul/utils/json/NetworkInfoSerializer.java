@@ -11,9 +11,10 @@ public class NetworkInfoSerializer extends JsonSerializer<NetworkInfoDto> {
     @Override
     public void serialize(NetworkInfoDto networkInfo, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartArray();
+        gen.writeString(networkInfo.getMarketName());
         gen.writeString(networkInfo.getCoin());
         gen.writeString(networkInfo.getName());
-        gen.writeString(networkInfo.getNetwork());
+        gen.writeString(networkInfo.getWithdrawFee());
         gen.writeBoolean(networkInfo.getDepositEnable());
         gen.writeBoolean(networkInfo.getWithdrawEnable());
         gen.writeEndArray();

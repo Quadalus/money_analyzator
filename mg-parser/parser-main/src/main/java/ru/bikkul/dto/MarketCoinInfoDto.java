@@ -11,6 +11,7 @@ public class MarketCoinInfoDto {
     private String marketName;
     private String coinName;
     private String networkName;
+    private String withdrawFee;
     private Boolean isDepositEnable;
     private Boolean isWithdrawEnable;
 }

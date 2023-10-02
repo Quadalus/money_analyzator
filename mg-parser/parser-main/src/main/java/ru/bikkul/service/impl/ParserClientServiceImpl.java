@@ -11,9 +11,8 @@ import ru.bikkul.service.ParserMarketService;
 import ru.bikkul.service.ParserPairService;
 import ru.bikkul.utils.Markets;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Slf4j
@@ -26,20 +25,20 @@ public class ParserClientServiceImpl implements ParserClientService {
     private final ParserClient parserClient;
 
     @Override
-    public Map<String, List<CoinInfoDto>> getAllCoinInfo() {
+    public List<CoinInfoDto> getAllCoinInfo() {
         Set<Markets> trackingMarkets = parserMarketService.getTrackingMarkets();
-        Map<String, List<CoinInfoDto>> coins = new HashMap<>();
+        List<CoinInfoDto> coins = new ArrayList<>();
 
         for (Markets port : trackingMarkets) {
-            Map<String, List<CoinInfoDto>> coinInfoFromMarket = getCoinInfoFromMarket(port);
-            coins.putAll(coinInfoFromMarket);
+            List<CoinInfoDto> coinInfoFromMarket = getCoinInfoFromMarket(port);
+            coins.addAll(coinInfoFromMarket);
         }
         return coins;
     }
 
 
-    private Map<String, List<CoinInfoDto>> getCoinInfoFromMarket(Markets port) {
-        Map<String, List<CoinInfoDto>> coinInfoMarket = new HashMap<>();
+    private List<CoinInfoDto> getCoinInfoFromMarket(Markets port) {
+        List<CoinInfoDto> coinInfoMarket = new ArrayList<>();
         try {
             coinInfoMarket = parserClient.getCoinInfoFromMarket(port.getPort());
         } catch (Exception e) {

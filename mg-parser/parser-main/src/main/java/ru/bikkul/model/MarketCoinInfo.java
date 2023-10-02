@@ -26,6 +26,9 @@ public class MarketCoinInfo {
     @Column(name = "market_network_name", nullable = false)
     private String networkName;
 
+    @Column(name = "market_withdraw_fee", nullable = false)
+    private String withdrawFee;
+
     @Column(name = "market_network_is_deposit", nullable = false)
     private Boolean isDepositEnable;
 

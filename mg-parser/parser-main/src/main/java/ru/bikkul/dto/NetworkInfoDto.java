@@ -16,9 +16,10 @@ import ru.bikkul.utils.json.NetworkInfoSerializer;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class NetworkInfoDto {
+    private String marketName;
     private String coin;
     private Boolean depositEnable;
     private String name;
-    private String network;
+    private String withdrawFee;
     private Boolean withdrawEnable;
 }

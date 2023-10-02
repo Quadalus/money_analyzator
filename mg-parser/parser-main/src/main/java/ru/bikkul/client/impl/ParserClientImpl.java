@@ -1,5 +1,6 @@
 package ru.bikkul.client.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Slf4j
 @Service
 public class ParserClientImpl implements ParserClient {
     private final WebClient webClient;
@@ -66,17 +68,17 @@ public class ParserClientImpl implements ParserClient {
     }
 
     @Override
-    public Map<String, List<CoinInfoDto>> getCoinInfoFromMarket(String port) {
+    public List<CoinInfoDto> getCoinInfoFromMarket(String port) {
         String fullUri = PREFIX + COIN_URI;
-
-        return webClient.get()
+       return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .port(port)
                         .path(fullUri)
                         .build())
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, List<CoinInfoDto>>>() {
+                .bodyToFlux(new ParameterizedTypeReference<CoinInfoDto>() {
                 })
+                .collectList()
                 .block();
     }
 }
