@@ -3,6 +3,10 @@ server:
 
 okx:
   api:
+    passphrase: UCS-375-rnp-wqh
     base_url: https://www.okx.com
     kline_uri: /api/v5/market/candles
+    coin_info_uri: /api/v5/asset/currencies
     prefix: /api/v1
+    key: d8cce0be-afc7-42e1-bd4b-f81cee532a37
+    secret: 56C61A10FE951688514793C11C784FC8
