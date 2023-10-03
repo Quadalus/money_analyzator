@@ -7,8 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import ru.bikkul.parser.utils.KlineDeserializer;
-import ru.bikkul.parser.utils.KlineSerializer;
+import ru.bikkul.parser.utils.json.KlineDeserializer;
+import ru.bikkul.parser.utils.json.KlineSerializer;
 
 /**
  * Kline/Candlestick bars for a symbol. Klines are uniquely identified by their open time.

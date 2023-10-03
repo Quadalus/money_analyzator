@@ -1,5 +1,6 @@
 package ru.bikkul.parser.utils.mapper;
 
+import ru.bikkul.parser.domain.coin.Chains;
 import ru.bikkul.parser.domain.coin.CoinInfo;
 import ru.bikkul.parser.domain.coin.NetworkInfo;
 import ru.bikkul.parser.dto.CoinInfoDto;
@@ -24,13 +25,13 @@ public class CoinInfoDtoMapper {
     }
 
     private static void filCoinsData(CoinInfo coinInfo, Map<String, List<NetworkInfo>> coinsData) {
-        for (NetworkInfo networkInfo : coinInfo.getData()) {
-            String coinName = networkInfo.getCoin();
+        for (Chains chains : coinInfo.getData()) {
+            String coinName = chains.getCurrency().toUpperCase();
 
             if (!coinsData.containsKey(coinName)) {
                 coinsData.put(coinName, new ArrayList<>());
             }
-            coinsData.get(coinName).add(networkInfo);
+            coinsData.get(coinName).addAll(chains.getChains());
         }
     }
 

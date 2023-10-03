@@ -1,7 +1,6 @@
 package ru.bikkul.parser.client;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,7 +12,6 @@ import ru.bikkul.parser.utils.SignatureGenerator;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Service
 public class OkxClientImpl implements OkxClient {
@@ -55,7 +53,7 @@ public class OkxClientImpl implements OkxClient {
     }
 
     @Override
-    public List<CoinInfo> getCoinsInformation() {
+    public CoinInfo getCoinsInformation() {
         String timestamp = Instant.now().atZone(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         String method = "GET";
         String query = String.format("%s%s%s", timestamp, method, COIN_INFO_URI);
@@ -71,9 +69,7 @@ public class OkxClientImpl implements OkxClient {
                 .header(PASSPHRASE_HEADER, apiProvider.getApiPassphrase())
                 .header(TIMESTAMP_HEADER, timestamp)
                 .retrieve()
-                .bodyToFlux(new ParameterizedTypeReference<CoinInfo>() {
-                })
-                .collectList()
+                .bodyToMono(CoinInfo.class)
                 .block();
     }
 }

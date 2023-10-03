@@ -49,16 +49,14 @@ public class OkxParserServiceImpl implements OkxParserService {
 
     @Override
     public List<CoinInfoDto> getCoinsInformation() {
-        List<CoinInfo> coinsInformation = new ArrayList<>();
+        CoinInfo coinsInformation = new CoinInfo();
         try {
             coinsInformation = okxClient.getCoinsInformation();
         } catch (Exception e) {
             log.error("error from getting coin info, exception msg:{}", e.getMessage());
         }
 
-        return coinsInformation.stream()
-                .map(CoinInfoDtoMapper::toCoinInfoDto)
-                .toList();
+        return CoinInfoDtoMapper.toCoinInfoDto(coinsInformation);
     }
 
     private List<KlineDto> getKline(KlineFull fullKline) {

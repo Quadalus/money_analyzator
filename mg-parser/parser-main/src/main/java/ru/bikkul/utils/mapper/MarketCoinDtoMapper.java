@@ -19,7 +19,7 @@ public class MarketCoinDtoMapper {
             for (NetworkInfoDto networkInfoDto : coin.getNetworkList()) {
                 MarketCoinInfo marketCoinInfo = new MarketCoinInfo();
                 marketCoinInfo.setMarketName(networkInfoDto.getMarketName());
-                marketCoinInfo.setCoinName(networkInfoDto.getCoin());
+                marketCoinInfo.setCoinName(coin.getCoin());
                 marketCoinInfo.setNetworkName(networkInfoDto.getName());
                 marketCoinInfo.setWithdrawFee(networkInfoDto.getWithdrawFee());
                 marketCoinInfo.setIsDepositEnable(networkInfoDto.getDepositEnable());
