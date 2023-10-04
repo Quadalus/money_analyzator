@@ -1,4 +1,4 @@
-package ru.bikkul.parser.utils;
+package ru.bikkul.parser.utils.json;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
