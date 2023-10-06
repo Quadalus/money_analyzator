@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.bikkul.service.ParserPairService;
+import ru.bikkul.utils.Markets;
 
+import java.util.Map;
 import java.util.Set;
 
 @Slf4j
@@ -17,39 +19,25 @@ public class ParserPairController {
 
     @GetMapping("/pairs")
     @ResponseStatus(HttpStatus.OK)
-    public Set<String> getPairs() {
-        Set<String> pairs = parserPairService.getPairs();
+    public Map<Markets, Set<String>> getPairs() {
+        Map<Markets, Set<String>> pairs = parserPairService.getPairs();
         log.info("pairs has been got, pairs:{}", pairs);
         return pairs;
     }
 
-    @PostMapping("/pair")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public String addPair(@RequestParam String pair) {
-        parserPairService.addPair(pair);
-        log.info("added pair to parser, pair:{}", pair);
-        return pair;
-    }
-
     @PostMapping("/pairs")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Set<String> addPairs(@RequestParam Set<String> pairs) {
-        parserPairService.setPairs(pairs);
-        log.info("added pairs to parser, pairs:{}", pairs);
-        return pairs;
-    }
-
-    @DeleteMapping("/pair")
-    public void deletePair(@RequestParam String pair) {
-        parserPairService.deletePair(pair);
-        log.info("delete pair from parser, pair:{}", pair);
+    public Map<String, String> addPairs(@RequestParam Map<String, String> marketPairs) {
+        parserPairService.setPairs(marketPairs);
+        log.info("added marketPairs to parser, marketPairs:{}", marketPairs);
+        return marketPairs;
     }
 
     @DeleteMapping("/pairs")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePairs(@RequestParam Set<String> pairs) {
-        parserPairService.deletePairs(pairs);
-        log.info("delete pairs from parser, pairs:{}", pairs);
+    public void deletePairs(@RequestParam Map<String, String> marketPairs) {
+        parserPairService.deletePairs(marketPairs);
+        log.info("delete marketPairs from parser, marketPairs:{}", marketPairs);
     }
 
     @DeleteMapping("/pairs/all")

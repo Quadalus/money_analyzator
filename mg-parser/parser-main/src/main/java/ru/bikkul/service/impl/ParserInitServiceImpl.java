@@ -25,14 +25,14 @@ public class ParserInitServiceImpl implements ParserInitService {
     @Override
     @Scheduled(fixedDelay = 90000)
     public void initParser() {
-        Set<String> pairs = parserPairService.getPairs();
+        Map<Markets,Set<String>> pairs = parserPairService.getPairs();
         Set<Markets> trackingMarkets = parserMarketService.getTrackingMarkets();
 
         if (pairs.isEmpty()) {
             return;
         }
-        for (Markets port : trackingMarkets) {
-            getKlineDataFromMarket(port, pairs);
+        for (Markets marketName : trackingMarkets) {
+            getKlineDataFromMarket(marketName, pairs.get(marketName));
         }
         sendKlinesDataToAnalyzer();
     }
@@ -47,9 +47,9 @@ public class ParserInitServiceImpl implements ParserInitService {
         }
     }
 
-    private void getKlineDataFromMarket(Markets port, Set<String> pairs) {
+    private void getKlineDataFromMarket(Markets marketName, Set<String> pairs) {
         try {
-            Map<String, KlineDataDto> klineFromMarket = parserClient.getKlineFromMarket(port.getPort(), pairs);
+            Map<String, KlineDataDto> klineFromMarket = parserClient.getKlineFromMarket(marketName.getPort(), pairs);
             log.info("klines data from market has been got, klinesFromMarket:{}", klineFromMarket);
             addPairKlineData(klineFromMarket);
         } catch (Exception e) {

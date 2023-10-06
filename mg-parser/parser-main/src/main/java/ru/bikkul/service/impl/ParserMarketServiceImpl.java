@@ -56,7 +56,7 @@ public class ParserMarketServiceImpl implements ParserMarketService {
     }
 
     private void fillMarkets() {
-        List<Markets> list = Arrays.stream(Markets.values()).toList();
+        List<Markets> list = List.of(Markets.BINANCE, Markets.BYBIT, Markets.OKX, Markets.MEXC, Markets.HUOBI);
         this.markets.addAll(list);
     }
 }
