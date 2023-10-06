@@ -1,15 +1,19 @@
 package ru.bikkul.parser.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.bikkul.parser.client.BybitClientImpl;
+import ru.bikkul.parser.domain.coin.CoinInfo;
 import ru.bikkul.parser.domain.market.KlineFull;
 import ru.bikkul.parser.domain.market.KlineInterval;
-import ru.bikkul.parser.dto.KlineFullDataDTO;
+import ru.bikkul.parser.dto.CoinInfoDto;
 import ru.bikkul.parser.dto.KlineDto;
-import ru.bikkul.parser.utils.KlineFullDataDtoMapper;
-import ru.bikkul.parser.utils.KlineDtoMapper;
+import ru.bikkul.parser.dto.KlineFullDataDTO;
+import ru.bikkul.parser.utils.mapper.CoinInfoDtoMapper;
+import ru.bikkul.parser.utils.mapper.KlineDtoMapper;
+import ru.bikkul.parser.utils.mapper.KlineFullDataDtoMapper;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -42,10 +46,22 @@ BybitParserServiceImpl implements BybitParserService {
                 }
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klinesDto));
             } catch (Exception e) {
-                log.error("error from parse kline, error: {}", e.getMessage());
+                log.error("error from parse kline pair:{}, error: {}", pair, e.getMessage());
             }
         }
         return klines;
+    }
+
+    @Override
+    public List<CoinInfoDto> getCoinsInformation() {
+        CoinInfo coinsInformation = new CoinInfo();
+        try {
+            coinsInformation = bybitClient.getCoinsInformation();
+        } catch (Exception e) {
+            log.error("error from getting coin info, exception msg:{}", e.getMessage());
+        }
+
+        return CoinInfoDtoMapper.toCoinInfoDto(coinsInformation);
     }
 
     private List<KlineDto> getKline(KlineFull fullKline) {

@@ -8,5 +8,5 @@ import java.util.List;
 public interface BinanceParserClient {
     List<Candlestick> getKlineForFiveMin(String pair, String interval, Long start, Long end, Integer limit);
 
-    List<CoinInfo> getCoinsInformation(Long timestamp, String signature);
+    List<CoinInfo> getCoinsInformation(Long timestamp);
 }

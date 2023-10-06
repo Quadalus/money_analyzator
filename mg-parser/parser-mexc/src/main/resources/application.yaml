@@ -5,4 +5,7 @@ mexc:
   api:
     base_url: https://api.mexc.com
     kline_uri: /api/v3/klines
+    coin_info_uri: /api/v3/capital/config/getall
     prefix: /api/v1
+    key: mx0vglUUmUSNEnyzj7
+    secret: 24ed265657234f539f45915d0ce2d394

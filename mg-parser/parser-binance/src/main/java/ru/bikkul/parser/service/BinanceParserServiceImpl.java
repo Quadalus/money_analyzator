@@ -7,13 +7,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.bikkul.parser.client.BinanceParserClient;
-import ru.bikkul.parser.config.BinanceApiProvider;
 import ru.bikkul.parser.domain.coin.CoinInfo;
 import ru.bikkul.parser.dto.KlineDto;
 import ru.bikkul.parser.dto.KlineFullDataDto;
 import ru.bikkul.parser.utils.mappers.KlineDtoMapper;
 import ru.bikkul.parser.utils.mappers.KlineFullDataDtoMapper;
-import ru.bikkul.parser.utils.SignatureGenerator;
 
 import java.time.Instant;
 import java.util.*;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BinanceParserServiceImpl implements BinanceParserService {
     private final BinanceParserClient binanceParseClient;
-    private final BinanceApiProvider provider;
 
     @Override
     public Map<String, KlineFullDataDto> getKlineForFiveMin(Set<String> pairs) {
@@ -45,7 +42,7 @@ public class BinanceParserServiceImpl implements BinanceParserService {
                 }
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klineForFiveMin));
             } catch (Exception e) {
-                log.error("error from parse kline, exception msg:{}", e.getMessage());
+                log.error("error from parse kline pair:{}, error: {}", pair, e.getMessage());
             }
         }
         return klines;
@@ -57,15 +54,15 @@ public class BinanceParserServiceImpl implements BinanceParserService {
 
     @Override
     public List<CoinInfo> getCoinsInformation() {
-        Map<String, String> parameters = new TreeMap<>();
+        List<CoinInfo> coinsInformation = new ArrayList<>();
         Long timestamp = Instant.now().toEpochMilli();
 
-        parameters.put("timestamp", timestamp.toString());
-
-        String query = SignatureGenerator.getMessageToDigest(parameters);
-        String signature = SignatureGenerator.generateHmac256(query, provider.getApiSecret());
-
-        return binanceParseClient.getCoinsInformation(timestamp, signature);
+        try {
+            coinsInformation = binanceParseClient.getCoinsInformation(timestamp);
+        } catch (Exception e) {
+            log.error("error from getting coin info");
+        }
+        return coinsInformation;
     }
 
     private List<KlineDto> getKline(List<Candlestick> candlesticks) {

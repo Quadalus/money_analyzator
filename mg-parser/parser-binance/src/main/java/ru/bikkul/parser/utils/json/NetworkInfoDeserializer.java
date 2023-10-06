@@ -17,14 +17,16 @@ public class NetworkInfoDeserializer extends JsonDeserializer<NetworkInfo> {
         JsonNode node = oc.readTree(jsonParser);
         final String coinName = node.get("coin").asText();
         final String name = node.get("name").asText();
-        final String network = node.get("network").asText();
+        final String fee = node.get("withdrawFee").asText();
         final Boolean isDepositEnable = node.get("depositEnable").asBoolean();
         final Boolean isWithdrawEnable = node.get("withdrawEnable").asBoolean();
 
         NetworkInfo networkInfo = new NetworkInfo();
-        networkInfo.setNetwork(network);
+        String marketName = "binance";
+        networkInfo.setMarketName(marketName);
         networkInfo.setCoin(coinName);
         networkInfo.setName(name);
+        networkInfo.setNetworkFee(fee);
         networkInfo.setDepositEnable(isDepositEnable);
         networkInfo.setWithdrawEnable(isWithdrawEnable);
         return networkInfo;

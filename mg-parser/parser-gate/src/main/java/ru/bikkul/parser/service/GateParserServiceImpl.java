@@ -42,7 +42,7 @@ public class GateParserServiceImpl implements GateParserService {
                 }
                 klines.put(pair, KlineFullDataDtoMapper.toKlineFullDataDto(klineForFourMin));
             } catch (Exception e) {
-                log.error("error from parse klines, exception msg:{}", e.getMessage());
+                log.error("error from parse kline pair:{}, error: {}", pair, e.getMessage());
             }
         }
         return klines;
