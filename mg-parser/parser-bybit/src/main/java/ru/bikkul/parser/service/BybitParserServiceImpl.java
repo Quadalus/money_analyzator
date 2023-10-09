@@ -1,6 +1,5 @@
 package ru.bikkul.parser.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -8,12 +7,15 @@ import ru.bikkul.parser.client.BybitClientImpl;
 import ru.bikkul.parser.domain.coin.CoinInfo;
 import ru.bikkul.parser.domain.market.KlineFull;
 import ru.bikkul.parser.domain.market.KlineInterval;
+import ru.bikkul.parser.domain.market.OrderBookDepth;
 import ru.bikkul.parser.dto.CoinInfoDto;
 import ru.bikkul.parser.dto.KlineDto;
 import ru.bikkul.parser.dto.KlineFullDataDTO;
+import ru.bikkul.parser.dto.OrderBookDto;
 import ru.bikkul.parser.utils.mapper.CoinInfoDtoMapper;
 import ru.bikkul.parser.utils.mapper.KlineDtoMapper;
 import ru.bikkul.parser.utils.mapper.KlineFullDataDtoMapper;
+import ru.bikkul.parser.utils.mapper.OrderBookDtoMapper;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -62,6 +64,26 @@ BybitParserServiceImpl implements BybitParserService {
         }
 
         return CoinInfoDtoMapper.toCoinInfoDto(coinsInformation);
+    }
+
+    @Override
+    public Map<String, OrderBookDto> getSpotData(Set<String> pairs) {
+        Map<String, OrderBookDto> orderBook = new HashMap<>();
+        Integer limit = 15;
+
+        for (String pair : pairs) {
+            try {
+                String formattedPair = formatPair(pair);
+
+                OrderBookDepth pairOrderBook = bybitClient
+                        .getPairOrderBook(formattedPair, limit);
+
+                orderBook.put(pair, OrderBookDtoMapper.orderBookDto(pairOrderBook));
+            } catch (Exception e) {
+                log.error("error from parse order book:{}, error: {}", pair, e.getMessage());
+            }
+        }
+        return orderBook;
     }
 
     private List<KlineDto> getKline(KlineFull fullKline) {

@@ -5,6 +5,7 @@ huobi:
   api:
     base_url: https://api.huobi.pro
     kline_uri: /market/history/kline
+    order_book_uri: /market/depth
     coin_info_uri: /v2/reference/currencies
     prefix: /api/v1
 
