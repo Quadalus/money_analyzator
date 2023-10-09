@@ -61,7 +61,7 @@ public class MexcParserServiceImpl implements MexcParserService {
     @Override
     public Map<String, OrderBookDto> getSpotData(Set<String> pairs) {
         Map<String, OrderBookDto> orderBook = new HashMap<>();
-        Integer limit = 15;
+        Integer limit = 20;
 
         for (String pair : pairs) {
             try {

@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.bikkul.parser.domain.coin.CoinInfo;
 import ru.bikkul.parser.domain.market.KlineFull;
+import ru.bikkul.parser.domain.market.OrderBookDepth;
 
 @Slf4j
 @Service
@@ -15,11 +16,12 @@ public class HuobiClientImpl implements HuobiClient {
     private final WebClient webClient;
     private final String KLINE_URI;
     private final String COIN_INFO_URI;
-
+    private final String ORDER_BOOK_URI;
 
     public HuobiClientImpl(@Value("${huobi.api.base_url}") String url,
                            @Value("${huobi.api.kline_uri}") String klineUri,
-                           @Value("${huobi.api.coin_info_uri}") String coinInfoUri) {
+                           @Value("${huobi.api.coin_info_uri}") String coinInfoUri,
+                           @Value("${huobi.api.order_book_uri}") String orderBookUri) {
         this.webClient = WebClient.builder()
                 .baseUrl(url)
                 .exchangeStrategies(
@@ -29,6 +31,7 @@ public class HuobiClientImpl implements HuobiClient {
                 .build();
         this.KLINE_URI = klineUri;
         this.COIN_INFO_URI = coinInfoUri;
+        this.ORDER_BOOK_URI = orderBookUri;
     }
 
     public KlineFull getKline(String symbol, String interval, Integer limit) {
@@ -54,6 +57,23 @@ public class HuobiClientImpl implements HuobiClient {
                         .build())
                 .retrieve()
                 .bodyToMono(CoinInfo.class)
+                .block();
+    }
+
+    @Override
+    public OrderBookDepth getPairOrderBook(String pair, Integer limit) {
+        String type = "step0";
+
+        return webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(ORDER_BOOK_URI)
+                        .queryParam("symbol", pair)
+                        .queryParam("depth", limit)
+                        .queryParam("type", type)
+                        .build())
+                .retrieve()
+                .bodyToMono(OrderBookDepth.class)
                 .block();
     }
 }
