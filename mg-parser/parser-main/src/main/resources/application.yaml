@@ -19,5 +19,7 @@ parser:
       prefix: /api/v1
       url: http://127.0.0.1
       kline_uri: /parser/klines
+      order_book_uri: /parser/depth
       analyzer_port: 8091
-      analyzer_uri: /analyzer/klines
+      analyzer_kline_uri: /analyzer/klines
+      analyzer_order_book_uri: /analyzer/depth

@@ -1,6 +1,6 @@
 package ru.bikkul.service;
 
-import ru.bikkul.dto.CoinInfoDto;
+import ru.bikkul.dto.coin.CoinInfoDto;
 
 import java.util.List;
 

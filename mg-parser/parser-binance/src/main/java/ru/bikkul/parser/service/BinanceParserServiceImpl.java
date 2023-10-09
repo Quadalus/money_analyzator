@@ -53,7 +53,7 @@ public class BinanceParserServiceImpl implements BinanceParserService {
     @Override
     public Map<String, OrderBookDto> getSpotData(Set<String> pairs) {
         Map<String, OrderBookDto> orderBook = new HashMap<>();
-        Integer limit = 25;
+        Integer limit = 15;
 
         for (String pair : pairs) {
             try {

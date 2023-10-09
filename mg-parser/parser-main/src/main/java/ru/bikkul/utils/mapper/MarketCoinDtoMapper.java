@@ -1,8 +1,8 @@
 package ru.bikkul.utils.mapper;
 
-import ru.bikkul.dto.CoinInfoDto;
-import ru.bikkul.dto.MarketCoinInfoDto;
-import ru.bikkul.dto.NetworkInfoDto;
+import ru.bikkul.dto.coin.CoinInfoDto;
+import ru.bikkul.dto.coin.MarketCoinInfoDto;
+import ru.bikkul.dto.coin.NetworkInfoDto;
 import ru.bikkul.model.MarketCoinInfo;
 
 import java.util.ArrayList;

@@ -2,8 +2,8 @@ package ru.bikkul.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.bikkul.dto.CoinInfoDto;
-import ru.bikkul.dto.MarketCoinInfoDto;
+import ru.bikkul.dto.coin.CoinInfoDto;
+import ru.bikkul.dto.coin.MarketCoinInfoDto;
 import ru.bikkul.model.MarketCoinInfo;
 import ru.bikkul.repository.MarketCoinInfoRepository;
 import ru.bikkul.service.ParserClientService;

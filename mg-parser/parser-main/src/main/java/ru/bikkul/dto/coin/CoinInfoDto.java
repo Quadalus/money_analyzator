@@ -1,4 +1,4 @@
-package ru.bikkul.dto;
+package ru.bikkul.dto.coin;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
