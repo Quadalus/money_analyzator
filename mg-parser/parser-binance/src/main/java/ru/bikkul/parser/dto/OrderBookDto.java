@@ -5,20 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.bikkul.parser.domain.market.OrderBookEntry;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BidDto {
-    private String market = "binance";
-    private String pair;
-    private String price;
-    private String quantity;
+public class OrderBookDto {
+    private String marketName = "binance";
+    private String marketType = "cex";
+    private List<OrderBookEntry> bids;
+    private List<OrderBookEntry> asks;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime time;
+    private LocalDateTime time = LocalDateTime.now();
 }
-
-

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import ru.bikkul.service.ParserMarketService;
 import ru.bikkul.utils.Markets;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

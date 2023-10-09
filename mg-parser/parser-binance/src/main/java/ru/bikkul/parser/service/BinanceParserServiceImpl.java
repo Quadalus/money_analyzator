@@ -1,17 +1,19 @@
 package ru.bikkul.parser.service;
 
-import com.binance.api.client.domain.market.Candlestick;
-import com.binance.api.client.domain.market.CandlestickInterval;
-import com.binance.api.client.domain.market.OrderBook;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.bikkul.parser.client.BinanceParserClient;
 import ru.bikkul.parser.domain.coin.CoinInfo;
+import ru.bikkul.parser.domain.market.Candlestick;
+import ru.bikkul.parser.domain.market.CandlestickInterval;
+import ru.bikkul.parser.domain.market.OrderBook;
 import ru.bikkul.parser.dto.KlineDto;
 import ru.bikkul.parser.dto.KlineFullDataDto;
+import ru.bikkul.parser.dto.OrderBookDto;
 import ru.bikkul.parser.utils.mappers.KlineDtoMapper;
 import ru.bikkul.parser.utils.mappers.KlineFullDataDtoMapper;
+import ru.bikkul.parser.utils.mappers.OrderBookDtoMapper;
 
 import java.time.Instant;
 import java.util.*;
@@ -49,7 +51,23 @@ public class BinanceParserServiceImpl implements BinanceParserService {
     }
 
     @Override
-    public void getSpotData(OrderBook orderBook, String pair) {
+    public Map<String, OrderBookDto> getSpotData(Set<String> pairs) {
+        Map<String, OrderBookDto> orderBook = new HashMap<>();
+        Integer limit = 25;
+
+        for (String pair : pairs) {
+            try {
+                String formattedPair = formatPair(pair);
+
+                OrderBook pairOrderBook = binanceParseClient
+                        .getPairOrderBook(formattedPair, limit);
+
+                orderBook.put(pair, OrderBookDtoMapper.orderBookDto(pairOrderBook));
+            } catch (Exception e) {
+                log.error("error from parse order book:{}, error: {}", pair, e.getMessage());
+            }
+        }
+        return orderBook;
     }
 
     @Override

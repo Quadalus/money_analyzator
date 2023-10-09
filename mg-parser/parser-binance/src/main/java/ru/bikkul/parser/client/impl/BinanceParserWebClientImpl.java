@@ -1,6 +1,5 @@
 package ru.bikkul.parser.client.impl;
 
-import com.binance.api.client.domain.market.Candlestick;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -9,6 +8,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import ru.bikkul.parser.client.BinanceParserClient;
 import ru.bikkul.parser.config.BinanceApiProvider;
 import ru.bikkul.parser.domain.coin.CoinInfo;
+import ru.bikkul.parser.domain.market.Candlestick;
+import ru.bikkul.parser.domain.market.OrderBook;
 import ru.bikkul.parser.utils.SignatureGenerator;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class BinanceParserWebClientImpl implements BinanceParserClient {
     private final BinanceApiProvider provider;
     private final String API_HEADER_NAME = "X-MBX-APIKEY";
     private final String COIN_INFO_URI;
+    private final String ORDER_BOOK_URI;
 
     @Value("${binance.api.kline_uri}")
     private String KLINE_URI;
@@ -28,10 +30,12 @@ public class BinanceParserWebClientImpl implements BinanceParserClient {
     @Autowired
     public BinanceParserWebClientImpl(@Value("${binance.api.base_url}") String baseUrl,
                                       BinanceApiProvider provider,
-                                      @Value("${binance.api.coin_info_uri}") String coinInfoUri) {
+                                      @Value("${binance.api.coin_info_uri}") String coinInfoUri,
+                                      @Value("${binance.api.order_book_uri}") String orderBookUri) {
         this.provider = provider;
         this.webClient = WebClient.create(baseUrl);
         this.COIN_INFO_URI = coinInfoUri;
+        this.ORDER_BOOK_URI = orderBookUri;
     }
 
     @Override
@@ -71,6 +75,20 @@ public class BinanceParserWebClientImpl implements BinanceParserClient {
                 .bodyToFlux(new ParameterizedTypeReference<CoinInfo>() {
                 })
                 .collectList()
+                .block();
+    }
+
+    @Override
+    public OrderBook getPairOrderBook(String pair, Integer limit) {
+        return webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(ORDER_BOOK_URI)
+                        .queryParam("symbol", pair)
+                        .queryParam("limit", limit)
+                        .build())
+                .retrieve()
+                .bodyToMono(OrderBook.class)
                 .block();
     }
 }

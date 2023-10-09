@@ -28,5 +28,4 @@ public class KlineFullDataDto {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time = LocalDateTime.now();
-
 }

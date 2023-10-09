@@ -6,6 +6,7 @@ binance:
     base_url: https://api.binance.com
     prefix: /api/v1
     kline_uri: /api/v3/klines
+    order_book_uri: /api/v3/depth
     coin_info_uri: /sapi/v1/capital/config/getall
     key: zlB5xkTEBssUyp2ghqwfsa0wXqtyComucphqdz1QJsfSZEVEa7yAi3GEHuSVmJ3u
     secret: pg5w7l2tDd3FcphWvhjjH4lfCnmL9ywjqcvrIJOYyIoQ9X9UdRfVDExZwgnBN381
