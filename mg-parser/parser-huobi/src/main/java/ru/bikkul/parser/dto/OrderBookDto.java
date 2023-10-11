@@ -19,6 +19,7 @@ public class OrderBookDto {
     private String marketType = "cex";
     private List<OrderBookEntry> bids;
     private List<OrderBookEntry> asks;
+    private String fee = "0.2";
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time = LocalDateTime.now();

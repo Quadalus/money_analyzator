@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderBookDto {
-    private String marketName = "bybit";
+    private String marketName = "okx";
     private String marketType = "cex";
     private List<OrderBookEntry> bids;
     private List<OrderBookEntry> asks;

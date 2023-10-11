@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.bikkul.parser.domain.coin.CoinInfo;
 import ru.bikkul.parser.domain.market.KlineFull;
+import ru.bikkul.parser.domain.market.OrderBookDepth;
 import ru.bikkul.parser.utils.OkxApiProvider;
 import ru.bikkul.parser.utils.SignatureGenerator;
 
@@ -23,16 +24,19 @@ public class OkxClientImpl implements OkxClient {
     private final String TIMESTAMP_HEADER = "OK-ACCESS-TIMESTAMP";
     private final String PASSPHRASE_HEADER = "OK-ACCESS-PASSPHRASE";
     private final String COIN_INFO_URI;
+    private final String ORDER_BOOK_URI;
 
 
     public OkxClientImpl(@Value("${okx.api.base_url}") String url,
                          @Value("${okx.api.kline_uri}") String klineUri,
                          @Value("${okx.api.coin_info_uri}") String coinInfoUri,
-                         OkxApiProvider apiProvider) {
+                         OkxApiProvider apiProvider,
+                         @Value("${okx.api.order_book_uri}") String orderBookUri) {
         this.webClient = WebClient.create(url);
         this.KLINE_URI = klineUri;
         this.COIN_INFO_URI = coinInfoUri;
         this.apiProvider = apiProvider;
+        this.ORDER_BOOK_URI = orderBookUri;
     }
 
     public KlineFull getKline(String symbol, String interval, Integer limit, long startTime, long endTime) {
@@ -70,6 +74,20 @@ public class OkxClientImpl implements OkxClient {
                 .header(TIMESTAMP_HEADER, timestamp)
                 .retrieve()
                 .bodyToMono(CoinInfo.class)
+                .block();
+    }
+
+    @Override
+    public OrderBookDepth getPairOrderBook(String pair, Integer limit) {
+        return webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(ORDER_BOOK_URI)
+                        .queryParam("instId", pair)
+                        .queryParam("sz", limit)
+                        .build())
+                .retrieve()
+                .bodyToMono(OrderBookDepth.class)
                 .block();
     }
 }

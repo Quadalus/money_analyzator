@@ -23,6 +23,11 @@ public class AnalyzerController {
         return analyzerService.saveKlinesData(klinesData);
     }
 
+    @PostMapping("/depth")
+    public List<KlineDataDto> saveOrderBookData(@RequestBody Map<String, List<KlineDataRequestDto>> klinesData) {
+        return analyzerService.saveKlinesData(klinesData);
+    }
+
     @PostMapping("/spread")
     public BigDecimal setSpreadTarget(String spreadTarget) {
         return analyzerService.setSpreadTarget(spreadTarget);
