@@ -18,8 +18,8 @@ import ru.bikkul.parser.utils.json.OrderBookEntrySerializer;
 @JsonDeserialize(using = OrderBookEntryDeserializer.class)
 @JsonSerialize(using = OrderBookEntrySerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderBookEntry {

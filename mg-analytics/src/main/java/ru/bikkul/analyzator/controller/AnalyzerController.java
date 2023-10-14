@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.bikkul.analyzator.dto.KlineDataDto;
 import ru.bikkul.analyzator.dto.KlineDataRequestDto;
+import ru.bikkul.analyzator.dto.OrderBookRequestDto;
+import ru.bikkul.analyzator.dto.OrderBookSpreadDto;
 import ru.bikkul.analyzator.service.AnalyzerService;
 
 import java.math.BigDecimal;
@@ -24,8 +26,13 @@ public class AnalyzerController {
     }
 
     @PostMapping("/depth")
-    public List<KlineDataDto> saveOrderBookData(@RequestBody Map<String, List<KlineDataRequestDto>> klinesData) {
-        return analyzerService.saveKlinesData(klinesData);
+    public List<OrderBookSpreadDto> saveOrderBookData(@RequestBody Map<String, List<OrderBookRequestDto>> orderBookData) {
+        return analyzerService.saveOrderBookData(orderBookData);
+    }
+
+    @GetMapping("/depth")
+    public String getOrder() {
+        return "it's works";
     }
 
     @PostMapping("/spread")

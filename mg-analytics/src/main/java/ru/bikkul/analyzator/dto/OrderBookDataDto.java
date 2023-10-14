@@ -1,4 +1,4 @@
-package ru.bikkul.dto;
+package ru.bikkul.analyzator.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
@@ -11,12 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
-public class OrderBookDto {
+public class OrderBookDataDto {
     private String marketName;
     private String marketType;
-    private List<OrderBookEntry> bids;
-    private List<OrderBookEntry> asks;
+    private List<OrderBookEntryDto> bids;
+    private List<OrderBookEntryDto> asks;
     private String fee;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

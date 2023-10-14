@@ -1,4 +1,4 @@
-package ru.bikkul.analyzator.mapper;
+package ru.bikkul.analyzator.utils.mapper;
 
 import ru.bikkul.analyzator.dto.KlineDataDto;
 import ru.bikkul.analyzator.dto.KlineDataRequestDto;

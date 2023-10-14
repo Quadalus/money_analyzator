@@ -77,13 +77,19 @@ BybitParserServiceImpl implements BybitParserService {
 
                 OrderBookDepth pairOrderBook = bybitClient
                         .getPairOrderBook(formattedPair, limit);
-
+                checkResult(formattedPair, pairOrderBook);
                 orderBook.put(pair, OrderBookDtoMapper.orderBookDto(pairOrderBook));
             } catch (Exception e) {
                 log.error("error from parse order book:{}, error: {}", pair, e.getMessage());
             }
         }
         return orderBook;
+    }
+
+    private static void checkResult(String formattedPair, OrderBookDepth pairOrderBook) {
+        if (pairOrderBook.getResult().getA().isEmpty()) {
+            throw new RuntimeException(String.format("empty result from symbol pair:%s", formattedPair));
+        }
     }
 
     private List<KlineDto> getKline(KlineFull fullKline) {

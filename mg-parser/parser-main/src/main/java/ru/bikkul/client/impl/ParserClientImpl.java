@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.bikkul.client.ParserClient;
 import ru.bikkul.dto.OrderBookDto;
@@ -34,7 +35,13 @@ public class ParserClientImpl implements ParserClient {
                             @Value("${parser.api.base.coin_uri}") String coinUri,
                             @Value("${parser.api.base.order_book_uri}") String orderBookUri,
                             @Value("${parser.api.base.analyzer_order_book_uri}") String analyzerOrdersUri) {
-        this.webClient = WebClient.create(url);
+        this.webClient = WebClient.builder()
+                .baseUrl(url)
+                .exchangeStrategies(
+                        ExchangeStrategies.builder().codecs(
+                                configurer -> configurer.defaultCodecs().maxInMemorySize(10000 * 1024)).build()
+                )
+                .build();
         this.PREFIX = prefix;
         this.KLINE_URI = klineUri;
         this.ANALYZER_KLINE_URI = analyzerKlinesUri;

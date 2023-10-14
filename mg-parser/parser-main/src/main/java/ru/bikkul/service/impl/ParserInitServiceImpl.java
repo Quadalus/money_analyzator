@@ -2,6 +2,7 @@ package ru.bikkul.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.bikkul.client.ParserClient;
@@ -25,9 +26,10 @@ public class ParserInitServiceImpl implements ParserInitService {
     private final ParserClient parserClient;
 
     @Override
+    @Async
     @Scheduled(fixedDelay = 90000)
     public void initOrderBookParser() {
-        /*Map<Markets, Set<String>> pairs = parserPairService.getPairs();
+        Map<Markets, Set<String>> pairs = parserPairService.getPairs();
         Set<Markets> trackingMarkets = parserMarketService.getTrackingMarkets();
 
         if (pairs.isEmpty()) {
@@ -36,11 +38,12 @@ public class ParserInitServiceImpl implements ParserInitService {
         for (Markets marketName : trackingMarkets) {
             getKlineDataFromMarket(marketName, pairs.get(marketName));
         }
-        sendKlinesDataToAnalyzer();*/
+        sendKlinesDataToAnalyzer();
     }
 
     @Override
-    @Scheduled(fixedDelay = 600000)
+    @Async
+    @Scheduled(fixedDelay = 90000)
     public void initKlineParser() {
         Map<Markets, Set<String>> pairs = parserPairService.getPairs();
         Set<Markets> trackingMarkets = parserMarketService.getTrackingMarkets();
@@ -58,26 +61,27 @@ public class ParserInitServiceImpl implements ParserInitService {
         try {
             parserClient.sendKlinesDataToAnalyzer(marketKlines);
             log.info("klines date send to analyzer");
-            clearKlinesData();
         } catch (Exception e) {
             log.error("error from sending klinesData to analyzer, exception msg:{}", e.getMessage());
         }
+        clearKlinesData();
     }
 
     private void sendOrderBookDataToAnalyzer() {
         try {
             parserClient.sendOrdersDataToAnalyzator(orderBooks);
             log.info("order book data send to analyzer");
-            clearOrderBookData();
         } catch (Exception e) {
-            log.error("error from sending klinesData to analyzer, exception msg:{}", e.getMessage());
+            log.error("error from sending ordersBook to analyzer, exception msg:{}", e.getMessage());
         }
+        clearOrderBookData();
     }
+
 
     private void getKlineDataFromMarket(Markets marketName, Set<String> pairs) {
         try {
             Map<String, KlineDataDto> klineFromMarket = parserClient.getKlineFromMarket(marketName.getPort(), pairs);
-            log.info("klines data from market has been got, klinesFromMarket:{}", klineFromMarket);
+            log.info("klines data from market has been got, klinesFromMarket size:{}", klineFromMarket.size());
             addPairKlineData(klineFromMarket);
         } catch (Exception e) {
             log.error("error from getting order data, exception msg:{}", e.getMessage());
