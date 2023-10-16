@@ -69,7 +69,8 @@ public class HuobiClientImpl implements HuobiClient {
                 .uri(uriBuilder -> uriBuilder
                         .path(ORDER_BOOK_URI)
                         .queryParam("symbol", pair)
-                        .queryParam("depth", limit)
+//LIMIT ON DEFAULT 150
+//                        .queryParam("depth", limit)
                         .queryParam("type", type)
                         .build())
                 .retrieve()

@@ -63,7 +63,7 @@ public class HuobiParserServiceImpl implements HuobiParserService {
     @Override
     public Map<String, OrderBookDto> getSpotData(Set<String> pairs) {
         Map<String, OrderBookDto> orderBook = new HashMap<>();
-        Integer limit = 20;
+        Integer limit = 150;
 
         for (String pair : pairs) {
             try {

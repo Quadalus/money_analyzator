@@ -1,6 +1,7 @@
 package ru.bikkul.parser.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.bikkul.parser.client.BinanceParserClient;
@@ -53,7 +54,7 @@ public class BinanceParserServiceImpl implements BinanceParserService {
     @Override
     public Map<String, OrderBookDto> getSpotData(Set<String> pairs) {
         Map<String, OrderBookDto> orderBook = new HashMap<>();
-        Integer limit = 20;
+        Integer limit = 55;
 
         for (String pair : pairs) {
             try {

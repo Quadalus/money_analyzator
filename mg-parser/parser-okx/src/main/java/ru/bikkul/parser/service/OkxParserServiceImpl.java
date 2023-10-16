@@ -30,10 +30,10 @@ public class OkxParserServiceImpl implements OkxParserService {
     @Override
     public Map<String, KlineFullDataDTO> getKlineForFourMin(Set<String> pairs) {
         Map<String, KlineFullDataDTO> klines = new HashMap<>();
-        long start = Instant.now().minusSeconds(280).toEpochMilli();
+        long start = Instant.now().minusSeconds(300).toEpochMilli();
         long end = Instant.now().toEpochMilli();
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
-        Integer limit = 4;
+        Integer limit = 5;
 
         for (String pair : pairs) {
             try {
@@ -65,7 +65,7 @@ public class OkxParserServiceImpl implements OkxParserService {
     @Override
     public Map<String, OrderBookDto> getSpotData(Set<String> pairs) {
         Map<String, OrderBookDto> orderBook = new HashMap<>();
-        Integer limit = 20;
+        Integer limit = 55;
 
         for (String pair : pairs) {
             try {

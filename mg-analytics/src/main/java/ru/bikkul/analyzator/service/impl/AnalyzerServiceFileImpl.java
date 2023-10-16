@@ -71,7 +71,7 @@ public class AnalyzerServiceFileImpl implements AnalyzerService {
         return this.spreadTarget;
     }
 
-    @Scheduled(fixedDelay = 900000)
+   /* @Scheduled(fixedDelay = 900000)
     private void clearKlineFile() {
         Path path = Path.of(".\\kline_spreads.txt");
         try {
@@ -95,7 +95,7 @@ public class AnalyzerServiceFileImpl implements AnalyzerService {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
-    }
+    }*/
 
     private void printKlineSpeads(List<KlineDataResponseDto> savedKlineSpreads) {
         Path path = Path.of(".\\kline_spreads.txt");

@@ -22,12 +22,24 @@ public class AnalyzerController {
 
     @PostMapping("/klines")
     public List<KlineDataDto> saveKlinesData(@RequestBody Map<String, List<KlineDataRequestDto>> klinesData) {
-        return analyzerService.saveKlinesData(klinesData);
+        Long start = System.currentTimeMillis();
+        List<KlineDataDto> savedKlinesData = analyzerService.saveKlinesData(klinesData);
+        Long end = System.currentTimeMillis();
+        Long time = end - start;
+        log.info("klines spread data has been saved, klines spread size:{}",  savedKlinesData.size());
+        log.info("for ms:{}", time);
+        return savedKlinesData;
     }
 
     @PostMapping("/depth")
     public List<OrderBookSpreadDto> saveOrderBookData(@RequestBody Map<String, List<OrderBookRequestDto>> orderBookData) {
-        return analyzerService.saveOrderBookData(orderBookData);
+        Long start = System.currentTimeMillis();
+        List<OrderBookSpreadDto> savedOrderBookData = analyzerService.saveOrderBookData(orderBookData);
+        Long end = System.currentTimeMillis();
+        Long time = end - start;
+        log.info("order book spread data has been saved, order book spread  size:{}",  savedOrderBookData.size());
+        log.info("for ms:{}", time);
+        return savedOrderBookData;
     }
 
     @GetMapping("/depth")

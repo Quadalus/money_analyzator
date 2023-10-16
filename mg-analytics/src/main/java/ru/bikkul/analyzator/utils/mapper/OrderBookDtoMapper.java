@@ -114,7 +114,6 @@ public class OrderBookDtoMapper {
             if (buy.compareTo(sellPrice) <= 0) {
                 quoteBookEntry.add(quoteBookEntryPrices);
             } else {
-                baseTargetAskPrice = getTargetAskPrice(baseTargetAskPrice, quoteBookEntry);
                 break;
             }
 
