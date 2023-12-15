@@ -14,47 +14,68 @@ import ru.bikkul.service.ParserPairService;
 import ru.bikkul.utils.Markets;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class ParserInitServiceImpl implements ParserInitService {
-    private Map<String, List<KlineDataDto>> marketKlines = new HashMap<>();
-    private Map<String, List<OrderBookDto>> orderBooks = new HashMap<>();
+    private final Map<String, List<KlineDataDto>> marketKlines = new HashMap<>();
+    private final Map<String, List<OrderBookDto>> orderBooks = new HashMap<>();
+    private final ExecutorService executor = Executors.newCachedThreadPool();
     private final ParserMarketService parserMarketService;
     private final ParserPairService parserPairService;
     private final ParserClient parserClient;
 
     @Override
     @Async
-    @Scheduled(fixedDelay = 90000)
-    public void initOrderBookParser() {
+    @Scheduled(fixedRate = 60000)
+    public void initKlineParser() {
         Map<Markets, Set<String>> pairs = parserPairService.getPairs();
         Set<Markets> trackingMarkets = parserMarketService.getTrackingMarkets();
+        List<Runnable> tasks = new ArrayList<>();
 
         if (pairs.isEmpty()) {
             return;
         }
         for (Markets marketName : trackingMarkets) {
-            getKlineDataFromMarket(marketName, pairs.get(marketName));
+            Runnable task = () -> getKlineDataFromMarket(marketName, pairs.get(marketName));
+            tasks.add(task);
         }
-        sendKlinesDataToAnalyzer();
+        for (Runnable task : tasks) {
+            executor.execute(task);
+        }
     }
 
     @Override
     @Async
-    @Scheduled(fixedDelay = 90000)
-    public void initKlineParser() {
+    @Scheduled(fixedRate = 60000)
+    public void initOrderBookParser() {
         Map<Markets, Set<String>> pairs = parserPairService.getPairs();
         Set<Markets> trackingMarkets = parserMarketService.getTrackingMarkets();
+        List<Runnable> tasks = new ArrayList<>();
 
         if (pairs.isEmpty()) {
             return;
         }
         for (Markets marketName : trackingMarkets) {
-            getOrderBookDataFromMarket(marketName, pairs.get(marketName));
+            Runnable task = () -> getOrderBookDataFromMarket(marketName, pairs.get(marketName));
+            tasks.add(task);
         }
-        sendOrderBookDataToAnalyzer();
+        for (Runnable task : tasks) {
+            executor.execute(task);
+        }
+    }
+
+    @Async
+    @Override
+    @Scheduled(initialDelay = 15000, fixedDelay = 61000)
+    public void sendDataToAnalyzer() {
+        Runnable sendOrderData = this::sendOrderBookDataToAnalyzer;
+        Runnable sendKlineData = this::sendKlinesDataToAnalyzer;
+        executor.execute(sendKlineData);
+        executor.execute(sendOrderData);
     }
 
     private void sendKlinesDataToAnalyzer() {
