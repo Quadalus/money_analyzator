@@ -1,8 +1,0 @@
-server:
-  port: 8070
-
-bingx:
-  api:
-    base_url: https://api.kraken.com
-    kline_uri: /0/public/OHLC
-    prefix: /api/v1

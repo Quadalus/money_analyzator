@@ -1,8 +1,0 @@
-server:
-  port: 8087
-
-bingx:
-  api:
-    base_url: https://api-swap-rest.bingbon.pro
-    kline_uri: "/api/v1/market/getHistoryKlines"
-    prefix: /api/v1

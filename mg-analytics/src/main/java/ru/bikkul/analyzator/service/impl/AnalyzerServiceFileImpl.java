@@ -1,17 +1,22 @@
 package ru.bikkul.analyzator.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ru.bikkul.analyzator.dto.KlineDataDto;
-import ru.bikkul.analyzator.dto.KlineDataRequestDto;
-import ru.bikkul.analyzator.dto.KlineDataResponseDto;
-import ru.bikkul.analyzator.mapper.KlineDataDtoMapper;
+import ru.bikkul.analyzator.dto.*;
 import ru.bikkul.analyzator.model.KlineSpread;
+import ru.bikkul.analyzator.model.OrderBookSpread;
 import ru.bikkul.analyzator.repository.KlineSpreadRepository;
+import ru.bikkul.analyzator.repository.OrderBookSpreadRepository;
 import ru.bikkul.analyzator.service.AnalyzerService;
+import ru.bikkul.analyzator.utils.mapper.KlineDataDtoMapper;
+import ru.bikkul.analyzator.utils.mapper.OrderBookDtoMapper;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,17 +38,52 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AnalyzerServiceFileImpl implements AnalyzerService {
     private final KlineSpreadRepository klineSpreadRepository;
+    private final OrderBookSpreadRepository orderBookSpreadRepository;
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private BigDecimal spreadTarget = new BigDecimal("0.1");
 
+    {
+        objectMapper.registerModule(new JavaTimeModule());
+    }
+
     @Override
-    public List<KlineDataDto> saveKlinesData(Map<String, List<KlineDataRequestDto>> klinesData) {
-        List<KlineDataDto> klinesDataDto = KlineDataDtoMapper.toKlinesDataDto(klinesData);
+    public List<KlineDataDto> saveKlinesData(String klinesData) {
+        Map<String, List<KlineDataRequestDto>> stringListMap = null;
+        stringListMap = getKlineDataFromJson(klinesData);
+        List<KlineDataDto> klinesDataDto = KlineDataDtoMapper.toKlinesDataDto(stringListMap);
         List<KlineSpread> klineSpreads = KlineDataDtoMapper.toKlineSpread(klinesDataDto);
-        List<KlineSpread> onlyPlusSpread = plusSpread(klineSpreads);
+        List<KlineSpread> onlyPlusSpread = klinesOnlyPositiveSpread(klineSpreads);
         List<KlineSpread> savedKlineSpreads = klineSpreadRepository.saveAll(onlyPlusSpread);
         LocalDateTime start = LocalDateTime.now().minusMinutes(1);
         printKlineSpeads(KlineDataDtoMapper.toKlinesDataResponseDto(klineSpreadRepository.searchKlineSpreadBySpreadIsGreaterThanAndTimeIsAfter(spreadTarget, start)));
         return KlineDataDtoMapper.toKlinesDataDto(savedKlineSpreads);
+    }
+
+    @Override
+    public List<OrderBookSpreadDto> saveOrderBookData(String ordersResponse) {
+        Map<String, List<OrderBookRequestDto>> stringListMap = null;
+        stringListMap = getOrderBookDataFromJson(ordersResponse);
+        Map<String, List<OrderBookDataDto>> orderBookDto = OrderBookDtoMapper.toOrderBookDataDto(stringListMap);
+        List<OrderBookSpreadDto> orderBookSpreadDto = OrderBookDtoMapper.toOrderBookWeightedDto(orderBookDto);
+        List<OrderBookSpread> orderBookSpreads = OrderBookDtoMapper.toOrderBookSpread(orderBookSpreadDto);
+        List<OrderBookSpread> onlyPlusSpread = orderBookOnlyPositiveSpread(orderBookSpreads);
+        List<OrderBookSpread> savedOrderBookSpread = orderBookSpreadRepository.saveAll(onlyPlusSpread);
+        LocalDateTime start = LocalDateTime.now().minusMinutes(1);
+        printOrderBookSpreads(OrderBookDtoMapper.toOrderBookResponseDto(orderBookSpreadRepository.searchOrderBookSpreadBySpreadIsGreaterThanAndTimeIsAfter(spreadTarget, start)));
+        return OrderBookDtoMapper.toOrderBookSpreadDto(savedOrderBookSpread);
+    }
+
+
+    @Override
+    public List<String> getOrderData() {
+        LocalDateTime start = LocalDateTime.now().minusMinutes(1);
+        return orderBookToString(OrderBookDtoMapper.toOrderBookResponseDto(orderBookSpreadRepository.searchOrderBookSpreadBySpreadIsGreaterThanAndTimeIsAfter(spreadTarget, start)));
+    }
+
+    @Override
+    public List<String> getKlineData() {
+        LocalDateTime start = LocalDateTime.now().minusMinutes(1);
+        return klinesToString(KlineDataDtoMapper.toKlinesDataResponseDto(klineSpreadRepository.searchKlineSpreadBySpreadIsGreaterThanAndTimeIsAfter(spreadTarget, start)));
     }
 
     @Override
@@ -58,26 +98,33 @@ public class AnalyzerServiceFileImpl implements AnalyzerService {
     }
 
     @Scheduled(fixedDelay = 900000)
-    private void clearFile() {
-        Path path = Path.of(".\\speads.txt");
+    private void clearKlineFile() {
+        Path path = Path.of(".\\kline_spreads.txt");
         try {
             FileWriter fw = new FileWriter(path.toFile(), false);
             fw.write("");
             fw.close();
-            log.info("file clear");
+            log.info("kline spreads file clear");
         } catch (IOException e) {
             log.error(e.getMessage());
         }
     }
 
-    private List<KlineSpread> plusSpread(List<KlineSpread> klines) {
-        return klines.stream()
-                .filter(kline -> kline.getSpread().compareTo(new BigDecimal("0")) > 0)
-                .collect(Collectors.toList());
+    @Scheduled(fixedDelay = 900000)
+    private void clearOrderFile() {
+        Path path = Path.of(".\\order_book_spreads.txt");
+        try {
+            FileWriter fw = new FileWriter(path.toFile(), false);
+            fw.write("");
+            fw.close();
+            log.info("order book spreads file clear");
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
     }
 
     private void printKlineSpeads(List<KlineDataResponseDto> savedKlineSpreads) {
-        Path path = Path.of(".\\speads.txt");
+        Path path = Path.of(".\\kline_spreads.txt");
         List<String> spreads = klinesToString(savedKlineSpreads);
 
         try {
@@ -85,6 +132,28 @@ public class AnalyzerServiceFileImpl implements AnalyzerService {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+    }
+
+    private Map<String, List<OrderBookRequestDto>> getOrderBookDataFromJson(String ordersResponse) {
+        Map<String, List<OrderBookRequestDto>> stringListMap;
+        try {
+            stringListMap = objectMapper.readValue(ordersResponse, new TypeReference<Map<String, List<OrderBookRequestDto>>>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("wrong json format");
+        }
+        return stringListMap;
+    }
+
+    private Map<String, List<KlineDataRequestDto>> getKlineDataFromJson(String klinesData) {
+        Map<String, List<KlineDataRequestDto>> stringListMap;
+        try {
+            stringListMap = objectMapper.readValue(klinesData, new TypeReference<Map<String, List<KlineDataRequestDto>>>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("wrong json format");
+        }
+        return stringListMap;
     }
 
     private List<String> klinesToString(List<KlineDataResponseDto> savedKlineSpreads) {
@@ -99,5 +168,42 @@ public class AnalyzerServiceFileImpl implements AnalyzerService {
             klinesSpeads.add(text);
         }
         return klinesSpeads;
+    }
+
+    private void printOrderBookSpreads(List<OrderBookResponseDto> savedOrderBookSpreads) {
+        Path path = Path.of(".\\order_book_spreads.txt");
+        List<String> spreads = orderBookToString(savedOrderBookSpreads);
+
+        try {
+            Files.write(path, spreads, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private List<String> orderBookToString(List<OrderBookResponseDto> savedOrderBookSpreads) {
+        List<String> orderBookSpread = new ArrayList<>();
+
+        for (OrderBookResponseDto kline : savedOrderBookSpreads) {
+            String text = String
+                    .format("%s | %s (buy) price=%s volume=%s(%s) --> %s (sell) price=%s volume=%s(%s) | spread=%s | time=%s",
+                            kline.getPair(), kline.getMarketBaseName(), kline.getBasePrice(), kline.getBaseVolume(), kline.getBaseVolume25Percent(),
+                            kline.getMarketQuoteName(), kline.getQuotePrice(), kline.getQuoteVolume(), kline.getQuoteVolume25Percent(),
+                            kline.getSpread(), kline.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            orderBookSpread.add(text);
+        }
+        return orderBookSpread;
+    }
+
+    private List<OrderBookSpread> orderBookOnlyPositiveSpread(List<OrderBookSpread> orderBookSpreads) {
+        return orderBookSpreads.stream()
+                .filter(book -> book.getSpread().compareTo(new BigDecimal("0")) > 0)
+                .collect(Collectors.toList());
+    }
+
+    private List<KlineSpread> klinesOnlyPositiveSpread(List<KlineSpread> klines) {
+        return klines.stream()
+                .filter(kline -> kline.getSpread().compareTo(new BigDecimal("0")) > 0)
+                .collect(Collectors.toList());
     }
 }

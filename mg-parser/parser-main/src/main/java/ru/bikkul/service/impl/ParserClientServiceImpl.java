@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import ru.bikkul.client.ParserClient;
-import ru.bikkul.dto.CoinInfoDto;
+import ru.bikkul.dto.coin.CoinInfoDto;
 import ru.bikkul.service.ParserClientService;
 import ru.bikkul.service.ParserMarketService;
 import ru.bikkul.service.ParserPairService;

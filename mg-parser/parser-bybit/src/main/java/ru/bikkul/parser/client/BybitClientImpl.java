@@ -7,6 +7,7 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.bikkul.parser.domain.coin.CoinInfo;
 import ru.bikkul.parser.domain.market.KlineFull;
+import ru.bikkul.parser.domain.market.OrderBookDepth;
 import ru.bikkul.parser.utils.BybitApiProvider;
 import ru.bikkul.parser.utils.SignatureGenerator;
 
@@ -18,6 +19,7 @@ public class BybitClientImpl implements BybitClient {
     private final BybitApiProvider apiProvider;
     private final String KLINE_URI;
     private final String COIN_INFO_URI;
+    private final String ORDER_BOOK_URI;
     private final String KEY_HEADER = "X-BAPI-API-KEY";
     private final String SIGN_HEADER = "X-BAPI-SIGN";
     private final String TIMESTAMP_HEADER = "X-BAPI-TIMESTAMP";
@@ -27,7 +29,8 @@ public class BybitClientImpl implements BybitClient {
     public BybitClientImpl(@Value("${bybit.api.base_url}") String url,
                            @Value("${bybit.api.kline_uri}") String klineUri,
                            @Value("${bybit.api.coin_info_uri}") String coinInfoUri,
-                           BybitApiProvider apiProvider) {
+                           BybitApiProvider apiProvider,
+                           @Value("${bybit.api.order_book_uri}") String orderBookUri) {
         this.webClient = WebClient.builder()
                 .baseUrl(url)
                 .exchangeStrategies(
@@ -38,6 +41,7 @@ public class BybitClientImpl implements BybitClient {
         this.KLINE_URI = klineUri;
         this.COIN_INFO_URI = coinInfoUri;
         this.apiProvider = apiProvider;
+        this.ORDER_BOOK_URI = orderBookUri;
     }
 
     @Override
@@ -77,6 +81,23 @@ public class BybitClientImpl implements BybitClient {
                 .header(RECV_HEADER, recv)
                 .retrieve()
                 .bodyToMono(CoinInfo.class)
+                .block();
+    }
+
+    @Override
+    public OrderBookDepth getPairOrderBook(String pair, Integer limit) {
+        String category = "spot";
+
+        return webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(ORDER_BOOK_URI)
+                        .queryParam("symbol", pair)
+                        .queryParam("limit", limit)
+                        .queryParam("category", category)
+                        .build())
+                .retrieve()
+                .bodyToMono(OrderBookDepth.class)
                 .block();
     }
 }

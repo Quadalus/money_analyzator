@@ -1,6 +1,6 @@
 package ru.bikkul.parser.utils.mappers;
 
-import com.binance.api.client.domain.market.Candlestick;
+import ru.bikkul.parser.domain.market.Candlestick;
 import ru.bikkul.parser.dto.KlineDto;
 
 public class KlineDtoMapper {

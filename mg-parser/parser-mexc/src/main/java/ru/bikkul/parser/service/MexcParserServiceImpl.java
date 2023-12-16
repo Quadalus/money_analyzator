@@ -7,10 +7,13 @@ import ru.bikkul.parser.client.MexcClientImpl;
 import ru.bikkul.parser.domain.coin.CoinInfo;
 import ru.bikkul.parser.domain.market.Kline;
 import ru.bikkul.parser.domain.market.KlineInterval;
+import ru.bikkul.parser.domain.market.OrderBook;
 import ru.bikkul.parser.dto.KlineDto;
 import ru.bikkul.parser.dto.KlineFullDataDto;
+import ru.bikkul.parser.dto.OrderBookDto;
 import ru.bikkul.parser.utils.mapper.KlineDtoMapper;
 import ru.bikkul.parser.utils.mapper.KlineFullDataDtoMapper;
+import ru.bikkul.parser.utils.mapper.OrderBookDtoMapper;
 
 import java.time.Instant;
 import java.util.*;
@@ -25,10 +28,10 @@ public class MexcParserServiceImpl implements MexcParserService {
     @Override
     public Map<String, KlineFullDataDto> getKlineForFourMin(Set<String> pairs) {
         Map<String, KlineFullDataDto> klines = new HashMap<>();
-        long start = Instant.now().minusSeconds(280).toEpochMilli();
+        long start = Instant.now().minusSeconds(300).toEpochMilli();
         long end = Instant.now().toEpochMilli();
         String interval = KlineInterval.ONE_MINUTE.getIntervalId();
-        Integer limit = 4;
+        Integer limit = 5;
 
         for (String pair : pairs) {
             try {
@@ -55,6 +58,25 @@ public class MexcParserServiceImpl implements MexcParserService {
         return coinsInformation;
     }
 
+    @Override
+    public Map<String, OrderBookDto> getSpotData(Set<String> pairs) {
+        Map<String, OrderBookDto> orderBook = new HashMap<>();
+        Integer limit = 55;
+
+        for (String pair : pairs) {
+            try {
+                String formattedPair = formatPair(pair);
+
+                OrderBook pairOrderBook = mexcClient
+                        .getPairOrderBook(formattedPair, limit);
+
+                orderBook.put(pair, OrderBookDtoMapper.orderBookDto(pairOrderBook));
+            } catch (Exception e) {
+                log.error("error from parse order book:{}, error: {}", pair, e.getMessage());
+            }
+        }
+        return orderBook;
+    }
 
     private List<KlineDto> getKline(List<Kline> klines) {
         return klines.stream()

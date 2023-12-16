@@ -2,6 +2,7 @@ package ru.bikkul.parser.service;
 
 import ru.bikkul.parser.dto.CoinInfoDto;
 import ru.bikkul.parser.dto.KlineFullDataDTO;
+import ru.bikkul.parser.dto.OrderBookDto;
 
 import java.util.List;
 import java.util.Map;
@@ -12,4 +13,5 @@ public interface HuobiParserService {
 
     List<CoinInfoDto> getCoinsInformation();
 
+    Map<String, OrderBookDto> getSpotData(Set<String> pairs);
 }

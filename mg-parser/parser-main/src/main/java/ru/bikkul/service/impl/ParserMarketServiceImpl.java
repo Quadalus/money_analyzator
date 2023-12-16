@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import ru.bikkul.service.ParserMarketService;
 import ru.bikkul.utils.Markets;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -56,7 +55,7 @@ public class ParserMarketServiceImpl implements ParserMarketService {
     }
 
     private void fillMarkets() {
-        List<Markets> list = Arrays.stream(Markets.values()).toList();
+        List<Markets> list = List.of(Markets.BINANCE, Markets.BYBIT, Markets.OKX, Markets.MEXC, Markets.HUOBI);
         this.markets.addAll(list);
     }
 }

@@ -1,11 +1,11 @@
 server:
-  port: 8090
+  port: 8080
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/mg_coin_information
-    username: quadalus
-    password: pollka78
+    host: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USER}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -17,7 +17,14 @@ parser:
     base:
       coin_uri: /parser/coin/info
       prefix: /api/v1
-      url: http://127.0.0.1
       kline_uri: /parser/klines
+      order_book_uri: /parser/depth
+      analyzer_host: ${ANALYZER_SERVER_HOST}
       analyzer_port: 8091
-      analyzer_uri: /analyzer/klines
+      analyzer_kline_uri: /analyzer/klines
+      analyzer_order_book_uri: /analyzer/depth
+      binance_host: ${BINANCE_SERVER_HOST}
+      bybit_host: ${BYBIT_SERVER_HOST}
+      okx_host: ${OKX_SERVER_HOST}
+      mexc_host: ${MEXC_SERVER_HOST}
+      huobi_host: ${HUOBI_SERVER_HOST}

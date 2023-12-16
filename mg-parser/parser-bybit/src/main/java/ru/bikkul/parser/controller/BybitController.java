@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.bikkul.parser.dto.CoinInfoDto;
 import ru.bikkul.parser.dto.KlineFullDataDTO;
+import ru.bikkul.parser.dto.OrderBookDto;
 import ru.bikkul.parser.service.BybitParserService;
 
 import java.util.List;
@@ -33,5 +34,13 @@ public class BybitController {
         List<CoinInfoDto> coinsInformation = parserService.getCoinsInformation();
         log.info("coin's info has been got, coin info size:{}", coinsInformation.size());
         return coinsInformation;
+    }
+
+    @GetMapping("/depth")
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, OrderBookDto> parseOrderBook(@RequestParam Set<String> pairs) {
+        Map<String, OrderBookDto> orderBook = parserService.getSpotData(pairs);
+        log.info("order book has been got:{}", orderBook);
+        return orderBook;
     }
 }

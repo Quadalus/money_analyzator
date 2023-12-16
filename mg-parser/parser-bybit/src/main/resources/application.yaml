@@ -1,11 +1,12 @@
 server:
-  port: 8082
+  port: 8085
 
 bybit:
   api:
     base_url: https://api.bybit.com
     kline_uri: /v5/market/kline
     coin_info_uri: /v5/asset/coin/query-info
+    order_book_uri: /v5/market/orderbook
     prefix: /api/v1
     key: sSiL7Ap7IX37Vuwqw2
     secret: yN9uGYFlYkC8z0frVrVU25ERqZd7n8zngOwm

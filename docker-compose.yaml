@@ -1,0 +1,98 @@
+version: '3.1'
+
+services:
+  mg-analyzer:
+    build: ./mg-analytics
+    image: mg_analyzer
+    container_name: mg_analyzer
+    ports:
+      - "8091:8091"
+    depends_on:
+      - mg-analyzer-db
+      - mg-parser-main
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://mg_analyzer_db:5432/mg_analyzer
+      - SPRING_DATASOURCE_USER=quadalus
+      - SPRING_DATASOURCE_PASSWORD=pollka78
+
+  mg-analyzer-db:
+    image: postgres:14-alpine
+    container_name: mg_analyzer_db
+    ports:
+      - "6541:5432"
+    environment:
+      - POSTGRES_DB=mg_analyzer
+      - POSTGRES_USER=quadalus
+      - POSTGRES_PASSWORD=pollka78
+
+  mg-parser-binance:
+    build: ./mg-parser/parser-binance
+    image: mg_parser_binance
+    container_name: mg_parser_binance
+    depends_on:
+      - mg-parser-main
+    ports:
+      - "8081:8081"
+
+  mg-parser-huobi:
+    build: ./mg-parser/parser-huobi
+    image: mg_parser_huobi
+    container_name: mg_parser_huobi
+    depends_on:
+      - mg-parser-main
+    ports:
+      - "8082:8082"
+
+  mg-parser-okx:
+    build: ./mg-parser/parser-okx
+    image: mg_parser_okx
+    container_name: mg_parser_okx
+    depends_on:
+      - mg-parser-main
+    ports:
+      - "8083:8083"
+
+  mg-parser-mexc:
+    build: ./mg-parser/parser-mexc
+    image: mg_parser_mexc
+    container_name: mg_parser_mexc
+    depends_on:
+      - mg-parser-main
+    ports:
+      - "8084:8084"
+
+  mg-parser-bybit:
+    build: ./mg-parser/parser-bybit
+    image: mg_parser_bybit
+    container_name: mg_parser_bybit
+    depends_on:
+      - mg-parser-main
+    ports:
+      - "8085:8085"
+
+  mg-parser-main:
+    build: ./mg-parser/parser-main
+    image: mg_parser_main
+    container_name: mg_parser_main
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://mg_parser_db:5432/mg_parser
+      - SPRING_DATASOURCE_USER=quadalus
+      - SPRING_DATASOURCE_PASSWORD=pollka78
+      - ANALYZER_SERVER_HOST=mg-analyzer
+      - BINANCE_SERVER_HOST=mg-parser-binance
+      - HUOBI_SERVER_HOST=mg-parser-huobi
+      - OKX_SERVER_HOST=mg-parser-okx
+      - BYBIT_SERVER_HOST=mg-parser-bybit
+      - MEXC_SERVER_HOST=mg-parser-mexc
+
+  mg-parser-db:
+    image: postgres:14-alpine
+    container_name: mg_parser_db
+    ports:
+      - "6542:5432"
+    environment:
+      - POSTGRES_DB=mg_parser
+      - POSTGRES_USER=quadalus
+      - POSTGRES_PASSWORD=pollka78

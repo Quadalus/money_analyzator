@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.bikkul.parser.domain.coin.CoinInfo;
 import ru.bikkul.parser.domain.market.Kline;
+import ru.bikkul.parser.domain.market.OrderBook;
 import ru.bikkul.parser.utils.MexcApiProvider;
 import ru.bikkul.parser.utils.SignatureGenerator;
 
@@ -20,17 +21,20 @@ public class MexcClientImpl implements MexcClient {
     private final WebClient webClient;
     private final String KLINE_URI;
     private final String COIN_INFO_URI;
+    private final String ORDER_BOOK_URI;
     private final MexcApiProvider provider;
     private final String API_HEADER_NAME = "X-MEXC-APIKEY";
 
     public MexcClientImpl(@Value("${mexc.api.base_url}") String url,
                           @Value("${mexc.api.kline_uri}") String klineUri,
                           @Value("${mexc.api.coin_info_uri}") String coinInfoUri,
-                          MexcApiProvider mexcApiProvider) {
+                          MexcApiProvider mexcApiProvider,
+                          @Value("${mexc.api.order_book_uri}") String orderBookUri) {
         this.webClient = WebClient.create(url);
         this.KLINE_URI = klineUri;
         this.provider = mexcApiProvider;
         this.COIN_INFO_URI = coinInfoUri;
+        this.ORDER_BOOK_URI = orderBookUri;
     }
 
     public void testConnection() {
@@ -78,6 +82,20 @@ public class MexcClientImpl implements MexcClient {
                 .bodyToFlux(new ParameterizedTypeReference<CoinInfo>() {
                 })
                 .collectList()
+                .block();
+    }
+
+    @Override
+    public OrderBook getPairOrderBook(String pair, Integer limit) {
+        return webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(ORDER_BOOK_URI)
+                        .queryParam("symbol", pair)
+                        .queryParam("limit", limit)
+                        .build())
+                .retrieve()
+                .bodyToMono(OrderBook.class)
                 .block();
     }
 }

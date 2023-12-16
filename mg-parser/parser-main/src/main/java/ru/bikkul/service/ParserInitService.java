@@ -1,5 +1,9 @@
 package ru.bikkul.service;
 
 public interface ParserInitService {
-    void initParser();
+    void initKlineParser();
+
+    void initOrderBookParser();
+
+    void sendDataToAnalyzer();
 }

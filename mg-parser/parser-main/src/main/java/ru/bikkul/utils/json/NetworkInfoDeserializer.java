@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import ru.bikkul.dto.NetworkInfoDto;
+import ru.bikkul.dto.coin.NetworkInfoDto;
 
 import java.io.IOException;
 
