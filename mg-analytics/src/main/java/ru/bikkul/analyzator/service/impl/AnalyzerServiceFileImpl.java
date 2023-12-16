@@ -1,6 +1,5 @@
 package ru.bikkul.analyzator.service.impl;
 
-import ch.qos.logback.core.testUtil.StringListAppender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
