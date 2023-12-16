@@ -3,6 +3,7 @@ package ru.bikkul.analyzator.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,9 @@ public class AnalyzerController {
 
     @PostMapping("/klines")
     public List<KlineDataDto> saveKlinesData(@RequestBody String klinesData) throws JsonProcessingException {
-        Map<String, List<KlineDataRequestDto>> stringListMap = new ObjectMapper().readValue(klinesData, new TypeReference<Map<String, List<KlineDataRequestDto>>>() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        Map<String, List<KlineDataRequestDto>> stringListMap = objectMapper.readValue(klinesData, new TypeReference<Map<String, List<KlineDataRequestDto>>>() {
         });
         List<KlineDataDto> savedKlinesData = analyzerService.saveKlinesData(stringListMap);
         log.info("klines spread data has been saved, klines spread size:{}", savedKlinesData.size());
@@ -34,7 +37,9 @@ public class AnalyzerController {
 
     @PostMapping("/depth")
     public List<OrderBookSpreadDto> saveOrderBookData(@RequestBody String orderBookData) throws JsonProcessingException {
-        Map<String, List<OrderBookRequestDto>> stringListMap = new ObjectMapper().readValue(orderBookData, new TypeReference<Map<String, List<OrderBookRequestDto>>>() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        Map<String, List<OrderBookRequestDto>> stringListMap = objectMapper.readValue(orderBookData, new TypeReference<Map<String, List<OrderBookRequestDto>>>() {
         });
         List<OrderBookSpreadDto> savedOrderBookData = analyzerService.saveOrderBookData(stringListMap);
         log.info("order book spread data has been saved, order book spread  size:{}", savedOrderBookData.size());
