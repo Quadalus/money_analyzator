@@ -1,5 +1,9 @@
 package ru.bikkul.analyzator.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -35,11 +39,18 @@ import java.util.stream.Collectors;
 public class AnalyzerServiceFileImpl implements AnalyzerService {
     private final KlineSpreadRepository klineSpreadRepository;
     private final OrderBookSpreadRepository orderBookSpreadRepository;
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private BigDecimal spreadTarget = new BigDecimal("0.1");
 
+    {
+        objectMapper.registerModule(new JavaTimeModule());
+    }
+
     @Override
-    public List<KlineDataDto> saveKlinesData(Map<String, List<KlineDataRequestDto>> klinesData) {
-        List<KlineDataDto> klinesDataDto = KlineDataDtoMapper.toKlinesDataDto(klinesData);
+    public List<KlineDataDto> saveKlinesData(String klinesData) {
+        Map<String, List<KlineDataRequestDto>> stringListMap = null;
+        stringListMap = getKlineDataFromJson(klinesData);
+        List<KlineDataDto> klinesDataDto = KlineDataDtoMapper.toKlinesDataDto(stringListMap);
         List<KlineSpread> klineSpreads = KlineDataDtoMapper.toKlineSpread(klinesDataDto);
         List<KlineSpread> onlyPlusSpread = klinesOnlyPositiveSpread(klineSpreads);
         List<KlineSpread> savedKlineSpreads = klineSpreadRepository.saveAll(onlyPlusSpread);
@@ -49,8 +60,10 @@ public class AnalyzerServiceFileImpl implements AnalyzerService {
     }
 
     @Override
-    public List<OrderBookSpreadDto> saveOrderBookData(Map<String, List<OrderBookRequestDto>> ordersResponse) {
-        Map<String, List<OrderBookDataDto>> orderBookDto = OrderBookDtoMapper.toOrderBookDataDto(ordersResponse);
+    public List<OrderBookSpreadDto> saveOrderBookData(String ordersResponse) {
+        Map<String, List<OrderBookRequestDto>> stringListMap = null;
+        stringListMap = getOrderBookDataFromJson(ordersResponse);
+        Map<String, List<OrderBookDataDto>> orderBookDto = OrderBookDtoMapper.toOrderBookDataDto(stringListMap);
         List<OrderBookSpreadDto> orderBookSpreadDto = OrderBookDtoMapper.toOrderBookWeightedDto(orderBookDto);
         List<OrderBookSpread> orderBookSpreads = OrderBookDtoMapper.toOrderBookSpread(orderBookSpreadDto);
         List<OrderBookSpread> onlyPlusSpread = orderBookOnlyPositiveSpread(orderBookSpreads);
@@ -119,6 +132,28 @@ public class AnalyzerServiceFileImpl implements AnalyzerService {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+    }
+
+    private Map<String, List<OrderBookRequestDto>> getOrderBookDataFromJson(String ordersResponse) {
+        Map<String, List<OrderBookRequestDto>> stringListMap;
+        try {
+            stringListMap = objectMapper.readValue(ordersResponse, new TypeReference<Map<String, List<OrderBookRequestDto>>>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("wrong json format");
+        }
+        return stringListMap;
+    }
+
+    private Map<String, List<KlineDataRequestDto>> getKlineDataFromJson(String klinesData) {
+        Map<String, List<KlineDataRequestDto>> stringListMap;
+        try {
+            stringListMap = objectMapper.readValue(klinesData, new TypeReference<Map<String, List<KlineDataRequestDto>>>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("wrong json format");
+        }
+        return stringListMap;
     }
 
     private List<String> klinesToString(List<KlineDataResponseDto> savedKlineSpreads) {

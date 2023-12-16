@@ -25,23 +25,15 @@ public class AnalyzerController {
     private final AnalyzerService analyzerService;
 
     @PostMapping("/klines")
-    public List<KlineDataDto> saveKlinesData(@RequestBody String klinesData) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        Map<String, List<KlineDataRequestDto>> stringListMap = objectMapper.readValue(klinesData, new TypeReference<Map<String, List<KlineDataRequestDto>>>() {
-        });
-        List<KlineDataDto> savedKlinesData = analyzerService.saveKlinesData(stringListMap);
+    public List<KlineDataDto> saveKlinesData(@RequestBody String klinesData)  {
+        List<KlineDataDto> savedKlinesData = analyzerService.saveKlinesData(klinesData);
         log.info("klines spread data has been saved, klines spread size:{}", savedKlinesData.size());
         return savedKlinesData;
     }
 
     @PostMapping("/depth")
-    public List<OrderBookSpreadDto> saveOrderBookData(@RequestBody String orderBookData) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        Map<String, List<OrderBookRequestDto>> stringListMap = objectMapper.readValue(orderBookData, new TypeReference<Map<String, List<OrderBookRequestDto>>>() {
-        });
-        List<OrderBookSpreadDto> savedOrderBookData = analyzerService.saveOrderBookData(stringListMap);
+    public List<OrderBookSpreadDto> saveOrderBookData(@RequestBody String orderBookData)  {
+        List<OrderBookSpreadDto> savedOrderBookData = analyzerService.saveOrderBookData(orderBookData);
         log.info("order book spread data has been saved, order book spread  size:{}", savedOrderBookData.size());
         return savedOrderBookData;
     }
