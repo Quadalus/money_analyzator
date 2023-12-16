@@ -10,6 +10,8 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <name>Money generator parser module</name>
+
     <artifactId>mg-parser</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -20,17 +22,6 @@
         <module>parser-mexc</module>
         <module>parser-bybit</module>
         <module>parser-okx</module>
-        <module>parser-kucoin</module>
         <module>parser-huobi</module>
-        <module>parser-phemex</module>
-        <module>parser-bingx</module>
-        <module>parser-lbank</module>
-        <module>parser-gate</module>
-        <module>parser-ascendex</module>
-        <module>parser-bitget</module>
-        <module>parser-kraken</module>
-        <module>parser-ascendex</module>
-        <module>parser-probit</module>
-        <module>parser-woox</module>
     </modules>
 </project>

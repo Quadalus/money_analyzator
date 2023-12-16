@@ -3,14 +3,18 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/mg_test
-    username: quadalus
-    password: pollka78
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USER}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: none
 
+      ddl-auto: none
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
 analyzer:
   api:
     prefix: /api/v1

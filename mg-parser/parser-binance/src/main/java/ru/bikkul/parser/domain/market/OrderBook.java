@@ -1,12 +1,10 @@
 package ru.bikkul.parser.domain.market;
 
-import com.binance.api.client.constant.BinanceApiConstants;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.List;
 
@@ -31,13 +29,4 @@ public class OrderBook {
      * List of asks (price/qty).
      */
     private List<OrderBookEntry> asks;
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE)
-                .append("lastUpdateId", lastUpdateId)
-                .append("bids", bids)
-                .append("asks", asks)
-                .toString();
-    }
 }

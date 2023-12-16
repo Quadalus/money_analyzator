@@ -1,8 +1,0 @@
-server:
-  port: 8074
-
-woox:
-  api:
-    base_url: https://api.woo.org
-    kline_uri: /v1/public/kline
-    prefix: /api/v1

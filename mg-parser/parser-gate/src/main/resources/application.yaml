@@ -1,8 +1,0 @@
-server:
-  port: 8089
-
-gate:
-  api:
-    base_url: https://api.gateio.ws
-    kline_uri: /api/v4/spot/candlesticks
-    prefix: /api/v1

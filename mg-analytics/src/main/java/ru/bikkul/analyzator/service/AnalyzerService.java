@@ -14,4 +14,8 @@ public interface AnalyzerService {
     BigDecimal setSpreadTarget(String spreadTarget);
 
     BigDecimal getSpreadTarget();
+
+    List<String> getOrderData();
+
+    List<String> getKlineData();
 }
