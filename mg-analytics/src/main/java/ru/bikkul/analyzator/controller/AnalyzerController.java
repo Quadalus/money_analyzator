@@ -1,5 +1,8 @@
 package ru.bikkul.analyzator.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -21,16 +24,20 @@ public class AnalyzerController {
     private final AnalyzerService analyzerService;
 
     @PostMapping("/klines")
-    public List<KlineDataDto> saveKlinesData(@RequestBody Map<String, List<KlineDataRequestDto>> klinesData) {
-        List<KlineDataDto> savedKlinesData = analyzerService.saveKlinesData(klinesData);
-        log.info("klines spread data has been saved, klines spread size:{}",  savedKlinesData.size());
+    public List<KlineDataDto> saveKlinesData(@RequestBody String klinesData) throws JsonProcessingException {
+        Map<String, List<KlineDataRequestDto>> stringListMap = new ObjectMapper().readValue(klinesData, new TypeReference<Map<String, List<KlineDataRequestDto>>>() {
+        });
+        List<KlineDataDto> savedKlinesData = analyzerService.saveKlinesData(stringListMap);
+        log.info("klines spread data has been saved, klines spread size:{}", savedKlinesData.size());
         return savedKlinesData;
     }
 
     @PostMapping("/depth")
-    public List<OrderBookSpreadDto> saveOrderBookData(@RequestBody Map<String, List<OrderBookRequestDto>> orderBookData) {
-        List<OrderBookSpreadDto> savedOrderBookData = analyzerService.saveOrderBookData(orderBookData);
-        log.info("order book spread data has been saved, order book spread  size:{}",  savedOrderBookData.size());
+    public List<OrderBookSpreadDto> saveOrderBookData(@RequestBody String orderBookData) throws JsonProcessingException {
+        Map<String, List<OrderBookRequestDto>> stringListMap = new ObjectMapper().readValue(orderBookData, new TypeReference<Map<String, List<OrderBookRequestDto>>>() {
+        });
+        List<OrderBookSpreadDto> savedOrderBookData = analyzerService.saveOrderBookData(stringListMap);
+        log.info("order book spread data has been saved, order book spread  size:{}", savedOrderBookData.size());
         return savedOrderBookData;
     }
 
