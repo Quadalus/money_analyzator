@@ -80,12 +80,12 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://mg_parser_db:5432/mg_parser
       - SPRING_DATASOURCE_USER=quadalus
       - SPRING_DATASOURCE_PASSWORD=pollka78
-      - ANALYZER_SERVER_URL=http://mg-analyzer
-      - BINANCE_SERVER_URL=http://mg-parser-binance
-      - HUOBI_SERVER_URL=http://mg-parser-huobi
-      - OKX_SERVER_URL=http://mg-parser-okx
-      - BYBIT_SERVER_URL=http://mg-parser-bybit
-      - MEXC_SERVER_URL=http://mg-parser-mexc
+      - ANALYZER_SERVER_HOST=mg-analyzer
+      - BINANCE_SERVER_HOST=mg-parser-binance
+      - HUOBI_SERVER_HOST=mg-parser-huobi
+      - OKX_SERVER_HOST=mg-parser-okx
+      - BYBIT_SERVER_HOST=mg-parser-bybit
+      - MEXC_SERVER_HOST=mg-parser-mexc
 
   mg-parser-db:
     image: postgres:14-alpine
